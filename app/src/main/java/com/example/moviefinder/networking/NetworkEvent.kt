@@ -15,7 +15,7 @@ object NetworkEvent {
      * which we use to publish events to all
      * registered subscribers in the app.
      */
-    private lateinit var subject: PublishSubject<NetworkState>
+    private var subject: PublishSubject<NetworkState>? = null
 
 
     /*
@@ -25,9 +25,9 @@ object NetworkEvent {
     private fun getSubject(): PublishSubject<NetworkState> {
         if (subject == null) {
             subject = PublishSubject.create()
-            subject!!.subscribeOn(AndroidSchedulers.mainThread())
+            subject?.subscribeOn(AndroidSchedulers.mainThread())
         }
-        return subject
+        return subject!!
     }
 
     /*

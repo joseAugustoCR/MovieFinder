@@ -6,19 +6,18 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
+import com.example.daggersample.di.main.MainScope
 import com.example.daggersample.networking.NetworkEvent
 import com.example.daggersample.networking.NetworkState
 import com.example.moviefinder.BuildConfig
 import com.example.moviefinder.R
+import com.example.moviefinder.networking.Api
 import com.example.moviefinder.utils.Constants
 import com.example.moviefinder.utils.hasNetwork
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import okhttp3.Cache
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -39,7 +38,14 @@ class AppModule {
         fun provideUnauthorizedInterceptor(application:Application) : Interceptor {
             return object : Interceptor{
                 override fun intercept(chain: Interceptor.Chain): Response {
-                    var originalResponse = chain.proceed(chain.request())
+                    var request = chain.request()
+                    var url = request.url()
+                    if(url.queryParameter("api_key").isNullOrEmpty()){
+                        val urlBuilder = url.newBuilder().addQueryParameter("api_key", Constants.API_KEY)
+                        url = urlBuilder.build()
+                    }
+                    request = request.newBuilder().url(url).build()
+                    val originalResponse = chain.proceed(request)
                     if (originalResponse.code() == 401) {
                         NetworkEvent.publish(NetworkState.UNAUTHORIZED)
                     }
@@ -114,6 +120,13 @@ class AppModule {
                 .build()
         }
 
+
+        @Singleton
+        @JvmStatic
+        @Provides
+        fun provideApi(retrofit: Retrofit): Api {
+            return retrofit.create(Api::class.java)
+        }
 
         @Singleton
         @JvmStatic

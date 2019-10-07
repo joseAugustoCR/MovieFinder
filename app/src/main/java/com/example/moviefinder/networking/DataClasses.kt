@@ -44,6 +44,10 @@ data class MovieDetails(
     var vote_count: Int? = null
 )
 
+data class DiscoverMovieResponse(
+    var results:List<DiscoverMovie>?=null
+)
+
 data class Genre(
     var id: Int? = null,
     var name: String? = null
