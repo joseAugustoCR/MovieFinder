@@ -20,11 +20,11 @@ class DiscoverMoviesAdapter(private val interaction: Interaction? = null) :
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DiscoverMovie>() {
 
         override fun areItemsTheSame(oldItem: DiscoverMovie, newItem: DiscoverMovie): Boolean {
-            TODO("not implemented")
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: DiscoverMovie, newItem: DiscoverMovie): Boolean {
-            TODO("not implemented")
+            return oldItem == newItem
         }
 
     }
@@ -69,7 +69,6 @@ class DiscoverMoviesAdapter(private val interaction: Interaction? = null) :
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
-            Glide.with(context).load(Constants.IMAGE_BASE_URL + PosterSize.w500 + item.poster_path).centerCrop().into(img)
             img.load(Constants.IMAGE_BASE_URL + PosterSize.w500 + item.poster_path, crop = true, fade = true)
 
         }
