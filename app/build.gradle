@@ -49,6 +49,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation "androidx.fragment:fragment:1.2.0-beta02"
 
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.github.ajalt:timberkt:1.5.1'
+
     //material
     implementation "com.google.android.material:material:1.1.0-beta01"
 

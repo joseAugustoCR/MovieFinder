@@ -10,7 +10,7 @@ class MainModule {
     @Module
     companion object {
 
-//        @MainScope
+//        @PerActivity
 //        @JvmStatic
 //        @Provides
 //        fun provideAdapter(): PostAdapter {
