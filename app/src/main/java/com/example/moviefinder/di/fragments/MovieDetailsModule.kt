@@ -1,13 +1,13 @@
 package com.example.moviefinder.di.fragments
 
+import android.app.Application
 import com.example.daggersample.di.main.PerFragment
-import com.example.moviefinder.ui.movies.MoviesFragment
 import com.example.moviefinder.ui.movies.MoviesAdapter
 import dagger.Module
 import dagger.Provides
 
 @Module
-class DiscoverModule {
+class MovieDetailsModule {
 
     @Module
     companion object {
@@ -15,8 +15,8 @@ class DiscoverModule {
         @PerFragment
         @Provides
         @JvmStatic
-        fun provideAdapter(fragment: MoviesFragment) : MoviesAdapter {
-            return MoviesAdapter(fragment)
+        fun provideAdapter(application: Application) : MoviesAdapter {
+            return MoviesAdapter()
         }
 
 

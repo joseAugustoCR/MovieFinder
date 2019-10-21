@@ -108,7 +108,7 @@ class MainActivity : DaggerAppCompatActivity() {
 //            d("main", Gson().toJson(it))
 //            when(it.status){
 //                Resource.Status.SUCCESS ->{
-//                    var adapter = DiscoverMoviesAdapter()
+//                    var adapter = MoviesAdapter()
 //                    adapter.submitList(it.data?.results!!)
 //                    recyclerView.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
 //                    recyclerView.adapter = adapter

@@ -2,20 +2,21 @@ package com.example.moviefinder.ui.moviedetails
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.example.moviefinder.R
+import com.example.moviefinder.base.BaseFragment
+import com.example.moviefinder.utils.ViewModelProviderFactory
+import kotlinx.android.synthetic.main.movie_details_fragment.*
+import javax.inject.Inject
 
-class MovieDetailsFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = MovieDetailsFragment()
-    }
+class MovieDetailsFragment : BaseFragment() {
 
     private lateinit var viewModel: MovieDetailsViewModel
+    @Inject lateinit var providerFactory: ViewModelProviderFactory
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +27,7 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = ViewModelProviders.of(this, providerFactory).get(MovieDetailsViewModel::class.java)
     }
 
 }

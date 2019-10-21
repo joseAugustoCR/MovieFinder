@@ -1,4 +1,4 @@
-package com.example.moviefinder.ui.discover
+package com.example.moviefinder.ui.movies
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,9 +11,9 @@ import com.example.moviefinder.networking.DiscoverMovie
 import com.example.moviefinder.utils.Constants
 import com.example.moviefinder.utils.PosterSize
 import com.example.moviefinder.utils.load
-import kotlinx.android.synthetic.main.view_discovermovies.view.*
+import kotlinx.android.synthetic.main.view_movies.view.*
 
-class DiscoverMoviesAdapter(private val interaction: Interaction? = null) :
+class MoviesAdapter(private var interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DiscoverMovie>() {
@@ -34,7 +34,7 @@ class DiscoverMoviesAdapter(private val interaction: Interaction? = null) :
 
         return DiscoverMoviesViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.view_discovermovies,
+                R.layout.view_movies,
                 parent,
                 false
             ),
@@ -56,6 +56,10 @@ class DiscoverMoviesAdapter(private val interaction: Interaction? = null) :
 
     fun submitList(list: List<DiscoverMovie>) {
         differ.submitList(list)
+    }
+
+    fun setInteraction(interaction:Interaction){
+        this.interaction = interaction
     }
 
     class DiscoverMoviesViewHolder

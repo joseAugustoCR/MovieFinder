@@ -3,6 +3,7 @@ package com.example.daggersample.di
 
 import com.example.daggersample.di.main.MainModule
 import com.example.daggersample.di.main.MainViewModelsModule
+import com.example.daggersample.di.main.PerActivity
 import com.example.moviefinder.ui.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -10,10 +11,11 @@ import dagger.android.ContributesAndroidInjector
 @Module
 public abstract class ActivityBuildersModule {
 
+    @PerActivity
     @ContributesAndroidInjector(
         modules = arrayOf(MainViewModelsModule::class, MainModule::class, MainFragmentsBuildersModule::class)
     )
-    abstract fun contributeAuthActivity(): MainActivity
+    abstract fun contributeMainActivity(): MainActivity
 
 
 

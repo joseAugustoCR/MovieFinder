@@ -1,4 +1,4 @@
-package com.example.moviefinder.ui.discover
+package com.example.moviefinder.ui.movies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
@@ -7,12 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.example.moviefinder.networking.Api
 import com.example.moviefinder.networking.DiscoverMovieResponse
 import com.example.moviefinder.networking.Resource
-import com.github.ajalt.timberkt.d
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class DiscoverViewModel @Inject constructor(var api:Api): ViewModel() {
+class MoviesViewModel @Inject constructor(var api:Api): ViewModel() {
     var response: MediatorLiveData<Resource<DiscoverMovieResponse>>? = null
 
 

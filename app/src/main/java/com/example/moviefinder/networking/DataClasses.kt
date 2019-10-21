@@ -1,5 +1,9 @@
 package com.example.moviefinder.networking
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class DiscoverMovie(
     var adult: Boolean? = null,
     var backdrop_path: String? = null,
@@ -15,7 +19,7 @@ data class DiscoverMovie(
     var video: Boolean? = null,
     var vote_average: Double? = null,
     var vote_count: Int? = null
-)
+) : Parcelable
 
 data class MovieDetails(
     var adult: Boolean? = null,
