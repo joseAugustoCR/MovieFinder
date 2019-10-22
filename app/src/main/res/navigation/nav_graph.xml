@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/discoverFragment">
+    app:startDestination="@id/moviesFragment">
 
     <fragment
-        android:id="@+id/discoverFragment"
+        android:id="@+id/moviesFragment"
         android:name="com.example.moviefinder.ui.movies.MoviesFragment"
         android:label="Discover"
         tools:layout="@layout/movies_fragment" >
@@ -23,4 +23,9 @@
             android:name="movie"
             app:argType="com.example.moviefinder.networking.DiscoverMovie" />
     </fragment>
+    <fragment
+        android:id="@+id/TVShowsFragment"
+        android:name="com.example.moviefinder.ui.tvshows.TVShowsFragment"
+        android:label="tvshows_fragment"
+        tools:layout="@layout/tvshows_fragment" />
 </navigation>

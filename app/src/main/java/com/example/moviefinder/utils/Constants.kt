@@ -23,13 +23,17 @@ class PosterSize{
 
 
 class LogoSize{
-    val original = "original/"
-    val w500 = "w500/"
-    val w300 = "w300/"
+    companion object {
+        val original = "original/"
+        val w500 = "w500/"
+        val w300 = "w300/"
+    }
 }
 
 class BackdropSize{
-    val original = "original/"
-    val w780 = "w780/"
-    val w300 = "w300/"
+    companion object {
+        val original = "original/"
+        val w780 = "w780/"
+        val w300 = "w300/"
+    }
 }

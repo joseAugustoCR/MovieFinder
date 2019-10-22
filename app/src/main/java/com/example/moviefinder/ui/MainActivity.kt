@@ -5,6 +5,7 @@ import android.util.Log.d
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,7 +13,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.moviefinder.R
+import com.example.moviefinder.networking.DiscoverMovie
+import com.example.moviefinder.networking.MovieDetails
 import com.example.moviefinder.networking.Resource
+import com.example.moviefinder.ui.moviedetails.MovieDetailsFragmentArgs
 import com.example.moviefinder.utils.ViewModelProviderFactory
 import com.google.gson.Gson
 import dagger.android.support.DaggerAppCompatActivity
@@ -29,31 +33,45 @@ class MainActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this, providerFactory).get(MainViewModel::class.java)
+        setUpBottomNavigation()
     }
 
 
     fun setUpBottomNavigation(){
         //setup the bottom navigation
-        NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         //this will automatically handle the toolbar
         val appBarConfiguration = AppBarConfiguration
             .Builder(
-                R.id.discoverFragment
+                R.id.moviesFragment,
+                R.id.TVShowsFragment
             )
             .build()
+
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
 
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
-                R.id.discoverFragment -> {
+                R.id.moviesFragment -> {
 //                    hideBottomNavigation()
                     toolbar.title = destination.label
+                    hideToolbar()
+                }
+                R.id.movieDetailsFragment ->{
+                    arguments?.let {
+                        val args = MovieDetailsFragmentArgs.fromBundle(arguments)
+                        toolbar.title = args.movie.original_title
+                        showToolbar()
+                    }
+
                 }
                 else ->{
 //                    showBottomNavigation()
                     toolbar.title = destination.label
+                    showToolbar()
 
                 }
             }
