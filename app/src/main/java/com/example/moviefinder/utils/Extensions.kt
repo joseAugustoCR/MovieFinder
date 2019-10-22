@@ -1,11 +1,15 @@
 package com.example.moviefinder.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.os.Build
 import android.widget.ImageView
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
@@ -71,6 +75,7 @@ fun ImageView.load(
     onLoadingFinished: () ->Unit={}
 
 ) {
+    if(context.isAvailable() == false) return
 
     val listener = object : RequestListener<Drawable> {
         override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, isFirstResource: Boolean): Boolean {
@@ -117,4 +122,21 @@ fun ImageView.load(
         }
         .into(this)
 }
+
+
+fun Context?.isAvailable(): Boolean {
+    if (this == null) {
+        return false
+    } else if (this !is Application) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (this is FragmentActivity) {
+                return !this.isDestroyed
+            } else if (this is Activity) {
+                return !this.isDestroyed
+            }
+        }
+    }
+    return true
+}
+
 

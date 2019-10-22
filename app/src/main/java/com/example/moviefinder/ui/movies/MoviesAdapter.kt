@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.example.moviefinder.R
 import com.example.moviefinder.networking.DiscoverMovie
 import com.example.moviefinder.utils.Constants
@@ -14,24 +15,20 @@ import com.example.moviefinder.utils.load
 import kotlinx.android.synthetic.main.view_movies.view.*
 
 class MoviesAdapter(private var interaction: Interaction? = null) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    ListAdapter<DiscoverMovie, RecyclerView.ViewHolder>(DiffCallback()) {
 
-    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DiscoverMovie>() {
-
-        override fun areItemsTheSame(oldItem: DiscoverMovie, newItem: DiscoverMovie): Boolean {
-            return oldItem.id == newItem.id
-        }
-
+    class DiffCallback : DiffUtil.ItemCallback<DiscoverMovie>(){
         override fun areContentsTheSame(oldItem: DiscoverMovie, newItem: DiscoverMovie): Boolean {
             return oldItem == newItem
         }
 
+        override fun areItemsTheSame(oldItem: DiscoverMovie, newItem: DiscoverMovie): Boolean {
+            return oldItem.id == newItem.id
+        }
     }
-    private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
         return DiscoverMoviesViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.view_movies,
@@ -45,18 +42,11 @@ class MoviesAdapter(private var interaction: Interaction? = null) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is DiscoverMoviesViewHolder -> {
-                holder.bind(differ.currentList.get(position))
+                holder.bind(getItem(position))
             }
         }
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
-
-    fun submitList(list: List<DiscoverMovie>) {
-        differ.submitList(list)
-    }
 
     fun setInteraction(interaction:Interaction){
         this.interaction = interaction
