@@ -9,6 +9,6 @@ interface Api {
 
 
     @GET("discover/movie")
-    fun discoverMovies(): Flowable<DiscoverMovieResponse>
+    fun discoverMovies(@Query("page") page:Int): Flowable<DiscoverMovieResponse>
 
 }

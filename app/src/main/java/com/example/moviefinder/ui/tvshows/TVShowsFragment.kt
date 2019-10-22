@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.moviefinder.R
+import com.example.moviefinder.base.BaseFragment
 import com.example.moviefinder.ui.movies.MoviesViewModel
 import com.example.moviefinder.utils.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class TVShowsFragment : DaggerFragment() {
+class TVShowsFragment : BaseFragment() {
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
     private lateinit var viewModel: TVShowsViewModel

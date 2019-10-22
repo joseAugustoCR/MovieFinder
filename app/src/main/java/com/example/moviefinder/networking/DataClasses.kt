@@ -49,7 +49,10 @@ data class MovieDetails(
 )
 
 data class DiscoverMovieResponse(
-    var results:List<DiscoverMovie>?=null
+    var results:List<DiscoverMovie>?=null,
+    var total_results:Int?=null,
+    var total_pages:Int?=null
+
 )
 
 data class Genre(

@@ -20,7 +20,7 @@ class MoviesViewModel @Inject constructor(var api:Api): ViewModel() {
             response = MediatorLiveData()
             response?.value = Resource.loading(null)
 
-            var result = api.discoverMovies()
+            var result = api.discoverMovies(2)
                 .subscribeOn(Schedulers.io())
                 .map (Function<DiscoverMovieResponse, Resource<DiscoverMovieResponse>>{
                         t : DiscoverMovieResponse ->
