@@ -34,7 +34,7 @@ class MovieDetailsFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, providerFactory).get(MovieDetailsViewModel::class.java)
         mainImg.load(Constants.IMAGE_BASE_URL + PosterSize.w500 + args.movie.poster_path, crop = true, fade = true)
         coverImg.load(Constants.IMAGE_BASE_URL + BackdropSize.w780 + args.movie.backdrop_path, crop = true, fade = true)
-        movieTitle.text = args.movie.original_title
+        movieTitle.text = args.movie.title
         overview.text = args.movie.overview
         d{ Gson().toJson(args.movie) }
     }

@@ -2,7 +2,7 @@ package com.example.daggersample.di
 
 
 import com.example.daggersample.di.main.PerFragment
-import com.example.moviefinder.di.fragments.DiscoverModule
+import com.example.moviefinder.di.fragments.MoviesModule
 import com.example.moviefinder.di.fragments.MovieDetailsModule
 import com.example.moviefinder.di.fragments.TVShowsModule
 import com.example.moviefinder.ui.movies.MoviesFragment
@@ -16,7 +16,7 @@ public abstract class MainFragmentsBuildersModule {
 
     @PerFragment
     @ContributesAndroidInjector(
-        modules = arrayOf(DiscoverModule::class)
+        modules = arrayOf(MoviesModule::class)
     )
     abstract fun contributeDiscoverFragment(): MoviesFragment
 

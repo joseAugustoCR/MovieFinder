@@ -21,7 +21,7 @@
         tools:layout="@layout/movie_details_fragment" >
         <argument
             android:name="movie"
-            app:argType="com.example.moviefinder.networking.DiscoverMovie" />
+            app:argType="com.example.moviefinder.networking.Movie" />
     </fragment>
     <fragment
         android:id="@+id/TVShowsFragment"

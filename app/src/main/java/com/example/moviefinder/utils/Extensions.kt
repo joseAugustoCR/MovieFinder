@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.media.Image
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Build
@@ -63,6 +64,16 @@ fun Throwable.getStatusCode() : Int{
     return if(statusCode != null) statusCode else 0
 }
 
+@SuppressLint("CheckResult")
+fun ImageView.loadColor(
+    color:Int
+){
+    if(context.isAvailable() == false) return
+    Glide
+        .with(context)
+        .load(color)
+        .into(this)
+}
 
 @SuppressLint("CheckResult")
 fun ImageView.load(

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class DiscoverMovie(
+data class Movie(
     var adult: Boolean? = null,
     var backdrop_path: String? = null,
     var genre_ids: List<Int?>? = null,
@@ -48,10 +48,11 @@ data class MovieDetails(
     var vote_count: Int? = null
 )
 
-data class DiscoverMovieResponse(
-    var results:List<DiscoverMovie>?=null,
+data class MoviesResponse(
+    var results:List<Movie>?=null,
     var total_results:Int?=null,
-    var total_pages:Int?=null
+    var total_pages:Int?=null,
+    var page:Int?=null
 
 )
 

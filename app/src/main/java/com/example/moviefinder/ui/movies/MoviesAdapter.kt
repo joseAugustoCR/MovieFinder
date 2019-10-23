@@ -4,25 +4,26 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.example.moviefinder.R
-import com.example.moviefinder.networking.DiscoverMovie
+import com.example.moviefinder.networking.Movie
 import com.example.moviefinder.utils.Constants
 import com.example.moviefinder.utils.PosterSize
 import com.example.moviefinder.utils.load
+import com.example.moviefinder.utils.loadColor
+import com.github.ajalt.timberkt.d
 import kotlinx.android.synthetic.main.view_movies.view.*
 
 class MoviesAdapter(private var interaction: Interaction? = null) :
-    ListAdapter<DiscoverMovie, RecyclerView.ViewHolder>(DiffCallback()) {
+    PagedListAdapter<Movie, RecyclerView.ViewHolder>(DiffCallback()) {
 
-    class DiffCallback : DiffUtil.ItemCallback<DiscoverMovie>(){
-        override fun areContentsTheSame(oldItem: DiscoverMovie, newItem: DiscoverMovie): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<Movie>(){
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
         }
 
-        override fun areItemsTheSame(oldItem: DiscoverMovie, newItem: DiscoverMovie): Boolean {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
         }
     }
@@ -38,6 +39,7 @@ class MoviesAdapter(private var interaction: Interaction? = null) :
             interaction
         )
     }
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -58,16 +60,29 @@ class MoviesAdapter(private var interaction: Interaction? = null) :
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: DiscoverMovie) = with(itemView) {
-            itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
+        fun bind(item: Movie?) {
+            if(item != null) {
+                itemView.setOnClickListener {
+                    interaction?.onItemSelected(adapterPosition, item)
+                }
+                itemView.img.load(
+                    Constants.IMAGE_BASE_URL + PosterSize.w500 + item?.poster_path,
+                    crop = true,
+                    fade = true
+                )
+            }else {
+
+
+                itemView.img.setImageResource(R.color.grayPlaceholder)
+                d { "item null" }
+
             }
-            img.load(Constants.IMAGE_BASE_URL + PosterSize.w500 + item.poster_path, crop = true, fade = true)
+
 
         }
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: DiscoverMovie)
+        fun onItemSelected(position: Int, item: Movie)
     }
 }

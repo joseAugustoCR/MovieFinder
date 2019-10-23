@@ -7,10 +7,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.example.daggersample.networking.NetworkEvent
-import com.example.daggersample.networking.NetworkState
+import com.example.daggersample.networking.NetworkStatus
 import com.example.moviefinder.BuildConfig
 import com.example.moviefinder.R
 import com.example.moviefinder.networking.Api
+import com.example.moviefinder.ui.movies.MoviesDataSource
+import com.example.moviefinder.ui.movies.MoviesDataSourceFactory
 import com.example.moviefinder.utils.Constants
 import com.example.moviefinder.utils.hasNetwork
 import com.google.gson.GsonBuilder
@@ -46,7 +48,7 @@ class AppModule {
                     request = request.newBuilder().url(url).build()
                     val originalResponse = chain.proceed(request)
                     if (originalResponse.code() == 401) {
-                        NetworkEvent.publish(NetworkState.UNAUTHORIZED)
+                        NetworkEvent.publish(NetworkStatus.UNAUTHORIZED)
                     }
                     return originalResponse
                 }
@@ -147,6 +149,7 @@ class AppModule {
         fun provideAppDrawable(application:Application) : Drawable{
             return ContextCompat.getDrawable(application.applicationContext, R.mipmap.ic_launcher)!!
         }
+
 
 
     }

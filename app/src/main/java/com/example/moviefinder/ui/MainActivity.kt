@@ -1,24 +1,15 @@
 package com.example.moviefinder.ui
 
 import android.os.Bundle
-import android.util.Log.d
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.moviefinder.R
-import com.example.moviefinder.networking.DiscoverMovie
-import com.example.moviefinder.networking.MovieDetails
-import com.example.moviefinder.networking.Resource
 import com.example.moviefinder.ui.moviedetails.MovieDetailsFragmentArgs
 import com.example.moviefinder.utils.ViewModelProviderFactory
-import com.google.gson.Gson
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -63,7 +54,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 R.id.movieDetailsFragment ->{
                     arguments?.let {
                         val args = MovieDetailsFragmentArgs.fromBundle(arguments)
-                        toolbar.title = args.movie.original_title
+                        toolbar.title = args.movie.title
                         showToolbar()
                     }
 
