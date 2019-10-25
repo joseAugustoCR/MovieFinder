@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 
 class MoviesDataSourceFactory @Inject constructor(val dataSource: MoviesDataSource): DataSource.Factory<Int, Movie>() {
-    private val dataSourceLiveData: MutableLiveData<MoviesDataSource>? = MutableLiveData()
+    val dataSourceLiveData: MutableLiveData<MoviesDataSource>? = MutableLiveData()
 
     init {
         d{this.toString()}

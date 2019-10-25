@@ -1,23 +1,19 @@
 package com.example.moviefinder.ui.movies
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataReactiveStreams
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.moviefinder.networking.Api
-import com.example.moviefinder.networking.Movie
-import com.example.moviefinder.networking.MoviesResponse
-import com.example.moviefinder.networking.Resource
+import com.example.moviefinder.networking.*
 import com.github.ajalt.timberkt.d
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.view_movies.view.*
 import javax.inject.Inject
 
 class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: MoviesDataSourceFactory): ViewModel() {
     var response: MediatorLiveData<Resource<MoviesResponse>>? = null
     var listLiveData:LiveData<PagedList<Movie>>?=null
+    var networkState:LiveData<NetworkState>?= null
 
     init {
         d{"init"}
@@ -31,6 +27,8 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
                 .setInitialLoadSizeHint(30)
                 .setPageSize(20)
                 .build()
+
+            networkState = Transformations.switchMap(moviesDataFactory.dataSourceLiveData!!, MoviesDataSource::networkState)
 
             listLiveData = LivePagedListBuilder(moviesDataFactory, pagedListConfig)
                 .setInitialLoadKey(1)
