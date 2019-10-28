@@ -8,6 +8,7 @@ MVVM Architecture using Single-Activity Pattern
 ## Stack
 * Dagger2
 * Navigation Component
+* Pagination
 * Retrofit
 * RxJava/RxAndroid with ReactiveStreams
 * Glide
