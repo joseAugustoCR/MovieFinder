@@ -11,6 +11,7 @@ import com.example.daggersample.networking.NetworkStatus
 import com.example.moviefinder.BuildConfig
 import com.example.moviefinder.R
 import com.example.moviefinder.networking.Api
+import com.example.moviefinder.networking.RemoteDataSource
 import com.example.moviefinder.ui.movies.MoviesDataSource
 import com.example.moviefinder.ui.movies.MoviesDataSourceFactory
 import com.example.moviefinder.utils.Constants
@@ -128,6 +129,14 @@ class AppModule {
         fun provideApi(retrofit: Retrofit): Api {
             return retrofit.create(Api::class.java)
         }
+
+        @Singleton
+        @JvmStatic
+        @Provides
+        fun provideRemoteDataSource(api: Api): RemoteDataSource {
+            return RemoteDataSource(api)
+        }
+
 
         @Singleton
         @JvmStatic

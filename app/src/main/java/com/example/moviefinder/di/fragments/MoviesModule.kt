@@ -2,6 +2,7 @@ package com.example.moviefinder.di.fragments
 
 import com.example.daggersample.di.main.PerFragment
 import com.example.moviefinder.networking.Api
+import com.example.moviefinder.networking.RemoteDataSource
 import com.example.moviefinder.ui.movies.MoviesFragment
 import com.example.moviefinder.ui.movies.MoviesAdapter
 import com.example.moviefinder.ui.movies.MoviesDataSource
@@ -26,8 +27,8 @@ class MoviesModule {
         @PerFragment
         @JvmStatic
         @Provides
-        fun provideMoviesDataSource(api: Api) : MoviesDataSource {
-            return MoviesDataSource(api)
+        fun provideMoviesDataSource(remoteDataSource: RemoteDataSource, api: Api) : MoviesDataSource {
+            return MoviesDataSource(remoteDataSource, api)
         }
 
         @PerFragment

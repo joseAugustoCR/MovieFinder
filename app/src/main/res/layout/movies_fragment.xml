@@ -16,4 +16,28 @@
         android:id="@+id/recycler"
         />
 
+    <include
+        layout="@layout/loading_state"
+        android:visibility="gone"
+        android:id="@+id/loadingLayout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        />
+
+    <include
+        layout="@layout/error_state"
+        android:visibility="gone"
+        android:id="@+id/errorLayout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        />
+
+    <include
+        layout="@layout/empty_state"
+        android:visibility="gone"
+        android:id="@+id/emptyLayout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:textColor="@color/textColor"
-        android:text="Ops, something went wrong!"
+        android:text="Ops, nothing to show you right now!"
         />
 
 </LinearLayout>
