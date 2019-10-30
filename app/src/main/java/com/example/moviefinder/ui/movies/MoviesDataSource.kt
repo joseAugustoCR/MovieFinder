@@ -9,17 +9,16 @@ import com.github.ajalt.timberkt.d
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.ResourceSubscriber
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 class MoviesDataSource @Inject constructor(val remoteDataSource: RemoteDataSource, val api: Api) : PageKeyedDataSource<Int, Movie>(){
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
 
-
-    init {
-        d{this.toString()}
-
-    }
+    //As suggested in the Android docs, we are using the synchronous version of the retrofit API
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -30,108 +29,81 @@ class MoviesDataSource @Inject constructor(val remoteDataSource: RemoteDataSourc
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
 
-        var result2 = api.discoverMovies(2)
-            .subscribeOn(Schedulers.io())
-            .map (Function<MoviesResponse, Resource<MoviesResponse>>{
-                    t : MoviesResponse ->
-                Resource.success(t)
+        api.discoverMovies(1).enqueue(
+            object :Callback<MoviesResponse>{
+                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                    //todo retry
+                    val error = NetworkState.error(t.message ?: "unknown error")
+                    networkState.postValue(error)
+                    initialLoad.postValue(error)
+                }
+
+                override fun onResponse(
+                    call: Call<MoviesResponse>,
+                    response: Response<MoviesResponse>
+                ) {
+                    val data = response.body()
+                    val items = data?.results ?: emptyList()
+                    callback.onResult(items, null, 2)
+                }
             }
-            )
-            .onErrorReturn {
-                Resource.error(it, null)
-            }
-
-        val source = LiveDataReactiveStreams.fromPublisher(result2)
-
-        var response = MediatorLiveData<Resource<MoviesResponse>>()
-        response.addSource(source, {
-            callback.onResult(it.data?.results!!, null, 1)
-            response.removeSource(source)
-        })
-//        var result = api.discoverMovies(1)
-//            .subscribeOn(Schedulers.io())
-//            .subscribeWith(object : ResourceSubscriber<MoviesResponse>() {
-//                override fun onComplete() {
-//                }
-//
-//                override fun onNext(t: MoviesResponse?) {
-//                    d{"loaded initial"}
-//                    callback.onResult(t?.results!!, 0, t?.total_results!!, null, t?.page?.plus(1))
-//                    networkState.postValue(NetworkState.LOADED)
-//                    initialLoad.postValue(NetworkState.LOADED)
-//                }
-//
-//                override fun onError(e: Throwable) {
-//                    d{"error"}
-//                    val error = NetworkState.error(e.message ?: "unknown error")
-//                    networkState.postValue(error)
-//                    initialLoad.postValue(error)
-//                }
-//
-//            })
-
-
-
+        )
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         networkState.postValue(NetworkState.LOADING)
 
-        var result = api.discoverMovies(params.key)
-            .subscribeOn(Schedulers.io())
-            .subscribeWith(object :ResourceSubscriber<MoviesResponse>(){
-                override fun onComplete() {
-
-                }
-
-                override fun onNext(t: MoviesResponse?) {
-                    d{"loaded after"}
-                    var nextPage:Int? = null
-                    if(t?.page!! < t?.total_pages!!){
-                        nextPage = t?.page!! +1
-                    }
-                    callback.onResult(t.results!!,  nextPage)
-                    networkState.postValue(NetworkState.LOADED)
-
-                }
-
-                override fun onError(t: Throwable?) {
-                    val error = NetworkState.error(t?.message ?: "unknown error")
+        api.discoverMovies(params.key).enqueue(
+            object : Callback<MoviesResponse>{
+                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                    val error = NetworkState.error(t.message ?: "unknown error")
                     networkState.postValue(error)
                 }
 
-            })
+                override fun onResponse(
+                    call: Call<MoviesResponse>,
+                    response: Response<MoviesResponse>
+                ) {
+                    val data = response.body()
+                    var nextPage:Int? = null
+                    if(data?.page!! < data.total_pages!!){
+                        nextPage = data.page!! +1
+                    }
+                    val items = data.results ?: emptyList()
+                    callback.onResult(items,  nextPage)
+                    networkState.postValue(NetworkState.LOADED)
+                }
+
+            }
+        )
     }
+
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         networkState.postValue(NetworkState.LOADING)
 
-
-        var result = api.discoverMovies(params.key)
-            .subscribeOn(Schedulers.io())
-            .subscribeWith(object :ResourceSubscriber<MoviesResponse>(){
-                override fun onComplete() {
-
-                }
-
-                override fun onNext(t: MoviesResponse?) {
-                    d{"loaded before"}
-                    var previousPage:Int? = null
-                    if(t?.page!! > 1){
-                        previousPage = t?.page!! -1
-                    }
-                    callback.onResult(t?.results!!,  previousPage)
-                    networkState.postValue(NetworkState.LOADED)
-
-                }
-
-                override fun onError(t: Throwable?) {
-                    d{"error"}
-                    val error = NetworkState.error(t?.message ?: "unknown error")
+        api.discoverMovies(params.key).enqueue(
+            object : Callback<MoviesResponse>{
+                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                    val error = NetworkState.error(t.message ?: "unknown error")
                     networkState.postValue(error)
                 }
 
-            })
+                override fun onResponse(
+                    call: Call<MoviesResponse>,
+                    response: Response<MoviesResponse>
+                ) {
+                    val data = response.body()
+                    var previousPage:Int? = null
+                    if(data?.page!! > 1){
+                        previousPage = data.page!! -1
+                    }
+                    val items = data.results ?: emptyList()
+                    callback.onResult(items,  previousPage)
+                    networkState.postValue(NetworkState.LOADED)
+                }
+            }
+        )
 
     }
 }
