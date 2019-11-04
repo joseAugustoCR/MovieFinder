@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
+import com.example.daggersample.di.main.PerFragment
 import com.example.daggersample.networking.NetworkEvent
 import com.example.daggersample.networking.NetworkStatus
 import com.example.moviefinder.BuildConfig
@@ -24,6 +25,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -133,14 +136,6 @@ class AppModule {
         @Singleton
         @JvmStatic
         @Provides
-        fun provideRemoteDataSource(api: Api): RemoteDataSource {
-            return RemoteDataSource(api)
-        }
-
-
-        @Singleton
-        @JvmStatic
-        @Provides
         fun provideRequestOptions(): RequestOptions {
             return RequestOptions().placeholder(R.color.colorPrimary).error(R.color.colorPrimaryDark)
         }
@@ -157,6 +152,13 @@ class AppModule {
         @Provides
         fun provideAppDrawable(application:Application) : Drawable{
             return ContextCompat.getDrawable(application.applicationContext, R.mipmap.ic_launcher)!!
+        }
+
+        @Singleton
+        @JvmStatic
+        @Provides
+        fun provideNetworkExecutor() : Executor {
+            return Executors.newFixedThreadPool(5)
         }
 
 

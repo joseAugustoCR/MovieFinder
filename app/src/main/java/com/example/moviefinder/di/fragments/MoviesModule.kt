@@ -9,6 +9,8 @@ import com.example.moviefinder.ui.movies.MoviesDataSource
 import com.example.moviefinder.ui.movies.MoviesDataSourceFactory
 import dagger.Module
 import dagger.Provides
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
@@ -24,11 +26,13 @@ class MoviesModule {
             return MoviesAdapter(fragment)
         }
 
+
+
         @PerFragment
         @JvmStatic
         @Provides
-        fun provideMoviesDataSource(remoteDataSource: RemoteDataSource, api: Api) : MoviesDataSource {
-            return MoviesDataSource(remoteDataSource, api)
+        fun provideMoviesDataSource(api: Api, retryExecutor: Executor) : MoviesDataSource {
+            return MoviesDataSource(api, retryExecutor)
         }
 
         @PerFragment

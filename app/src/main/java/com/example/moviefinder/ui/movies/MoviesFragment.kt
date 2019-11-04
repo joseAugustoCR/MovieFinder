@@ -23,9 +23,7 @@ import javax.inject.Inject
 class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction {
     private lateinit var viewModel: MoviesViewModel
     @Inject lateinit var providerFactory: ViewModelProviderFactory
-    @Inject lateinit var adapter:MoviesAdapter
-
-    var teste = "teste"
+    @Inject lateinit var moviesAdapter:MoviesAdapter
 
     override fun onItemSelected(position: Int, item: Movie) {
         navController.navigate(MoviesFragmentDirections.actionDiscoverFragmentToMovieDetailsFragment(item))
@@ -44,19 +42,29 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction {
         viewModel = ViewModelProviders.of(this, providerFactory).get(MoviesViewModel::class.java)
         initRecycler()
         setObservers()
+        setListeners()
+    }
+
+    fun setListeners(){
+        searchView.setOnClickListener {
+            navController.navigate(MoviesFragmentDirections.actionMoviesFragmentToSearchFragment())
+        }
     }
 
     fun initRecycler(){
-        recycler.layoutManager = GridLayoutManager(activity as Context, 3, GridLayoutManager.VERTICAL, false)
-        recycler.adapter = adapter
+        with(recycler){
+            layoutManager = GridLayoutManager(activity as Context, 3, GridLayoutManager.VERTICAL, false)
+            setHasFixedSize(true)
+            adapter = moviesAdapter
+        }
+
     }
 
     fun setObservers(){
         viewModel.getMovies()
-        viewModel.test()
 
         viewModel.listLiveData?.observe(this, Observer {
-            adapter.submitList(it)
+            moviesAdapter.submitList(it)
 //            if(it.isEmpty()){
 //                emptyLayout.visibility = View.VISIBLE
 //
@@ -69,7 +77,6 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction {
         viewModel.response2?.observe(this, Observer {
             d{"response2 " + it.toString()}
         })
-        viewModel.test()
 
         viewModel.networkState?.observe(this, Observer {
             if(it.status == NetworkStatus.FAILED){

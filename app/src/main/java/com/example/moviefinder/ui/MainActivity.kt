@@ -41,15 +41,15 @@ class MainActivity : DaggerAppCompatActivity() {
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
-
-        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
+        setSupportActionBar(toolbar)
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
                 R.id.moviesFragment -> {
-//                    hideBottomNavigation()
                     toolbar.title = destination.label
                     hideToolbar()
+                    showBottomNavigation()
                 }
                 R.id.movieDetailsFragment ->{
                     arguments?.let {
@@ -57,12 +57,11 @@ class MainActivity : DaggerAppCompatActivity() {
                         toolbar.title = args.movie.title
                         showToolbar()
                     }
-
                 }
                 else ->{
-//                    showBottomNavigation()
                     toolbar.title = destination.label
-                    showToolbar()
+                    hideToolbar()
+                    hideBottomNavigation()
 
                 }
             }
@@ -117,10 +116,10 @@ class MainActivity : DaggerAppCompatActivity() {
 //            d("main", Gson().toJson(it))
 //            when(it.status){
 //                Resource.Status.SUCCESS ->{
-//                    var adapter = MoviesAdapter()
-//                    adapter.submitList(it.data?.results!!)
+//                    var moviesAdapter = MoviesAdapter()
+//                    moviesAdapter.submitList(it.data?.results!!)
 //                    recyclerView.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
-//                    recyclerView.adapter = adapter
+//                    recyclerView.moviesAdapter = moviesAdapter
 //
 //
 //                }

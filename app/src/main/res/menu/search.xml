@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/search"
+        android:title="Pesquisar"
+        android:icon="@drawable/ic_search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always"
+        app:commitIcon="@drawable/ic_search"
+        app:background="@android:color/transparent"
+        android:background="@android:color/transparent"
+        app:queryBackground="@android:color/transparent"
+        android:queryBackground="@android:color/transparent"
+        app:iconifiedByDefault="false"
+        app:searchIcon="@null"
+        />
+
+</menu>

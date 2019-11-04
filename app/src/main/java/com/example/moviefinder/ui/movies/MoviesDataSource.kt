@@ -12,13 +12,26 @@ import io.reactivex.subscribers.ResourceSubscriber
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class MoviesDataSource @Inject constructor(val remoteDataSource: RemoteDataSource, val api: Api) : PageKeyedDataSource<Int, Movie>(){
+class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Executor) : PageKeyedDataSource<Int, Movie>(){
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
+    // keep a function reference for the retry event
+    private var retry: (() -> Any)? = null
 
-    //As suggested in the Android docs, we are using the synchronous version of the retrofit API
+    fun retryAllFailed() {
+        val prevRetry = retry
+        retry = null
+        prevRetry?.let {
+            retryExecutor.execute {
+                it.invoke()
+            }
+        }
+    }
+
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -29,26 +42,34 @@ class MoviesDataSource @Inject constructor(val remoteDataSource: RemoteDataSourc
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
 
-        api.discoverMovies(1).enqueue(
-            object :Callback<MoviesResponse>{
-                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                    //todo retry
-                    val error = NetworkState.error(t.message ?: "unknown error")
-                    networkState.postValue(error)
-                    initialLoad.postValue(error)
+        try {
+            var response = api.discoverMovies(1).execute()
+            if(response.isSuccessful) {
+                var data = api.discoverMovies(1).execute().body()
+                val items = data?.results ?: emptyList()
+                retry = null
+                networkState.postValue(NetworkState.LOADED)
+                initialLoad.postValue(NetworkState.LOADED)
+                callback.onResult(items, null, 2)
+            }else{
+                retry = {
+                    loadInitial(params, callback)
                 }
-
-                override fun onResponse(
-                    call: Call<MoviesResponse>,
-                    response: Response<MoviesResponse>
-                ) {
-                    val data = response.body()
-                    val items = data?.results ?: emptyList()
-                    callback.onResult(items, null, 2)
-                }
+                val error = NetworkState.error("error code ${response.code()}")
+                networkState.postValue(error)
+                initialLoad.postValue(error)
             }
-        )
+        } catch (t: Exception) {
+            retry = {
+                loadInitial(params, callback)
+            }
+            val error = NetworkState.error(t.message ?: "unknown error")
+            networkState.postValue(error)
+            initialLoad.postValue(error)
+        }
     }
+
+
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         networkState.postValue(NetworkState.LOADING)
@@ -56,6 +77,9 @@ class MoviesDataSource @Inject constructor(val remoteDataSource: RemoteDataSourc
         api.discoverMovies(params.key).enqueue(
             object : Callback<MoviesResponse>{
                 override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                    retry = {
+                        loadAfter(params, callback)
+                    }
                     val error = NetworkState.error(t.message ?: "unknown error")
                     networkState.postValue(error)
                 }
@@ -64,14 +88,22 @@ class MoviesDataSource @Inject constructor(val remoteDataSource: RemoteDataSourc
                     call: Call<MoviesResponse>,
                     response: Response<MoviesResponse>
                 ) {
-                    val data = response.body()
-                    var nextPage:Int? = null
-                    if(data?.page!! < data.total_pages!!){
-                        nextPage = data.page!! +1
+                    if(response.isSuccessful) {
+                        val data = response.body()
+                        var nextPage: Int? = null
+                        if (data?.page!! < data.total_pages!!) {
+                            nextPage = data.page!! + 1
+                        }
+                        val items = data.results ?: emptyList()
+                        callback.onResult(items, nextPage)
+                        networkState.postValue(NetworkState.LOADED)
+                    }else{
+                        retry = {
+                            loadAfter(params, callback)
+                        }
+                        networkState.postValue(
+                            NetworkState.error("error code: ${response.code()}"))
                     }
-                    val items = data.results ?: emptyList()
-                    callback.onResult(items,  nextPage)
-                    networkState.postValue(NetworkState.LOADED)
                 }
 
             }
@@ -80,30 +112,9 @@ class MoviesDataSource @Inject constructor(val remoteDataSource: RemoteDataSourc
 
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
-        networkState.postValue(NetworkState.LOADING)
-
-        api.discoverMovies(params.key).enqueue(
-            object : Callback<MoviesResponse>{
-                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                    val error = NetworkState.error(t.message ?: "unknown error")
-                    networkState.postValue(error)
-                }
-
-                override fun onResponse(
-                    call: Call<MoviesResponse>,
-                    response: Response<MoviesResponse>
-                ) {
-                    val data = response.body()
-                    var previousPage:Int? = null
-                    if(data?.page!! > 1){
-                        previousPage = data.page!! -1
-                    }
-                    val items = data.results ?: emptyList()
-                    callback.onResult(items,  previousPage)
-                    networkState.postValue(NetworkState.LOADED)
-                }
-            }
-        )
-
+        // ignored, since we only ever append to our initial load
     }
+
+
+
 }
