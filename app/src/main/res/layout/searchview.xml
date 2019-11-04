@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="7dp"
     app:cardElevation="5dp"
     app:cardBackgroundColor="@color/white"
     >
@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:hint="Search..."
-        android:padding="12dp"
+        android:textSize="15sp"
+        android:padding="16dp"
         android:textColor="@color/textColor"
         />
 

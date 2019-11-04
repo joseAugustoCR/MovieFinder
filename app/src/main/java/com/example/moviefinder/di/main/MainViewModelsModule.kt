@@ -6,6 +6,7 @@ import com.example.moviefinder.ui.MainViewModel
 import com.example.moviefinder.ui.movies.MoviesViewModel
 import com.example.moviefinder.ui.moviedetails.MovieDetailsViewModel
 import com.example.moviefinder.ui.search.SearchViewModel
+import com.example.moviefinder.ui.searchresult.SearchResultViewModel
 import com.example.moviefinder.ui.tvshows.TVShowsViewModel
 import dagger.Binds
 import dagger.Module
@@ -38,5 +39,11 @@ abstract class MainViewModelsModule {
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
     abstract fun bindSearchViewModel(viewModel: SearchViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchResultViewModel::class)
+    abstract fun bindSearchResultViewModel(viewModel: SearchResultViewModel) : ViewModel
+
 
 }

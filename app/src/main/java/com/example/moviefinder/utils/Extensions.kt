@@ -9,6 +9,8 @@ import android.media.Image
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Build
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
@@ -148,6 +150,11 @@ fun Context?.isAvailable(): Boolean {
         }
     }
     return true
+}
+
+fun Activity.hideKeyboard() {
+    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow((findViewById(android.R.id.content) as View).getWindowToken(), 0);
 }
 
 

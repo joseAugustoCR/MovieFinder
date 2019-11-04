@@ -18,4 +18,7 @@ interface Api {
     @GET("discover/movie")
     fun fetchi(@Query("page") page:Int): Flowable<Result<MoviesResponse>>
 
+    @GET("search/movie")
+    fun searchMovies(@Query("query") query:String): Call<MoviesResponse>
+
 }

@@ -11,9 +11,9 @@
         app:background="@android:color/transparent"
         android:background="@android:color/transparent"
         app:queryBackground="@android:color/transparent"
-        android:queryBackground="@android:color/transparent"
         app:iconifiedByDefault="false"
         app:searchIcon="@null"
+        app:searchHintIcon="@null"
         />
 
 </menu>

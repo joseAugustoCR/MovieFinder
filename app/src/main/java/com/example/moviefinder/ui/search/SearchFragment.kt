@@ -50,9 +50,32 @@ class SearchFragment : BaseFragment() {
         val searchView = MenuItemCompat.getActionView(searchMenuItem) as SearchView
         searchView.setIconifiedByDefault(true)
         searchView.isIconified = false
-        searchView.setBackgroundColor(Color.TRANSPARENT)
         searchView.findViewById<View?>(androidx.appcompat.R.id.search_plate)?.background = null
-        searchView.background = null
+        searchView.queryHint = "Search for a movie..."
+        searchView.setOnCloseListener {
+            navController.navigateUp()
+        }
+        searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener{
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                navController.navigateUp()
+                return true
+            }
+        })
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                navController.navigate(SearchFragmentDirections.actionSearchFragmentToSearchResultFragment())
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 

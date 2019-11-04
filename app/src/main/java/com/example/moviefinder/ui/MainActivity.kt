@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.moviefinder.R
 import com.example.moviefinder.ui.moviedetails.MovieDetailsFragmentArgs
 import com.example.moviefinder.utils.ViewModelProviderFactory
+import com.example.moviefinder.utils.hideKeyboard
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -47,6 +48,7 @@ class MainActivity : DaggerAppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
                 R.id.moviesFragment -> {
+                    this@MainActivity.hideKeyboard()
                     toolbar.title = destination.label
                     hideToolbar()
                     showBottomNavigation()
