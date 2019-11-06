@@ -6,21 +6,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.daggersample.networking.NetworkStatus
 
 import com.example.moviefinder.R
 import com.example.moviefinder.base.BaseFragment
+import com.example.moviefinder.base.NAVIGATION_RESULT_OK
 import com.example.moviefinder.networking.Movie
 import com.example.moviefinder.networking.NetworkState
+import com.example.moviefinder.networking.NetworkStatus
 import com.example.moviefinder.utils.ViewModelProviderFactory
+import com.example.moviefinder.utils.navigation.NavigationResult
+import com.example.moviefinder.utils.navigation.NavigationResultListener
 import com.github.ajalt.timberkt.d
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.movies_fragment.*
+import kotlinx.android.synthetic.main.searchview.*
 import javax.inject.Inject
 
-class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction {
+private const val REQUEST_SEARCH = 1
+class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResultListener {
     private lateinit var viewModel: MoviesViewModel
     @Inject lateinit var providerFactory: ViewModelProviderFactory
     @Inject lateinit var moviesAdapter:MoviesAdapter
@@ -47,7 +54,11 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction {
 
     fun setListeners(){
         searchView.setOnClickListener {
-            navController.navigate(MoviesFragmentDirections.actionMoviesFragmentToSearchFragment())
+            navigateForResult(REQUEST_SEARCH, MoviesFragmentDirections.actionMoviesFragmentToSearchFragment())
+        }
+
+        backBtn.setOnClickListener {
+            search(null)
         }
     }
 
@@ -64,19 +75,28 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction {
         viewModel.getMovies()
 
         viewModel.listLiveData?.observe(this, Observer {
+            if(it.isEmpty() && moviesAdapter.itemCount == 0){
+                emptyLayout.visibility = View.VISIBLE
+            }else{
+                emptyLayout.visibility = View.GONE
+            }
             moviesAdapter.submitList(it)
-//            if(it.isEmpty()){
-//                emptyLayout.visibility = View.VISIBLE
-//
-//            }else{
-//                emptyLayout.visibility = View.GONE
-//
-//            }
+
         })
 
-        viewModel.response2?.observe(this, Observer {
-            d{"response2 " + it.toString()}
+        viewModel.query.observe(this, Observer {
+            queryText.text = it
+            if(it.isNullOrEmpty()){
+                queryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondaryTextColor))
+                queryText.text = "Search for movies..."
+                backBtn.visibility = View.GONE
+            }else{
+                queryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColor))
+                queryText.text = it
+                backBtn.visibility = View.VISIBLE
+            }
         })
+
 
         viewModel.networkState?.observe(this, Observer {
             if(it.status == NetworkStatus.FAILED){
@@ -85,30 +105,47 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction {
         })
 
         viewModel.initialLoad?.observe(this, Observer {
-            when(it){
-                NetworkState.LOADING ->{
-                    loadingLayout.visibility = View.VISIBLE
-                    errorLayout.visibility = View.GONE
-                    emptyLayout.visibility = View.GONE
+            if(it.status == NetworkStatus.EMPTY){
+                loadingLayout.visibility = View.GONE
+                errorLayout.visibility = View.GONE
+                emptyLayout.visibility = View.GONE
+            }else if (it.status == NetworkStatus.LOADING){
+                loadingLayout.visibility = View.VISIBLE
+                errorLayout.visibility = View.GONE
+                emptyLayout.visibility = View.GONE
+            }else if (it.status == NetworkStatus.FAILED){
+                loadingLayout.visibility = View.GONE
+                errorLayout.visibility = View.VISIBLE
+                emptyLayout.visibility = View.GONE
 
-                }
-                NetworkState.LOADED ->{
-                    loadingLayout.visibility = View.GONE
-                    errorLayout.visibility = View.GONE
-                    emptyLayout.visibility = View.GONE
-
-                }
-                else -> {
-                    if (it.status == NetworkStatus.FAILED) {
-                        loadingLayout.visibility = View.GONE
-                        errorLayout.visibility = View.VISIBLE
-                        emptyLayout.visibility = View.GONE
-
-                    }
-                }
+            }else if(it.status == NetworkStatus.EMPTY){
+                loadingLayout.visibility = View.GONE
+                errorLayout.visibility = View.GONE
+                emptyLayout.visibility = View.VISIBLE
             }
+
         })
     }
+
+
+
+    override fun onNavigationResult(result: NavigationResult) {
+        if(result.requestCode == REQUEST_SEARCH && result.resultCode == NAVIGATION_RESULT_OK){
+            val query = result.data?.getString("query", "").toString()
+            search(query)
+        }
+    }
+
+    fun search(query:String?){
+        moviesAdapter.submitList(null)
+        loadingLayout.visibility = View.VISIBLE
+        errorLayout.visibility = View.GONE
+        emptyLayout.visibility = View.GONE
+        viewModel.search(query)
+    }
+
+
+
 
 
 }

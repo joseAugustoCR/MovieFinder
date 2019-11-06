@@ -2,7 +2,6 @@ package com.example.moviefinder.di.fragments
 
 import com.example.daggersample.di.main.PerFragment
 import com.example.moviefinder.networking.Api
-import com.example.moviefinder.networking.RemoteDataSource
 import com.example.moviefinder.ui.movies.MoviesFragment
 import com.example.moviefinder.ui.movies.MoviesAdapter
 import com.example.moviefinder.ui.movies.MoviesDataSource
@@ -11,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
@@ -27,8 +27,7 @@ class MoviesModule {
         }
 
 
-
-        @PerFragment
+        // unscoped: we need a new instance every time
         @JvmStatic
         @Provides
         fun provideMoviesDataSource(api: Api, retryExecutor: Executor) : MoviesDataSource {
@@ -38,8 +37,8 @@ class MoviesModule {
         @PerFragment
         @JvmStatic
         @Provides
-        fun provideMoviesDataSourceFactory(moviesDataSource: MoviesDataSource) : MoviesDataSourceFactory {
-            return MoviesDataSourceFactory(moviesDataSource)
+        fun provideMoviesDataSourceFactory(api:Api, executor: Executor, dataSourceProvider: Provider<MoviesDataSource>) : MoviesDataSourceFactory {
+            return MoviesDataSourceFactory(dataSourceProvider)
         }
 
 

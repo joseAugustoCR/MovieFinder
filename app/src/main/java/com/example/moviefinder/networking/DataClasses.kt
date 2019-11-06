@@ -21,6 +21,23 @@ data class Movie(
     var vote_count: Int? = null
 ) : Parcelable
 
+@Parcelize
+data class TVShow(
+    var backdrop_path: String? = null,
+    var first_air_date: String? = null,
+    var genre_ids: List<Int?>? = null,
+    var id: Int? = null,
+    var name: String? = null,
+    var origin_country: List<String?>? = null,
+    var original_language: String? = null,
+    var original_name: String? = null,
+    var overview: String? = null,
+    var popularity: Double? = null,
+    var poster_path: String? = null,
+    var vote_average: Double? = null,
+    var vote_count: Int? = null
+) : Parcelable
+
 data class MovieDetails(
     var adult: Boolean? = null,
     var backdrop_path: String? = null,
@@ -46,6 +63,13 @@ data class MovieDetails(
     var video: Boolean? = null,
     var vote_average: Double? = null,
     var vote_count: Int? = null
+)
+
+data class TVShowsResponse(
+    var results:List<TVShow>?=null,
+    var total_results:Int?=null,
+    var total_pages:Int?=null,
+    var page:Int?=null
 )
 
 data class MoviesResponse(

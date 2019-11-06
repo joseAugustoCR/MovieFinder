@@ -9,12 +9,13 @@ import android.view.ViewGroup
 
 import com.example.moviefinder.R
 import com.example.moviefinder.base.BaseFragment
+import com.example.moviefinder.networking.Movie
 import com.example.moviefinder.ui.movies.MoviesViewModel
 import com.example.moviefinder.utils.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class TVShowsFragment : BaseFragment() {
+class TVShowsFragment : BaseFragment(), TVShowsAdapter.Interaction {
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
     private lateinit var viewModel: TVShowsViewModel
@@ -29,7 +30,9 @@ class TVShowsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, providerFactory).get(TVShowsViewModel::class.java)
+    }
 
+    override fun onItemSelected(position: Int, item: Movie) {
     }
 
 }

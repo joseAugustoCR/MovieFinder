@@ -53,6 +53,10 @@ class MainActivity : DaggerAppCompatActivity() {
                     hideToolbar()
                     showBottomNavigation()
                 }
+                R.id.TVShowsFragment->{
+                    hideToolbar()
+                    showBottomNavigation()
+                }
                 R.id.movieDetailsFragment ->{
                     arguments?.let {
                         val args = MovieDetailsFragmentArgs.fromBundle(arguments)
@@ -106,8 +110,6 @@ class MainActivity : DaggerAppCompatActivity() {
                 .duration = 300
         }
     }
-
-
 
 
 

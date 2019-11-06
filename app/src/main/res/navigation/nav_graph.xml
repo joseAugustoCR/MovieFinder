@@ -15,7 +15,12 @@
             app:destination="@id/movieDetailsFragment" />
         <action
             android:id="@+id/action_moviesFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -37,12 +42,7 @@
         android:label="search_fragment"
         tools:layout="@layout/search_fragment" >
         <action
-            android:id="@+id/action_searchFragment_to_searchResultFragment"
-            app:destination="@id/searchResultFragment" />
+            android:id="@+id/action_searchFragment_to_moviesFragment"
+            app:destination="@id/moviesFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/searchResultFragment"
-        android:name="com.example.moviefinder.ui.searchresult.SearchResultFragment"
-        android:label="search_result_fragment"
-        tools:layout="@layout/search_result_fragment" />
 </navigation>

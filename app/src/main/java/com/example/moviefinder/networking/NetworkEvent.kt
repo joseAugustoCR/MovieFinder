@@ -2,6 +2,7 @@ package com.example.daggersample.networking
 
 import android.os.Handler
 import android.os.Looper
+import com.example.moviefinder.networking.NetworkStatus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
@@ -15,14 +16,14 @@ object NetworkEvent {
      * which we use to publish events to all
      * registered subscribers in the app.
      */
-    private var subject: PublishSubject<NetworkStatus>? = null
+    private var subject: PublishSubject<Int>? = null
 
 
     /*
      * Step 2: Create a method to fetch the Subject
      * or create it if it's not already in memory.
      */
-    private fun getSubject(): PublishSubject<NetworkStatus> {
+    private fun getSubject(): PublishSubject<Int> {
         if (subject == null) {
             subject = PublishSubject.create()
             subject?.subscribeOn(AndroidSchedulers.mainThread())
@@ -59,7 +60,7 @@ object NetworkEvent {
      * Step 4: Use this method to Publish the NetworkStatus
      * to all the specified subscribers of the subject.
      */
-    fun publish(networkState: NetworkStatus) {
+    fun publish(networkState: Int) {
         Handler(Looper.getMainLooper())
             .post { getSubject().onNext(networkState) }
     }
@@ -71,7 +72,7 @@ object NetworkEvent {
      * Pass in an object (in this case the activity or fragment instance)
      * to associate the registration, so that we can unsubscribe later.
      */
-    fun register(lifecycle: Any, action: Consumer<NetworkStatus>) {
+    fun register(lifecycle: Any, action: Consumer<Int>) {
         val disposable = getSubject().subscribe(action)
         getCompositeSubscription(lifecycle).add(disposable)
     }

@@ -8,11 +8,10 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.example.daggersample.di.main.PerFragment
 import com.example.daggersample.networking.NetworkEvent
-import com.example.daggersample.networking.NetworkStatus
 import com.example.moviefinder.BuildConfig
 import com.example.moviefinder.R
 import com.example.moviefinder.networking.Api
-import com.example.moviefinder.networking.RemoteDataSource
+import com.example.moviefinder.networking.NetworkStatus
 import com.example.moviefinder.ui.movies.MoviesDataSource
 import com.example.moviefinder.ui.movies.MoviesDataSourceFactory
 import com.example.moviefinder.utils.Constants

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.ui.NavigationUI
@@ -14,6 +15,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 
 import com.example.moviefinder.R
 import com.example.moviefinder.base.BaseFragment
+import com.example.moviefinder.base.NAVIGATION_RESULT_OK
 import com.example.moviefinder.ui.movies.MoviesViewModel
 import com.example.moviefinder.utils.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.search_fragment.*
@@ -67,7 +69,8 @@ class SearchFragment : BaseFragment() {
         })
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                navController.navigate(SearchFragmentDirections.actionSearchFragmentToSearchResultFragment())
+                if(query.isNullOrEmpty()) return false
+                navigateBackWithResult(NAVIGATION_RESULT_OK, bundleOf("query" to searchView.query.toString()))
                 return true
             }
 

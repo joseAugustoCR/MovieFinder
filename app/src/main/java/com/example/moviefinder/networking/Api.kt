@@ -12,13 +12,13 @@ interface Api {
     @GET("discover/movie")
     fun discoverMovies(@Query("page") page:Int): Call<MoviesResponse>
 
-    @GET("discover/movie")
-    fun fetch(@Query("page") page:Int): Response<MoviesResponse>
-
-    @GET("discover/movie")
-    fun fetchi(@Query("page") page:Int): Flowable<Result<MoviesResponse>>
+    @GET("discover/tv")
+    fun discoverTVShows(@Query("page") page:Int): Call<TVShowsResponse>
 
     @GET("search/movie")
-    fun searchMovies(@Query("query") query:String): Call<MoviesResponse>
+    fun searchMovies(@Query("page") page:Int, @Query("query") query:String): Call<MoviesResponse>
+
+    @GET("search/movie")
+    fun searchTVShows(@Query("page") page:Int, @Query("query") query:String): Call<TVShowsResponse>
 
 }

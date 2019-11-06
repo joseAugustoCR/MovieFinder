@@ -4,10 +4,12 @@
     <item
         android:id="@+id/moviesFragment"
         android:title="Movies"
+        android:icon="@drawable/ic_movie"
         />
 
     <item
         android:id="@+id/TVShowsFragment"
         android:title="TV Shows"
+        android:icon="@drawable/ic_tv"
         />
 </menu>
