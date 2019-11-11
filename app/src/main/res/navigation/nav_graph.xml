@@ -35,7 +35,11 @@
         android:id="@+id/TVShowsFragment"
         android:name="com.example.moviefinder.ui.tvshows.TVShowsFragment"
         android:label="tvshows_fragment"
-        tools:layout="@layout/tvshows_fragment" />
+        tools:layout="@layout/tvshows_fragment" >
+        <action
+            android:id="@+id/action_TVShowsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.moviefinder.ui.search.SearchFragment"
@@ -44,5 +48,11 @@
         <action
             android:id="@+id/action_searchFragment_to_moviesFragment"
             app:destination="@id/moviesFragment" />
+        <argument
+            android:name="query"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_to_TVShowsFragment"
+            app:destination="@id/TVShowsFragment" />
     </fragment>
 </navigation>

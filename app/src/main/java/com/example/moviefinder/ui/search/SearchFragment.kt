@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class SearchFragment : BaseFragment() {
     private lateinit var viewModel: SearchViewModel
     @Inject lateinit var providerFactory: ViewModelProviderFactory
+    val args:SearchFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +40,7 @@ class SearchFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, providerFactory).get(SearchViewModel::class.java)
         setupToolbar()
     }
+
 
     fun setupToolbar(){
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
@@ -54,6 +57,9 @@ class SearchFragment : BaseFragment() {
         searchView.isIconified = false
         searchView.findViewById<View?>(androidx.appcompat.R.id.search_plate)?.background = null
         searchView.queryHint = "Search for a movie..."
+        searchView.post {
+            searchView.setQuery(args.query, false)
+        }
         searchView.setOnCloseListener {
             navController.navigateUp()
         }

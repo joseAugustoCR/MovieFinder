@@ -8,6 +8,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.moviefinder.R
 import com.example.moviefinder.networking.Movie
+import com.example.moviefinder.networking.TVShow
 import com.example.moviefinder.utils.Constants
 import com.example.moviefinder.utils.PosterSize
 import com.example.moviefinder.utils.load
@@ -16,14 +17,14 @@ import com.github.ajalt.timberkt.d
 import kotlinx.android.synthetic.main.view_movies.view.*
 
 class TVShowsAdapter(private var interaction: Interaction? = null) :
-    PagedListAdapter<Movie, RecyclerView.ViewHolder>(DiffCallback()) {
+    PagedListAdapter<TVShow, RecyclerView.ViewHolder>(DiffCallback()) {
 
-    class DiffCallback : DiffUtil.ItemCallback<Movie>(){
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<TVShow>(){
+        override fun areContentsTheSame(oldItem: TVShow, newItem: TVShow): Boolean {
             return oldItem == newItem
         }
 
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areItemsTheSame(oldItem: TVShow, newItem: TVShow): Boolean {
             return oldItem.id == newItem.id
         }
     }
@@ -60,7 +61,7 @@ class TVShowsAdapter(private var interaction: Interaction? = null) :
         private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: Movie?) {
+        fun bind(item: TVShow?) {
             if(item != null) {
                 itemView.setOnClickListener {
                     interaction?.onItemSelected(adapterPosition, item)
@@ -83,6 +84,6 @@ class TVShowsAdapter(private var interaction: Interaction? = null) :
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: Movie)
+        fun onItemSelected(position: Int, item: TVShow)
     }
 }

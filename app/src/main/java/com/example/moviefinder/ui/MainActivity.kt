@@ -54,6 +54,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     showBottomNavigation()
                 }
                 R.id.TVShowsFragment->{
+                    this@MainActivity.hideKeyboard()
                     hideToolbar()
                     showBottomNavigation()
                 }

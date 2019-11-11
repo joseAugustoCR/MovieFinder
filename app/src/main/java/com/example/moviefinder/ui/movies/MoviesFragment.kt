@@ -54,7 +54,7 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
 
     fun setListeners(){
         searchView.setOnClickListener {
-            navigateForResult(REQUEST_SEARCH, MoviesFragmentDirections.actionMoviesFragmentToSearchFragment())
+            navigateForResult(REQUEST_SEARCH, MoviesFragmentDirections.actionMoviesFragmentToSearchFragment(queryText.text.toString()))
         }
 
         backBtn.setOnClickListener {
@@ -75,11 +75,6 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
         viewModel.getMovies()
 
         viewModel.listLiveData?.observe(this, Observer {
-            if(it.isEmpty() && moviesAdapter.itemCount == 0){
-                emptyLayout.visibility = View.VISIBLE
-            }else{
-                emptyLayout.visibility = View.GONE
-            }
             moviesAdapter.submitList(it)
 
         })
@@ -88,7 +83,7 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
             queryText.text = it
             if(it.isNullOrEmpty()){
                 queryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondaryTextColor))
-                queryText.text = "Search for movies..."
+                queryText.text = ""
                 backBtn.visibility = View.GONE
             }else{
                 queryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColor))
@@ -105,7 +100,7 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
         })
 
         viewModel.initialLoad?.observe(this, Observer {
-            if(it.status == NetworkStatus.EMPTY){
+            if(it.status == NetworkStatus.SUCCESS){
                 loadingLayout.visibility = View.GONE
                 errorLayout.visibility = View.GONE
                 emptyLayout.visibility = View.GONE

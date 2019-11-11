@@ -57,7 +57,11 @@ class TVShowsDataSource @Inject constructor(val api: Api, val retryExecutor:Exec
                 val items = data?.results ?: emptyList()
                 retry = null
                 networkState.postValue(NetworkState.LOADED)
-                initialLoad.postValue(NetworkState.LOADED)
+                if(items.isEmpty()){
+                    initialLoad.postValue(NetworkState.EMPTY)
+                }else {
+                    initialLoad.postValue(NetworkState.LOADED)
+                }
                 callback.onResult(items, null, 2)
             }else{
                 retry = {

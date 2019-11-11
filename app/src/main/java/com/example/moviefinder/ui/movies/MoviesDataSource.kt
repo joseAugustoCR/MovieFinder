@@ -56,10 +56,11 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
                 var data = response.body()
                 val items = data?.results ?: emptyList()
                 retry = null
+                networkState.postValue(NetworkState.LOADED)
                 if(items.isEmpty()){
                     initialLoad.postValue(NetworkState.EMPTY)
                 }else {
-                    initialLoad.postValue(NetworkState.EMPTY)
+                    initialLoad.postValue(NetworkState.LOADED)
                 }
 
                 callback.onResult(items, null, 2)
