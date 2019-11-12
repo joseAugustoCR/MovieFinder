@@ -7,10 +7,12 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class MovieDetailsModule {
+class TVShowDetailsModule {
 
     @Module
     companion object {
+
+
 
 
     }

@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_TVShowsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_TVShowsFragment_to_TVShowDetailsFragment"
+            app:destination="@id/TVShowDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -54,5 +57,13 @@
         <action
             android:id="@+id/action_searchFragment_to_TVShowsFragment"
             app:destination="@id/TVShowsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/TVShowDetailsFragment"
+        android:name="com.example.moviefinder.ui.tvshowdetails.TVShowDetailsFragment"
+        android:label="TVShowDetailsFragment" >
+        <argument
+            android:name="tvshow"
+            app:argType="com.example.moviefinder.networking.TVShow" />
     </fragment>
 </navigation>

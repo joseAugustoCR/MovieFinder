@@ -54,6 +54,7 @@ class TVShowsFragment : BaseFragment(), TVShowsAdapter.Interaction, NavigationRe
     }
 
     override fun onItemSelected(position: Int, item: TVShow) {
+        navController.navigate(TVShowsFragmentDirections.actionTVShowsFragmentToTVShowDetailsFragment(item))
     }
 
 

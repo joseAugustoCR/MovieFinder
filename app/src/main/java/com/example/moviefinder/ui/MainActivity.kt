@@ -30,44 +30,26 @@ class MainActivity : DaggerAppCompatActivity() {
 
 
     fun setUpBottomNavigation(){
-        //setup the bottom navigation
-
-        //this will automatically handle the toolbar
-        val appBarConfiguration = AppBarConfiguration
-            .Builder(
-                R.id.moviesFragment,
-                R.id.TVShowsFragment
-            )
-            .build()
-
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
-
-        setSupportActionBar(toolbar)
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
                 R.id.moviesFragment -> {
                     this@MainActivity.hideKeyboard()
-                    toolbar.title = destination.label
-                    hideToolbar()
                     showBottomNavigation()
                 }
                 R.id.TVShowsFragment->{
                     this@MainActivity.hideKeyboard()
-                    hideToolbar()
                     showBottomNavigation()
                 }
                 R.id.movieDetailsFragment ->{
                     arguments?.let {
                         val args = MovieDetailsFragmentArgs.fromBundle(arguments)
-                        toolbar.title = args.movie.title
-                        showToolbar()
                     }
+                    hideBottomNavigation()
+
                 }
                 else ->{
-                    toolbar.title = destination.label
-                    hideToolbar()
                     hideBottomNavigation()
 
                 }
@@ -75,24 +57,6 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-
-    fun hideToolbar(){
-        with(appBar){
-            animate()
-                .alpha(0f)
-                .withEndAction { visibility = View.GONE }
-                .duration = 0
-        }
-    }
-
-    fun showToolbar(){
-        with(appBar){
-            visibility = View.VISIBLE
-            animate()
-                .alpha(1f)
-                .duration = 300
-        }
-    }
 
     fun hideBottomNavigation(){
         with(bottomNavigationView){

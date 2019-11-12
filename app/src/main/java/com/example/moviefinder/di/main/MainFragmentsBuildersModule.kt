@@ -7,6 +7,7 @@ import com.example.moviefinder.ui.movies.MoviesFragment
 import com.example.moviefinder.ui.moviedetails.MovieDetailsFragment
 import com.example.moviefinder.ui.search.SearchFragment
 import com.example.moviefinder.ui.searchresult.SearchResultFragment
+import com.example.moviefinder.ui.tvshowdetails.TVShowDetailsFragment
 import com.example.moviefinder.ui.tvshows.TVShowsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -44,6 +45,12 @@ public abstract class MainFragmentsBuildersModule {
         modules = arrayOf(SearchResultModule::class)
     )
     abstract fun contributeSearchResultFragment(): SearchResultFragment
+
+    @PerFragment
+    @ContributesAndroidInjector(
+        modules = arrayOf(TVShowDetailsModule::class)
+    )
+    abstract fun contributeTVShowDetailFragment(): TVShowDetailsFragment
 
 
 }

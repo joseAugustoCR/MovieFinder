@@ -6,20 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.search.SearchFragment">
 
-<com.google.android.material.appbar.AppBarLayout
-    android:layout_width="match_parent"
-    android:id="@+id/appBar"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toTopOf="parent"
-    >
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+    <include
+        layout="@layout/appbar"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content"
-        >
-    </com.google.android.material.appbar.MaterialToolbar>
-</com.google.android.material.appbar.AppBarLayout>
-
+        android:layout_width="match_parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

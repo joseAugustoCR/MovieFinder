@@ -19,6 +19,7 @@ import com.example.moviefinder.base.BaseFragment
 import com.example.moviefinder.base.NAVIGATION_RESULT_OK
 import com.example.moviefinder.ui.movies.MoviesViewModel
 import com.example.moviefinder.utils.ViewModelProviderFactory
+import kotlinx.android.synthetic.main.appbar.*
 import kotlinx.android.synthetic.main.search_fragment.*
 import javax.inject.Inject
 
