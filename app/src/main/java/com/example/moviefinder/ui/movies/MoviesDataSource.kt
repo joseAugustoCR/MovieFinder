@@ -96,8 +96,8 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
             }
         }
             .enqueue(
-            object : Callback<MoviesResponse>{
-                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+            object : Callback<WrapperPagedApiResponse<Movie>>{
+                override fun onFailure(call: Call<WrapperPagedApiResponse<Movie>>, t: Throwable) {
                     retry = {
                         loadAfter(params, callback)
                     }
@@ -106,8 +106,8 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
                 }
 
                 override fun onResponse(
-                    call: Call<MoviesResponse>,
-                    response: Response<MoviesResponse>
+                    call: Call<WrapperPagedApiResponse<Movie>>,
+                    response: Response<WrapperPagedApiResponse<Movie>>
                 ) {
                     if(response.isSuccessful) {
                         val data = response.body()

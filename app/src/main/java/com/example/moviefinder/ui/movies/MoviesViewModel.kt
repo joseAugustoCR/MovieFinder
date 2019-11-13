@@ -57,6 +57,8 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
     override fun onCleared() {
 //        query.removeObserver(observerQuery)
         super.onCleared()
+
+
     }
 
 //    fun observeDiscover() : LiveData<Resource<MoviesResponse>> {

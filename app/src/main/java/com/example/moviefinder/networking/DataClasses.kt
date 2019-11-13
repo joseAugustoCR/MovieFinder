@@ -65,19 +65,11 @@ data class MovieDetails(
     var vote_count: Int? = null
 )
 
-data class TVShowsResponse(
-    var results:List<TVShow>?=null,
-    var total_results:Int?=null,
-    var total_pages:Int?=null,
-    var page:Int?=null
-)
-
-data class MoviesResponse(
-    var results:List<Movie>?=null,
-    var total_results:Int?=null,
-    var total_pages:Int?=null,
-    var page:Int?=null
-
+data class WrapperPagedApiResponse<T>(
+    var results: List<T>?=null,
+    var total_pages: Int?=null,
+    var total_results: Int?=null,
+    var page: Int?=null
 )
 
 data class Genre(

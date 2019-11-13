@@ -95,8 +95,8 @@ class TVShowsDataSource @Inject constructor(val api: Api, val retryExecutor:Exec
             }
         }
             .enqueue(
-            object : Callback<TVShowsResponse>{
-                override fun onFailure(call: Call<TVShowsResponse>, t: Throwable) {
+            object : Callback<WrapperPagedApiResponse<TVShow>>{
+                override fun onFailure(call: Call<WrapperPagedApiResponse<TVShow>>, t: Throwable) {
                     retry = {
                         loadAfter(params, callback)
                     }
@@ -105,8 +105,8 @@ class TVShowsDataSource @Inject constructor(val api: Api, val retryExecutor:Exec
                 }
 
                 override fun onResponse(
-                    call: Call<TVShowsResponse>,
-                    response: Response<TVShowsResponse>
+                    call: Call<WrapperPagedApiResponse<TVShow>>,
+                    response: Response<WrapperPagedApiResponse<TVShow>>
                 ) {
                     if(response.isSuccessful) {
                         val data = response.body()
