@@ -10,6 +10,8 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.view_movies.view.*
 import javax.inject.Inject
 import com.elifox.legocatalog.api.BaseDataSource
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.Executor
 import kotlin.Result
 
@@ -60,11 +62,13 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
 
 
     }
-
+//
 //    fun observeDiscover() : LiveData<Resource<MoviesResponse>> {
 //        if(response == null){
 //            response = MediatorLiveData()
 //            response?.value = Resource.loading(null)
+//
+//            var composite:CompositeDisposable = CompositeDisposable()
 //
 //
 //            var result = api.discoverMovies(2)
@@ -86,4 +90,12 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
 //        }
 //        return response!!
 //    }
+
+    fun rxJavaSample(){
+        var subscription = api.getMovieDetails2("")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+    }
+
 }
