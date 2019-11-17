@@ -13,6 +13,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
@@ -22,6 +24,9 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import jp.wasabeef.glide.transformations.BlurTransformation
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -156,5 +161,14 @@ fun Activity.hideKeyboard() {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow((findViewById(android.R.id.content) as View).getWindowToken(), 0);
 }
+
+fun <T> Flowable<T>.toLiveData() : LiveData<T> {
+    return LiveDataReactiveStreams.fromPublisher(this)
+}
+
+fun <T> Observable<T>.toLiveData(backPressureStrategy: BackpressureStrategy) :  LiveData<T> {
+    return LiveDataReactiveStreams.fromPublisher(this.toFlowable(backPressureStrategy))
+}
+
 
 

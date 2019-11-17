@@ -1,18 +1,12 @@
 package com.example.moviefinder.ui.movies
 
-import androidx.lifecycle.LiveDataReactiveStreams
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.example.moviefinder.networking.*
+import com.example.moviefinder.api.*
 import com.github.ajalt.timberkt.d
-import io.reactivex.functions.Function
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subscribers.ResourceSubscriber
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 import java.util.concurrent.Executor
 import javax.inject.Inject
 

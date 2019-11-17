@@ -3,17 +3,11 @@ package com.example.moviefinder.ui.movies
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.moviefinder.networking.*
-import com.github.ajalt.timberkt.d
-import io.reactivex.functions.Function
+import com.example.moviefinder.api.*
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.view_movies.view.*
 import javax.inject.Inject
-import com.elifox.legocatalog.api.BaseDataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.Executor
-import kotlin.Result
 
 
 class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: MoviesDataSourceFactory, val networkExecutor: Executor): ViewModel() {
@@ -21,7 +15,7 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
     var networkState:LiveData<NetworkState>?= null
     var initialLoad:LiveData<NetworkState>?= null
     var query:LiveData<String> = MutableLiveData()
-
+    //var Samirah:
     fun getMovies(){
         if(listLiveData == null) {
             val pagedListConfig = PagedList.Config.Builder()
@@ -62,34 +56,8 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
 
 
     }
-//
-//    fun observeDiscover() : LiveData<Resource<MoviesResponse>> {
-//        if(response == null){
-//            response = MediatorLiveData()
-//            response?.value = Resource.loading(null)
-//
-//            var composite:CompositeDisposable = CompositeDisposable()
-//
-//
-//            var result = api.discoverMovies(2)
-//                .subscribeOn(Schedulers.io())
-//                .map (Function<MoviesResponse, Resource<MoviesResponse>>{
-//                        t : MoviesResponse ->
-//                    Resource.success(t)
-//                }
-//                )
-//                .onErrorReturn {
-//                    Resource.error(it, null)
-//                }
-//
-//            val source = LiveDataReactiveStreams.fromPublisher(result)
-//            response?.addSource(source, {
-//                response?.value = it
-//                response?.removeSource(source)
-//            })
-//        }
-//        return response!!
-//    }
+
+
 
     fun rxJavaSample(){
         var subscription = api.getMovieDetails2("")

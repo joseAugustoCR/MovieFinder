@@ -1,4 +1,4 @@
-package com.example.moviefinder.networking
+package com.example.moviefinder.api
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

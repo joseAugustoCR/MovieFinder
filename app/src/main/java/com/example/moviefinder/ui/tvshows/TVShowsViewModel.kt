@@ -6,10 +6,9 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.moviefinder.networking.Api
-import com.example.moviefinder.networking.Movie
-import com.example.moviefinder.networking.NetworkState
-import com.example.moviefinder.networking.TVShow
+import com.example.moviefinder.api.Api
+import com.example.moviefinder.api.NetworkState
+import com.example.moviefinder.api.TVShow
 import java.util.concurrent.Executor
 import javax.inject.Inject
 

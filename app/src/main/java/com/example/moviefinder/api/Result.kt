@@ -1,4 +1,4 @@
-package com.example.moviefinder.networking
+package com.example.moviefinder.api
 
 /**
  * A generic class that holds a value with its loading status.

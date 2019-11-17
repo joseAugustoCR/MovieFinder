@@ -1,4 +1,4 @@
-package com.example.moviefinder.networking
+package com.example.moviefinder.api
 
 class NetworkStatus {
 

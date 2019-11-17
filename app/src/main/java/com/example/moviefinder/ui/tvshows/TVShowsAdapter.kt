@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.moviefinder.R
-import com.example.moviefinder.networking.Movie
-import com.example.moviefinder.networking.TVShow
+import com.example.moviefinder.api.TVShow
 import com.example.moviefinder.utils.Constants
 import com.example.moviefinder.utils.PosterSize
 import com.example.moviefinder.utils.load
-import com.example.moviefinder.utils.loadColor
 import com.github.ajalt.timberkt.d
 import kotlinx.android.synthetic.main.view_movies.view.*
 

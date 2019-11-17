@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 
 import com.example.moviefinder.R
 import com.example.moviefinder.base.BaseFragment
+import com.example.moviefinder.api.Movie
+import com.example.moviefinder.api.Resource
 import com.example.moviefinder.utils.*
 import com.github.ajalt.timberkt.d
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.appbar.*
 import kotlinx.android.synthetic.main.movie_details_fragment.*
 import javax.inject.Inject
@@ -23,6 +26,8 @@ class MovieDetailsFragment : BaseFragment() {
     private lateinit var viewModel: MovieDetailsViewModel
     @Inject lateinit var providerFactory: ViewModelProviderFactory
     val args:MovieDetailsFragmentArgs by navArgs()
+    var state = MediatorLiveData<Resource<Any>>()
+    var movie: Movie? = null
 
 
     override fun onCreateView(
@@ -35,18 +40,20 @@ class MovieDetailsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, providerFactory).get(MovieDetailsViewModel::class.java)
+        movie = args.movie
         setupToolbar()
         setData()
+        subscribeObservers()
+
     }
 
     fun setData(){
-        mainImg.load(Constants.IMAGE_BASE_URL + PosterSize.w500 + args.movie.poster_path, crop = true, fade = true)
-        coverImg.load(Constants.IMAGE_BASE_URL + BackdropSize.w780 + args.movie.backdrop_path, crop = true, fade = true)
-        movieTitle.text = args.movie.title
-        overview.text = args.movie.overview
-        rate.text = args.movie.vote_average.toString()
-        releaseDate.text = args.movie.release_date?.substring(0,4)
-        d{ Gson().toJson(args.movie) }
+        mainImg.load(Constants.IMAGE_BASE_URL + PosterSize.w500 + movie?.poster_path, crop = true, fade = true)
+        coverImg.load(Constants.IMAGE_BASE_URL + BackdropSize.w780 + movie?.backdrop_path, crop = true, fade = true)
+        movieTitle.text = movie?.title
+        overview.text = movie?.overview
+        rate.text = movie?.vote_average.toString()
+        releaseDate.text = movie?.release_date?.substring(0,4)
     }
 
 
@@ -57,6 +64,17 @@ class MovieDetailsFragment : BaseFragment() {
         toolbar.title = args.movie.title
     }
 
+    fun subscribeObservers(){
+        val movieID = args.movie.id
+        if(movieID == null) return
+        viewModel.observeMovie(movieID).removeObservers(viewLifecycleOwner)
+        viewModel.observeMovie(movieID).observe(this, Observer {
+            movie = it.data
+            setData()
+            d{"movie details ${movie.toString()}"}
+        })
+
+    }
 
 
 

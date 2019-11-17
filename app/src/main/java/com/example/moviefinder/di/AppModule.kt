@@ -6,14 +6,11 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
-import com.example.daggersample.di.main.PerFragment
 import com.example.daggersample.networking.NetworkEvent
 import com.example.moviefinder.BuildConfig
 import com.example.moviefinder.R
-import com.example.moviefinder.networking.Api
-import com.example.moviefinder.networking.NetworkStatus
-import com.example.moviefinder.ui.movies.MoviesDataSource
-import com.example.moviefinder.ui.movies.MoviesDataSourceFactory
+import com.example.moviefinder.api.Api
+import com.example.moviefinder.api.NetworkStatus
 import com.example.moviefinder.utils.Constants
 import com.example.moviefinder.utils.hasNetwork
 import com.google.gson.GsonBuilder

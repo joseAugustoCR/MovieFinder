@@ -7,23 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.example.moviefinder.R
 import com.example.moviefinder.base.BaseFragment
 import com.example.moviefinder.base.NAVIGATION_RESULT_OK
-import com.example.moviefinder.networking.Movie
-import com.example.moviefinder.networking.NetworkState
-import com.example.moviefinder.networking.NetworkStatus
+import com.example.moviefinder.api.Movie
+import com.example.moviefinder.api.NetworkStatus
 import com.example.moviefinder.utils.ViewModelProviderFactory
 import com.example.moviefinder.utils.navigation.NavigationResult
 import com.example.moviefinder.utils.navigation.NavigationResultListener
-import com.github.ajalt.timberkt.d
 import com.google.android.material.snackbar.Snackbar
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.movies_fragment.*
 import kotlinx.android.synthetic.main.searchview.*
 import javax.inject.Inject
@@ -55,6 +50,7 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
     }
 
     fun setListeners(){
+
         searchView.setOnClickListener {
             navigateForResult(REQUEST_SEARCH, MoviesFragmentDirections.actionMoviesFragmentToSearchFragment(queryText.text.toString()))
         }

@@ -2,7 +2,6 @@ package com.example.daggersample.networking
 
 import android.os.Handler
 import android.os.Looper
-import com.example.moviefinder.networking.NetworkStatus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer

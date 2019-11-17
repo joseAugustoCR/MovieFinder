@@ -2,8 +2,7 @@ package com.elifox.legocatalog.api
 
 import retrofit2.Response
 import timber.log.Timber
-import com.example.moviefinder.networking.Result
-import io.reactivex.Flowable
+import com.example.moviefinder.api.Result
 
 /**
  * Abstract Base Data source class with error handling

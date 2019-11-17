@@ -1,10 +1,10 @@
-package com.example.moviefinder.networking
+package com.example.moviefinder.api
 
 import com.example.moviefinder.utils.getErrorMsg
 import com.example.moviefinder.utils.getStatusCode
 
 
-class Resource<T>(val status: Status, val data: T?=null, val e:Throwable?=null,var msg:String?="", var statusCode:Int? = 0) {
+class Resource<T>(val status: Status, val data: T?=null, val e:Throwable?=null, var msg:String?="", var statusCode:Int? = 0) {
 
     enum class Status {
         SUCCESS, ERROR, LOADING
@@ -16,11 +16,11 @@ class Resource<T>(val status: Status, val data: T?=null, val e:Throwable?=null,v
             return Resource(Status.SUCCESS, data, null)
         }
 
-        fun <T> error(e: Throwable, data: T?): Resource<T> {
+        fun <T> error(e: Throwable, data: T?=null): Resource<T> {
             return Resource(Status.ERROR, data, e , e.getErrorMsg(), statusCode = e.getStatusCode())
         }
 
-        fun <T> loading(data: T?): Resource<T> {
+        fun <T> loading(data: T?=null): Resource<T> {
             return Resource(Status.LOADING, data, null)
         }
     }
