@@ -32,6 +32,7 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
                 it.initialLoad
             }
 
+
             query = moviesDataFactory.query
             listLiveData = LivePagedListBuilder(moviesDataFactory, pagedListConfig)
                 .setFetchExecutor(networkExecutor)

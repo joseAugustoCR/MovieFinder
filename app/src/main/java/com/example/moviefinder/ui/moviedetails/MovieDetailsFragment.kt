@@ -48,12 +48,15 @@ class MovieDetailsFragment : BaseFragment() {
     }
 
     fun setData(){
-        mainImg.load(Constants.IMAGE_BASE_URL + PosterSize.w500 + movie?.poster_path, crop = true, fade = true)
-        coverImg.load(Constants.IMAGE_BASE_URL + BackdropSize.w780 + movie?.backdrop_path, crop = true, fade = true)
-        movieTitle.text = movie?.title
-        overview.text = movie?.overview
-        rate.text = movie?.vote_average.toString()
-        releaseDate.text = movie?.release_date?.substring(0,4)
+        movie?.let {
+            mainImg.load(Constants.IMAGE_BASE_URL + PosterSize.w500 + it.poster_path, crop = true, fade = true)
+            coverImg.load(Constants.IMAGE_BASE_URL + BackdropSize.w780 + it.backdrop_path, crop = true, fade = true)
+            movieTitle.text = it.title
+            overview.text = it.overview
+            rate.text = it.vote_average.toString()
+            releaseDate.text = it.release_date?.substring(0,4)
+        }
+
     }
 
 
@@ -67,8 +70,11 @@ class MovieDetailsFragment : BaseFragment() {
     fun subscribeObservers(){
         val movieID = args.movie.id
         if(movieID == null) return
-        viewModel.observeMovie(movieID).removeObservers(viewLifecycleOwner)
-        viewModel.observeMovie(movieID).observe(this, Observer {
+        viewModel.newObserveMovie(movieID).removeObservers(viewLifecycleOwner)
+        viewModel.newObserveMovie(movieID).observe(this, Observer {
+            //receive null value in case of loading or error
+            // ideally we should handle by state, but in this case we use the arg value received
+            if(it == null) return@Observer
             movie = it.data
             setData()
             d{"movie details ${movie.toString()}"}

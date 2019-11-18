@@ -30,7 +30,7 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
     @Inject lateinit var moviesAdapter:MoviesAdapter
 
     override fun onItemSelected(position: Int, item: Movie) {
-        navController.navigate(MoviesFragmentDirections.actionDiscoverFragmentToMovieDetailsFragment(item))
+        navController.navigate(MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(item))
 
     }
 

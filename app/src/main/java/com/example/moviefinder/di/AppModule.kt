@@ -11,6 +11,7 @@ import com.example.moviefinder.BuildConfig
 import com.example.moviefinder.R
 import com.example.moviefinder.api.Api
 import com.example.moviefinder.api.NetworkStatus
+import com.example.moviefinder.repository.MoviesRepository
 import com.example.moviefinder.utils.Constants
 import com.example.moviefinder.utils.hasNetwork
 import com.google.gson.GsonBuilder
@@ -155,6 +156,13 @@ class AppModule {
         @Provides
         fun provideNetworkExecutor() : Executor {
             return Executors.newFixedThreadPool(5)
+        }
+
+        @Singleton
+        @JvmStatic
+        @Provides
+        fun provideMoviesRepository(api: Api) : MoviesRepository {
+            return MoviesRepository(api = api)
         }
 
 

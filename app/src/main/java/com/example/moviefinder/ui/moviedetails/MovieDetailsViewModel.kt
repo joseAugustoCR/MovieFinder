@@ -5,14 +5,22 @@ import com.example.moviefinder.api.Api
 import com.example.moviefinder.api.Movie
 import com.example.moviefinder.api.Resource
 import com.example.moviefinder.api.TVShow
+import com.example.moviefinder.repository.MoviesRepository
 import com.example.moviefinder.utils.toLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MovieDetailsViewModel  @Inject constructor(var api:Api): ViewModel() {
+class MovieDetailsViewModel  @Inject constructor(
+    val api:Api,
+    val moviesRepository: MoviesRepository
+): ViewModel() {
     var movie:MediatorLiveData<Resource<Movie>>? = MediatorLiveData()
     var teste:MediatorLiveData<Resource<TVShow>>? = MediatorLiveData()
+
+    fun newObserveMovie(movieID: Int) :  LiveData<Resource<Movie>> {
+        return moviesRepository.getMovieDetails(movieID)
+    }
 
     fun observeMovie(movieID:Int) : LiveData<Resource<Movie>> {
         if(movie == null){

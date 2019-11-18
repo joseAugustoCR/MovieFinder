@@ -8,10 +8,10 @@
     <fragment
         android:id="@+id/moviesFragment"
         android:name="com.example.moviefinder.ui.movies.MoviesFragment"
-        android:label="Discover"
+        android:label="Movies"
         tools:layout="@layout/movies_fragment" >
         <action
-            android:id="@+id/action_discoverFragment_to_movieDetailsFragment"
+            android:id="@+id/action_moviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
         <action
             android:id="@+id/action_moviesFragment_to_searchFragment"
@@ -29,7 +29,7 @@
         tools:layout="@layout/movie_details_fragment" >
         <argument
             android:name="movie"
-            app:argType="com.example.moviefinder.networking.Movie" />
+            app:argType="com.example.moviefinder.api.Movie" />
     </fragment>
     <fragment
         android:id="@+id/TVShowsFragment"
@@ -64,6 +64,6 @@
         android:label="TVShowDetailsFragment" >
         <argument
             android:name="tvshow"
-            app:argType="com.example.moviefinder.networking.TVShow" />
+            app:argType="com.example.moviefinder.api.TVShow" />
     </fragment>
 </navigation>
