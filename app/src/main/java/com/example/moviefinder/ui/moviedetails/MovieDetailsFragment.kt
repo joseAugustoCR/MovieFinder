@@ -45,6 +45,7 @@ class MovieDetailsFragment : BaseFragment() {
         setData()
         subscribeObservers()
 
+
     }
 
     fun setData(){
@@ -59,6 +60,9 @@ class MovieDetailsFragment : BaseFragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
 
     fun setupToolbar(){
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
@@ -70,8 +74,8 @@ class MovieDetailsFragment : BaseFragment() {
     fun subscribeObservers(){
         val movieID = args.movie.id
         if(movieID == null) return
-        viewModel.newObserveMovie(movieID).removeObservers(viewLifecycleOwner)
-        viewModel.newObserveMovie(movieID).observe(this, Observer {
+        viewModel.movie.removeObservers(viewLifecycleOwner)
+        viewModel.movie.observe(viewLifecycleOwner, Observer {
             //receive null value in case of loading or error
             // ideally we should handle by state, but in this case we use the arg value received
             if(it == null) return@Observer
@@ -79,7 +83,6 @@ class MovieDetailsFragment : BaseFragment() {
             setData()
             d{"movie details ${movie.toString()}"}
         })
-
     }
 
 

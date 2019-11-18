@@ -25,6 +25,9 @@ interface Api {
     @GET("movie/{id}")
     fun getMovieDetails(@Path("id") movieID:String) : Flowable<Movie>
 
+    @GET("discover/movie")
+    fun discoverMovies2(@Query("page") page:Int): Flowable<WrapperPagedApiResponse<Movie>>
+
     @GET("movie/{id}")
     fun getMovieDetails2(@Path("id") movieID:String) : Observable<Movie>
 

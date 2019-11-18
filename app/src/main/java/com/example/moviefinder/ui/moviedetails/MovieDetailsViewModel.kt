@@ -7,44 +7,44 @@ import com.example.moviefinder.api.Resource
 import com.example.moviefinder.api.TVShow
 import com.example.moviefinder.repository.MoviesRepository
 import com.example.moviefinder.utils.toLiveData
+import com.github.ajalt.timberkt.d
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MovieDetailsViewModel  @Inject constructor(
-    val api:Api,
-    val moviesRepository: MoviesRepository
+    val moviesRepository: MoviesRepository,
+    @Assisted val handle:SavedStateHandle
 ): ViewModel() {
-    var movie:MediatorLiveData<Resource<Movie>>? = MediatorLiveData()
-    var teste:MediatorLiveData<Resource<TVShow>>? = MediatorLiveData()
+    val movie: LiveData<Resource<Movie>> = moviesRepository.getMovieDetails(112.toString())
 
-    fun newObserveMovie(movieID: Int) :  LiveData<Resource<Movie>> {
-        return moviesRepository.getMovieDetails(movieID)
-    }
 
-    fun observeMovie(movieID:Int) : LiveData<Resource<Movie>> {
-        if(movie == null){
-            movie = MediatorLiveData()
-            movie?.value = Resource.loading()
 
-            var result = api.getMovieDetails(movieID.toString())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { Resource.success(it)  }
-                .onErrorReturn {  Resource.error(it) }
+//    fun observeMovie(movieID:Int) : LiveData<Resource<Movie>> {
+//            movie.value = Resource.loading()
+//            val result = moviesRepository.getMovieDetails(movieID)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .map { Resource.success(it)  }
+//                .onErrorReturn {  Resource.error(it) }
+//
+//            val source = result.toLiveData()//ReactiveStreams extension
+//            movie.addSource(source, {
+//                movie.value = it
+//                movie.removeSource(source)
+//            })
+//        return movie
+//    }
 
-            var source = result.toLiveData()!!//ReactiveStreams extension
-            movie?.addSource(source, {
-                movie?.value = it
-                movie?.removeSource(source)
-            })
-        }
-        return movie!!
-    }
 
-    fun observeTeste(): LiveData<Resource<TVShow>>{
-        var liveData = MutableLiveData<TVShow>()
-        teste?.addSource(liveData, {})
-        return teste!!
-    }
+
+
+
+
+
+    @AssistedInject.Factory
+    interface ViewModelAssistedFactory<MovieDetailsViewModel>
+
 }

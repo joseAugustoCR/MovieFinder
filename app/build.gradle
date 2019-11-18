@@ -68,6 +68,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android:2.22"
     kapt "com.google.dagger:dagger-android-processor:2.22"
     implementation "com.google.dagger:dagger-android-support:2.22"
+    compileOnly("com.squareup.inject:assisted-inject-annotations-dagger2:0.3.3")
+    kapt("com.squareup.inject:assisted-inject-processor-dagger2:0.3.3")
 
     //kotlin
     implementation "org.jetbrains.anko:anko-commons:0.10.8"

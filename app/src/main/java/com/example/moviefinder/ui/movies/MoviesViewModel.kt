@@ -15,7 +15,10 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
     var networkState:LiveData<NetworkState>?= null
     var initialLoad:LiveData<NetworkState>?= null
     var query:LiveData<String> = MutableLiveData()
-    //var Samirah:
+    private val queryLiveData = MutableLiveData<String>()
+
+
+
     fun getMovies(){
         if(listLiveData == null) {
             val pagedListConfig = PagedList.Config.Builder()
@@ -50,6 +53,13 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
         listLiveData?.value?.dataSource?.invalidate()
     }
 
+    fun newSearch(queryString: String){
+        queryLiveData.postValue(queryString)
+    }
+
+    fun newGetMovies(){
+
+    }
 
     override fun onCleared() {
 //        query.removeObserver(observerQuery)
