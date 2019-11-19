@@ -27,11 +27,7 @@ class MoviesRepository @Inject constructor(val api:Api){
             .onErrorReturn {  Resource.error(it) }
 
         val source = result.toLiveData()//ReactiveStreams extension
-        data.addSource(source, {
-            data.value = it
-            data.removeSource(source)
-        })
-        return data
+        return source
     }
 
 

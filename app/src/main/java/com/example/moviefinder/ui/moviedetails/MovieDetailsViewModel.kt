@@ -1,5 +1,6 @@
 package com.example.moviefinder.ui.moviedetails
 
+import android.provider.MediaStore
 import androidx.lifecycle.*
 import com.example.moviefinder.api.Api
 import com.example.moviefinder.api.Movie
@@ -15,12 +16,35 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MovieDetailsViewModel  @Inject constructor(
-    val moviesRepository: MoviesRepository,
-    @Assisted val handle:SavedStateHandle
+    val moviesRepository: MoviesRepository
 ): ViewModel() {
     val movie: LiveData<Resource<Movie>> = moviesRepository.getMovieDetails(112.toString())
+    private var mediatorMovie:MediatorLiveData<Resource<Movie>>? = MediatorLiveData<Resource<Movie>>()
 
 
+    init {
+//        mediatorMovie.addSource(moviesRepository.getMovieDetails(112.toString())){
+//            mediatorMovie.value = it
+//        }
+    }
+
+    fun getMovie(movieID:Int) : LiveData<Resource<Movie>>{
+        if(mediatorMovie == null){
+            mediatorMovie = MediatorLiveData()
+            mediatorMovie!!.addSource(moviesRepository.getMovieDetails(112.toString())){
+                mediatorMovie!!.value = it
+            }
+        }'
+        return mediatorMovie!!
+    }
+
+    fun getMovie2(movieID: Int):LiveData<Resource<Movie>>?{
+        var teste = Transformations.map(movie){
+            it.data?.id
+        }
+
+        return null
+    }
 
 //    fun observeMovie(movieID:Int) : LiveData<Resource<Movie>> {
 //            movie.value = Resource.loading()
