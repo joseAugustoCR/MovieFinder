@@ -16,35 +16,21 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MovieDetailsViewModel  @Inject constructor(
-    val moviesRepository: MoviesRepository
+    private val moviesRepository: MoviesRepository
 ): ViewModel() {
-    val movie: LiveData<Resource<Movie>> = moviesRepository.getMovieDetails(112.toString())
-    private var mediatorMovie:MediatorLiveData<Resource<Movie>>? = MediatorLiveData<Resource<Movie>>()
-
-
-    init {
-//        mediatorMovie.addSource(moviesRepository.getMovieDetails(112.toString())){
-//            mediatorMovie.value = it
-//        }
+    private val movieIDLiveData = MutableLiveData<Int>()
+    private val movieResponse = Transformations.switchMap(movieIDLiveData){
+        moviesRepository.getMovieDetails(it.toString())
     }
 
-    fun getMovie(movieID:Int) : LiveData<Resource<Movie>>{
-        if(mediatorMovie == null){
-            mediatorMovie = MediatorLiveData()
-            mediatorMovie!!.addSource(moviesRepository.getMovieDetails(112.toString())){
-                mediatorMovie!!.value = it
-            }
-        }'
-        return mediatorMovie!!
+    fun fetchMovie(movieID:Int){
+            movieIDLiveData.value = movieID
     }
 
-    fun getMovie2(movieID: Int):LiveData<Resource<Movie>>?{
-        var teste = Transformations.map(movie){
-            it.data?.id
-        }
-
-        return null
+    fun getMovie() : LiveData<Resource<Movie>>{
+        return movieResponse
     }
+
 
 //    fun observeMovie(movieID:Int) : LiveData<Resource<Movie>> {
 //            movie.value = Resource.loading()
@@ -61,14 +47,5 @@ class MovieDetailsViewModel  @Inject constructor(
 //            })
 //        return movie
 //    }
-
-
-
-
-
-
-
-    @AssistedInject.Factory
-    interface ViewModelAssistedFactory<MovieDetailsViewModel>
 
 }

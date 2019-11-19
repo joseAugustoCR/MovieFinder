@@ -3,6 +3,7 @@ package com.example.moviefinder.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.example.moviefinder.api.Api
 import com.example.moviefinder.api.Movie
 import com.example.moviefinder.api.Resource
@@ -20,14 +21,20 @@ class MoviesRepository @Inject constructor(val api:Api){
     fun getMovieDetails(movieID:String) : LiveData<Resource<Movie>>{
         val data = MediatorLiveData<Resource<Movie>>()
         data.value = Resource.loading()
-        val result = api.getMovieDetails(movieID)
+
+        val source = api.getMovieDetails(movieID)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { Resource.success(it)  }
             .onErrorReturn {  Resource.error(it) }
+            .toLiveData()
 
-        val source = result.toLiveData()//ReactiveStreams extension
-        return source
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
     }
 
 
