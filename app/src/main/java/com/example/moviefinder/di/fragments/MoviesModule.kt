@@ -22,11 +22,8 @@ abstract class MoviesModule {
     abstract fun bindDiscoverViewModel(viewModel: MoviesViewModel) : ViewModel
 
 
-
     @Module
     companion object {
-
-
         @PerFragment
         @Provides
         @JvmStatic

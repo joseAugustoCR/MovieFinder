@@ -1,18 +1,26 @@
 package com.example.moviefinder.di.fragments
 
+import androidx.lifecycle.ViewModel
+import com.example.daggersample.di.ViewModelKey
 import com.example.daggersample.di.main.PerFragment
 import com.example.moviefinder.api.Api
-import com.example.moviefinder.ui.tvshows.TVShowsAdapter
-import com.example.moviefinder.ui.tvshows.TVShowsDataSource
-import com.example.moviefinder.ui.tvshows.TVShowsDataSourceFactory
-import com.example.moviefinder.ui.tvshows.TVShowsFragment
+import com.example.moviefinder.ui.tvshows.*
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
 import java.util.concurrent.Executor
 import javax.inject.Provider
 
 @Module
-class TVShowsModule {
+abstract class TVShowsModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TVShowsViewModel::class)
+    abstract fun bindTVShowsViewModel(viewModel: TVShowsViewModel) : ViewModel
+
+
     @Module
     companion object {
         @PerFragment
