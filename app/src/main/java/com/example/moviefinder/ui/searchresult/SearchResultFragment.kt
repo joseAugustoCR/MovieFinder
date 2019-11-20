@@ -2,18 +2,14 @@ package com.example.moviefinder.ui.searchresult
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavArgument
-import androidx.navigation.fragment.navArgs
 
 import com.example.moviefinder.R
 import com.example.moviefinder.base.BaseFragment
-import com.example.moviefinder.ui.search.SearchViewModel
-import com.example.moviefinder.utils.ViewModelProviderFactory
+import com.example.moviefinder.di.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.searchview.*
 import javax.inject.Inject
 

@@ -5,11 +5,10 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.example.moviefinder.R
 import com.example.moviefinder.ui.moviedetails.MovieDetailsFragmentArgs
-import com.example.moviefinder.utils.ViewModelProviderFactory
+import com.example.moviefinder.di.ViewModelProviderFactory
 import com.example.moviefinder.utils.hideKeyboard
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*

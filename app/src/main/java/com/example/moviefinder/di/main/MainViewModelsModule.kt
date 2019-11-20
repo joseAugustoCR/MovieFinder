@@ -20,10 +20,6 @@ abstract class MainViewModelsModule {
     @ViewModelKey(MainViewModel::class)
     abstract fun bindProfileViewModel(viewModel: MainViewModel) : ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(MoviesViewModel::class)
-    abstract fun bindDiscoverViewModel(viewModel: MoviesViewModel) : ViewModel
 
     @Binds
     @IntoMap

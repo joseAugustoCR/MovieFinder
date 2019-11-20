@@ -1,7 +1,5 @@
 package com.example.moviefinder.ui.search
 
-import android.app.Activity
-import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
@@ -9,18 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuItemCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 
 import com.example.moviefinder.R
 import com.example.moviefinder.base.BaseFragment
 import com.example.moviefinder.base.NAVIGATION_RESULT_OK
-import com.example.moviefinder.ui.movies.MoviesViewModel
-import com.example.moviefinder.utils.ViewModelProviderFactory
+import com.example.moviefinder.di.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.appbar.*
-import kotlinx.android.synthetic.main.search_fragment.*
 import javax.inject.Inject
 
 class SearchFragment : BaseFragment() {

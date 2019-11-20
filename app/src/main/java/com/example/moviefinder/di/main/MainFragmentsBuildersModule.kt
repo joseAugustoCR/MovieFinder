@@ -1,6 +1,7 @@
 package com.example.daggersample.di
 
 
+import com.example.daggersample.di.main.FeatureScope
 import com.example.daggersample.di.main.PerFragment
 import com.example.moviefinder.di.fragments.*
 import com.example.moviefinder.ui.movies.MoviesFragment
@@ -15,12 +16,14 @@ import dagger.android.ContributesAndroidInjector
 @Module
 public abstract class MainFragmentsBuildersModule {
 
+    @FeatureScope
     @PerFragment
     @ContributesAndroidInjector(
         modules = arrayOf(MoviesModule::class)
     )
     abstract fun contributeDiscoverFragment(): MoviesFragment
 
+    @FeatureScope
     @PerFragment
     @ContributesAndroidInjector(
         modules = arrayOf(MovieDetailsModule::class)

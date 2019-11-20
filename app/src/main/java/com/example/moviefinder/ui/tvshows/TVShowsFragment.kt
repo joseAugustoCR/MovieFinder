@@ -14,7 +14,7 @@ import com.example.moviefinder.base.BaseFragment
 import com.example.moviefinder.base.NAVIGATION_RESULT_OK
 import com.example.moviefinder.api.NetworkStatus
 import com.example.moviefinder.api.TVShow
-import com.example.moviefinder.utils.ViewModelProviderFactory
+import com.example.moviefinder.di.ViewModelProviderFactory
 import com.example.moviefinder.utils.navigation.NavigationResult
 import com.example.moviefinder.utils.navigation.NavigationResultListener
 import com.google.android.material.snackbar.Snackbar

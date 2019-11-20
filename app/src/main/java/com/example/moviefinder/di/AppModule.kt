@@ -27,6 +27,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+//@Module(includes = MyModule.class)
 @Module
 class AppModule {
 

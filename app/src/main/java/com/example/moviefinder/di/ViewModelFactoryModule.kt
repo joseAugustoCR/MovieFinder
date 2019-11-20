@@ -1,7 +1,7 @@
 package com.example.daggersample.di
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.moviefinder.utils.ViewModelProviderFactory
+import com.example.moviefinder.di.ViewModelProviderFactory
 import dagger.Binds
 import dagger.Module
 

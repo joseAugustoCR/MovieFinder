@@ -15,9 +15,11 @@ import com.example.moviefinder.base.BaseFragment
 import com.example.moviefinder.base.NAVIGATION_RESULT_OK
 import com.example.moviefinder.api.Movie
 import com.example.moviefinder.api.NetworkStatus
-import com.example.moviefinder.utils.ViewModelProviderFactory
+import com.example.moviefinder.di.feature.Feature
+import com.example.moviefinder.di.ViewModelProviderFactory
 import com.example.moviefinder.utils.navigation.NavigationResult
 import com.example.moviefinder.utils.navigation.NavigationResultListener
+import com.github.ajalt.timberkt.d
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.movies_fragment.*
 import kotlinx.android.synthetic.main.searchview.*
@@ -28,6 +30,7 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
     private lateinit var viewModel: MoviesViewModel
     @Inject lateinit var providerFactory: ViewModelProviderFactory
     @Inject lateinit var moviesAdapter:MoviesAdapter
+    @Inject lateinit var feature: Feature
 
     override fun onItemSelected(position: Int, item: Movie) {
         navController.navigate(MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(item))
@@ -47,6 +50,7 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
         initRecycler()
         setObservers()
         setListeners()
+        d{"feature ${feature}"}
     }
 
     fun setListeners(){

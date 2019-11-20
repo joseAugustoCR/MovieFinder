@@ -15,6 +15,8 @@ import com.example.moviefinder.R
 import com.example.moviefinder.base.BaseFragment
 import com.example.moviefinder.api.Movie
 import com.example.moviefinder.api.Resource
+import com.example.moviefinder.di.ViewModelProviderFactory
+import com.example.moviefinder.di.feature.Feature
 import com.example.moviefinder.utils.*
 import com.github.ajalt.timberkt.d
 import kotlinx.android.synthetic.main.appbar.*
@@ -28,6 +30,8 @@ class MovieDetailsFragment : BaseFragment() {
     val args:MovieDetailsFragmentArgs by navArgs()
     var state = MediatorLiveData<Resource<Any>>()
     var movie: Movie? = null
+    @Inject lateinit var feature: Feature
+
 
 
     override fun onCreateView(
@@ -44,6 +48,8 @@ class MovieDetailsFragment : BaseFragment() {
         setupToolbar()
         setData()
         subscribeObservers()
+        d{"feature ${feature}"}
+
     }
 
     fun setData(){
