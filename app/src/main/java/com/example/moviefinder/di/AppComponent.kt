@@ -1,9 +1,12 @@
 package com.example.daggersample.di
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import com.example.moviefinder.MyApplication
+import com.example.moviefinder.SessionManager
 import com.example.moviefinder.api.User
+import com.example.moviefinder.utils.SharedPreferencesManager
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjection
@@ -21,8 +24,8 @@ import javax.inject.Singleton
     )
 )
 interface AppComponent : AndroidInjector<MyApplication> {
-
-//    fun sessionManager():SessionManager
+    fun sessionManager(): SessionManager
+    fun sharedPreferencesManager() : SharedPreferencesManager
 
     @Component.Builder
     interface Builder{

@@ -9,10 +9,11 @@ import androidx.paging.PagedList
 import com.example.moviefinder.api.Api
 import com.example.moviefinder.api.NetworkState
 import com.example.moviefinder.api.TVShow
+import com.example.moviefinder.repository.tvshows.TVShowsDataSourceFactory
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class TVShowsViewModel @Inject constructor(var api: Api, val tvShowsDataSourceFactory: TVShowsDataSourceFactory,  val networkExecutor: Executor) : ViewModel() {
+class TVShowsViewModel @Inject constructor(var api: Api, val tvShowsDataSourceFactory: TVShowsDataSourceFactory, val networkExecutor: Executor) : ViewModel() {
     var listLiveData: LiveData<PagedList<TVShow>>?=null
     var networkState: LiveData<NetworkState>?= null
     var initialLoad: LiveData<NetworkState>?= null

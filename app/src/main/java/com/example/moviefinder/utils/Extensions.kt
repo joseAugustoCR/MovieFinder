@@ -47,7 +47,7 @@ fun Throwable.getErrorMsg() : String{
 
     if (this is HttpException) {
         val responseBody: ResponseBody =
-            (this as HttpException).response().errorBody() as ResponseBody
+            (this as HttpException).response()?.errorBody() as ResponseBody
         try {
             val jsonObject = JSONObject(responseBody.string())
             errorMsg = jsonObject.getString("message")
@@ -166,7 +166,7 @@ fun <T> Flowable<T>.toLiveData() : LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this)
 }
 
-fun <T> Observable<T>.toLiveData(backPressureStrategy: BackpressureStrategy) :  LiveData<T> {
+fun <T> Observable<T>.toLiveData(backPressureStrategy: BackpressureStrategy = BackpressureStrategy.BUFFER) :  LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this.toFlowable(backPressureStrategy))
 }
 

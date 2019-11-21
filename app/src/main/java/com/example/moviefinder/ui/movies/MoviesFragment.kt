@@ -8,17 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.example.moviefinder.R
+import com.example.moviefinder.SessionManager
+import com.example.moviefinder.api.AuthResource
 import com.example.moviefinder.base.BaseFragment
 import com.example.moviefinder.base.NAVIGATION_RESULT_OK
 import com.example.moviefinder.api.Movie
 import com.example.moviefinder.api.NetworkStatus
+import com.example.moviefinder.api.User
 import com.example.moviefinder.di.feature.Feature
 import com.example.moviefinder.di.ViewModelProviderFactory
+import com.example.moviefinder.utils.SharedPreferencesManager
 import com.example.moviefinder.utils.navigation.NavigationResult
 import com.example.moviefinder.utils.navigation.NavigationResultListener
+import com.example.moviefinder.utils.toLiveData
 import com.github.ajalt.timberkt.d
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.movies_fragment.*
@@ -31,6 +37,8 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
     @Inject lateinit var providerFactory: ViewModelProviderFactory
     @Inject lateinit var moviesAdapter:MoviesAdapter
     @Inject lateinit var feature: Feature
+    @Inject lateinit var sharedPreferences:SharedPreferencesManager
+    @Inject lateinit var sessionManager: SessionManager
 
     override fun onItemSelected(position: Int, item: Movie) {
         navController.navigate(MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(item))
@@ -51,10 +59,30 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
         setObservers()
         setListeners()
         d{"feature ${feature}"}
+        sharedPreferences.putObject("user", User(name = "José A"))
+        val savedUser = sharedPreferences.getObject("user", User::class.java)
+        d{"user from sp = "}
+
+        sessionManager.getAuthUser().observe(viewLifecycleOwner, Observer {
+            if(it.status == AuthResource.AuthStatus.AUTHENTICATED){
+                d{"logged"}
+            }else{
+                d{"logout"}
+            }
+        })
+
+        sessionManager.login(savedUser)
+
+        logoutBtn.setOnClickListener {
+            sessionManager.logout()
+        }
+
+
+
+
     }
 
     fun setListeners(){
-
         searchView.setOnClickListener {
             navigateForResult(REQUEST_SEARCH, MoviesFragmentDirections.actionMoviesFragmentToSearchFragment(queryText.text.toString()))
         }
@@ -74,37 +102,17 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
     }
 
     fun setObservers(){
-        viewModel.getMovies()
-
-        viewModel.listLiveData?.observe(this, Observer {
+        viewModel.getMovies().observe(viewLifecycleOwner, Observer {
             moviesAdapter.submitList(it)
-
         })
 
-
-
-        viewModel.query.observe(this, Observer {
-            queryText.text = it
-            if(it.isNullOrEmpty()){
-                queryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondaryTextColor))
-                queryText.text = ""
-                backBtn.visibility = View.GONE
-            }else{
-                queryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColor))
-                queryText.text = it
-                backBtn.visibility = View.VISIBLE
-            }
-        })
-
-
-
-        viewModel.networkState?.observe(this, Observer {
+        viewModel.networkState.observe(viewLifecycleOwner, Observer {
             if(it.status == NetworkStatus.FAILED){
                 Snackbar.make(recycler, "Ops, something went wrong.", Snackbar.LENGTH_SHORT).show()
             }
         })
 
-        viewModel.initialLoad?.observe(this, Observer {
+        viewModel.initialLoad.observe(viewLifecycleOwner, Observer {
             if(it.status == NetworkStatus.SUCCESS){
                 loadingLayout.visibility = View.GONE
                 errorLayout.visibility = View.GONE
@@ -136,12 +144,25 @@ class MoviesFragment : BaseFragment(), MoviesAdapter.Interaction, NavigationResu
         }
     }
 
+    fun setSearchLayout(query:String?){
+        if(query.isNullOrEmpty()){
+            queryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondaryTextColor))
+            queryText.text = ""
+            backBtn.visibility = View.GONE
+        }else{
+            queryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColor))
+            queryText.text = query
+            backBtn.visibility = View.VISIBLE
+        }
+    }
+
     fun search(query:String?){
         moviesAdapter.submitList(null)
         loadingLayout.visibility = View.VISIBLE
         errorLayout.visibility = View.GONE
         emptyLayout.visibility = View.GONE
-        viewModel.search(query)
+        viewModel.performSearch(query)
+        setSearchLayout(query)
     }
 
 

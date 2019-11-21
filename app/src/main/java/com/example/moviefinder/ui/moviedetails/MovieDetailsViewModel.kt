@@ -1,18 +1,9 @@
 package com.example.moviefinder.ui.moviedetails
 
-import android.provider.MediaStore
 import androidx.lifecycle.*
-import com.example.moviefinder.api.Api
 import com.example.moviefinder.api.Movie
 import com.example.moviefinder.api.Resource
-import com.example.moviefinder.api.TVShow
-import com.example.moviefinder.repository.MoviesRepository
-import com.example.moviefinder.utils.toLiveData
-import com.github.ajalt.timberkt.d
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.example.moviefinder.repository.movies.MoviesRepository
 import javax.inject.Inject
 
 class MovieDetailsViewModel  @Inject constructor(

@@ -54,4 +54,17 @@
         android:layout_width="match_parent"
         />
 
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logoutBtn"
+        android:text="logout"
+        android:backgroundTint="@color/colorAccent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

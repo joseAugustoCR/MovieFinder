@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.moviefinder.api.*
+import com.example.moviefinder.repository.movies.MoviesDataSourceFactory
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,31 +13,21 @@ import java.util.concurrent.Executor
 
 class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: MoviesDataSourceFactory, val networkExecutor: Executor): ViewModel() {
     var listLiveData:LiveData<PagedList<Movie>>?=null
-    var networkState:LiveData<NetworkState>?= null
-    var initialLoad:LiveData<NetworkState>?= null
-    var query:LiveData<String> = MutableLiveData()
-    private val queryLiveData = MutableLiveData<String>()
+    val networkState = Transformations.switchMap(moviesDataFactory.getDataSourceLiveData()){
+        it.networkState
+    }
+    val initialLoad= Transformations.switchMap(moviesDataFactory.getDataSourceLiveData()){
+        it.initialLoad
+    }
+    val pagedListConfig = PagedList.Config.Builder()
+        .setEnablePlaceholders(true)
+        .setInitialLoadSizeHint(30)
+        .setPageSize(20)
+        .build()
 
 
-
-    fun getMovies(){
+    fun getMovies() : LiveData<PagedList<Movie>>{
         if(listLiveData == null) {
-            val pagedListConfig = PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(30)
-                .setPageSize(20)
-                .build()
-
-            networkState = Transformations.switchMap(moviesDataFactory.dataSourceLiveData){
-                it.networkState
-            }
-
-            initialLoad = Transformations.switchMap(moviesDataFactory.dataSourceLiveData){
-                it.initialLoad
-            }
-
-
-            query = moviesDataFactory.query
             listLiveData = LivePagedListBuilder(moviesDataFactory, pagedListConfig)
                 .setFetchExecutor(networkExecutor)
                 .setBoundaryCallback(object : PagedList.BoundaryCallback<Movie>(){
@@ -46,29 +37,12 @@ class MoviesViewModel @Inject constructor(var api:Api, val moviesDataFactory: Mo
                 })
                 .build()
         }
+        return listLiveData!!
     }
 
-    fun search(query:String?){
-        moviesDataFactory.query.value = query
-        listLiveData?.value?.dataSource?.invalidate()
+    fun performSearch(queryString: String?){
+        moviesDataFactory.search(queryString)
     }
-
-    fun newSearch(queryString: String){
-        queryLiveData.postValue(queryString)
-    }
-
-    fun newGetMovies(){
-
-    }
-
-    override fun onCleared() {
-//        query.removeObserver(observerQuery)
-        super.onCleared()
-
-
-    }
-
-
 
     fun rxJavaSample(){
         var subscription = api.getMovieDetails2("")

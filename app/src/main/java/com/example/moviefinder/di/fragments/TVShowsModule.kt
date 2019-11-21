@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.example.daggersample.di.ViewModelKey
 import com.example.daggersample.di.main.PerFragment
 import com.example.moviefinder.api.Api
+import com.example.moviefinder.repository.tvshows.TVShowsDataSource
+import com.example.moviefinder.repository.tvshows.TVShowsDataSourceFactory
 import com.example.moviefinder.ui.tvshows.*
 import dagger.Binds
 import dagger.Module
@@ -42,7 +44,9 @@ abstract class TVShowsModule {
         @JvmStatic
         @Provides
         fun provideDataSourceFactory(api: Api, executor: Executor, dataSourceProvider: Provider<TVShowsDataSource>) : TVShowsDataSourceFactory {
-            return TVShowsDataSourceFactory(dataSourceProvider)
+            return TVShowsDataSourceFactory(
+                dataSourceProvider
+            )
         }
     }
 }

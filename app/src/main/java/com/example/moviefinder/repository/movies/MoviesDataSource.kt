@@ -1,4 +1,4 @@
-package com.example.moviefinder.ui.tvshows
+package com.example.moviefinder.repository.movies
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
@@ -10,7 +10,8 @@ import retrofit2.Response
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class TVShowsDataSource @Inject constructor(val api: Api, val retryExecutor:Executor) : PageKeyedDataSource<Int, TVShow>(){
+//As recommended in the documentation, we are using the syncronous version of retrofit
+class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Executor) : PageKeyedDataSource<Int, Movie>(){
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
     var query:String? = null
@@ -30,7 +31,7 @@ class TVShowsDataSource @Inject constructor(val api: Api, val retryExecutor:Exec
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, TVShow>
+        callback: LoadInitialCallback<Int, Movie>
     ) {
         d{"load initial " + this.toString()}
 
@@ -40,9 +41,9 @@ class TVShowsDataSource @Inject constructor(val api: Api, val retryExecutor:Exec
         try {
             var response = api.let {
                 if(query.isNullOrEmpty()){
-                    it.discoverTVShows(1)
+                    it.discoverMovies(1)
                 }else{
-                    it.searchTVShows(1, query.toString())
+                    it.searchMovies(1, query.toString())
                 }
             }.execute()
 
@@ -77,55 +78,45 @@ class TVShowsDataSource @Inject constructor(val api: Api, val retryExecutor:Exec
 
 
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, TVShow>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         networkState.postValue(NetworkState.LOADING)
 
-        api.
-        let {
+        var response = api.let {
             if(query.isNullOrEmpty()){
-                it.discoverTVShows(params.key)
+                it.discoverMovies(params.key)
             }else{
-                it.searchTVShows(params.key, query.toString())
+                it.searchMovies(params.key, query.toString())
             }
+        }.execute()
+
+        try {
+            if(response.isSuccessful) {
+                val data = response.body()
+                var nextPage: Int? = null
+                if (data?.page!! < data.total_pages!!) {
+                    nextPage = data.page!! + 1
+                }
+                val items = data.results ?: emptyList()
+                callback.onResult(items, nextPage)
+                networkState.postValue(NetworkState.EMPTY)
+            }else{
+                retry = {
+                    loadAfter(params, callback)
+                }
+                val error = NetworkState.error("error code ${response.code()}")
+                networkState.postValue(error)
+            }
+        } catch (t: Exception) {
+            retry = {
+                loadAfter(params, callback)
+            }
+            val error = NetworkState.error(t.message ?: "unknown error")
+            networkState.postValue(error)
         }
-            .enqueue(
-            object : Callback<WrapperPagedApiResponse<TVShow>>{
-                override fun onFailure(call: Call<WrapperPagedApiResponse<TVShow>>, t: Throwable) {
-                    retry = {
-                        loadAfter(params, callback)
-                    }
-                    val error = NetworkState.error(t.message ?: "unknown error")
-                    networkState.postValue(error)
-                }
-
-                override fun onResponse(
-                    call: Call<WrapperPagedApiResponse<TVShow>>,
-                    response: Response<WrapperPagedApiResponse<TVShow>>
-                ) {
-                    if(response.isSuccessful) {
-                        val data = response.body()
-                        var nextPage: Int? = null
-                        if (data?.page!! < data.total_pages!!) {
-                            nextPage = data.page!! + 1
-                        }
-                        val items = data.results ?: emptyList()
-                        callback.onResult(items, nextPage)
-                        networkState.postValue(NetworkState.LOADED)
-                    }else{
-                        retry = {
-                            loadAfter(params, callback)
-                        }
-                        networkState.postValue(
-                            NetworkState.error("error code: ${response.code()}"))
-                    }
-                }
-
-            }
-        )
     }
 
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, TVShow>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         // ignored, since we only ever append to our initial load
     }
 

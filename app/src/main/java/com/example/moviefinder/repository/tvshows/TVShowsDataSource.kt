@@ -1,4 +1,4 @@
-package com.example.moviefinder.ui.movies
+package com.example.moviefinder.repository.tvshows
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
@@ -10,7 +10,7 @@ import retrofit2.Response
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Executor) : PageKeyedDataSource<Int, Movie>(){
+class TVShowsDataSource @Inject constructor(val api: Api, val retryExecutor:Executor) : PageKeyedDataSource<Int, TVShow>(){
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
     var query:String? = null
@@ -30,7 +30,7 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, Movie>
+        callback: LoadInitialCallback<Int, TVShow>
     ) {
         d{"load initial " + this.toString()}
 
@@ -40,9 +40,9 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
         try {
             var response = api.let {
                 if(query.isNullOrEmpty()){
-                    it.discoverMovies(1)
+                    it.discoverTVShows(1)
                 }else{
-                    it.searchMovies(1, query.toString())
+                    it.searchTVShows(1, query.toString())
                 }
             }.execute()
 
@@ -56,7 +56,6 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
                 }else {
                     initialLoad.postValue(NetworkState.LOADED)
                 }
-
                 callback.onResult(items, null, 2)
             }else{
                 retry = {
@@ -78,20 +77,20 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
 
 
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, TVShow>) {
         networkState.postValue(NetworkState.LOADING)
 
         api.
         let {
             if(query.isNullOrEmpty()){
-                it.discoverMovies(params.key)
+                it.discoverTVShows(params.key)
             }else{
-                it.searchMovies(params.key, query.toString())
+                it.searchTVShows(params.key, query.toString())
             }
         }
             .enqueue(
-            object : Callback<WrapperPagedApiResponse<Movie>>{
-                override fun onFailure(call: Call<WrapperPagedApiResponse<Movie>>, t: Throwable) {
+            object : Callback<WrapperPagedApiResponse<TVShow>>{
+                override fun onFailure(call: Call<WrapperPagedApiResponse<TVShow>>, t: Throwable) {
                     retry = {
                         loadAfter(params, callback)
                     }
@@ -100,8 +99,8 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
                 }
 
                 override fun onResponse(
-                    call: Call<WrapperPagedApiResponse<Movie>>,
-                    response: Response<WrapperPagedApiResponse<Movie>>
+                    call: Call<WrapperPagedApiResponse<TVShow>>,
+                    response: Response<WrapperPagedApiResponse<TVShow>>
                 ) {
                     if(response.isSuccessful) {
                         val data = response.body()
@@ -111,7 +110,7 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
                         }
                         val items = data.results ?: emptyList()
                         callback.onResult(items, nextPage)
-                        networkState.postValue(NetworkState.EMPTY)
+                        networkState.postValue(NetworkState.LOADED)
                     }else{
                         retry = {
                             loadAfter(params, callback)
@@ -126,7 +125,7 @@ class MoviesDataSource @Inject constructor(val api: Api, val retryExecutor:Execu
     }
 
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, TVShow>) {
         // ignored, since we only ever append to our initial load
     }
 

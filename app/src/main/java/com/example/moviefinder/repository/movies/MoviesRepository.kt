@@ -1,15 +1,12 @@
-package com.example.moviefinder.repository
+package com.example.moviefinder.repository.movies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.example.moviefinder.api.Api
 import com.example.moviefinder.api.Movie
 import com.example.moviefinder.api.Resource
 import com.example.moviefinder.utils.toLiveData
 import com.github.ajalt.timberkt.d
-import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

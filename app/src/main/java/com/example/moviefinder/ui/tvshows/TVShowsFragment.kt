@@ -78,12 +78,12 @@ class TVShowsFragment : BaseFragment(), TVShowsAdapter.Interaction, NavigationRe
     fun setObservers(){
         viewModel.getTVShows()
 
-        viewModel.listLiveData?.observe(this, Observer {
+        viewModel.listLiveData?.observe(viewLifecycleOwner, Observer {
             tvshowsAdapter.submitList(it)
 
         })
 
-        viewModel.query.observe(this, Observer {
+        viewModel.query.observe(viewLifecycleOwner, Observer {
             queryText.text = it
             if(it.isNullOrEmpty()){
                 queryText.text = ""
@@ -95,13 +95,13 @@ class TVShowsFragment : BaseFragment(), TVShowsAdapter.Interaction, NavigationRe
         })
 
 
-        viewModel.networkState?.observe(this, Observer {
+        viewModel.networkState?.observe(viewLifecycleOwner, Observer {
             if(it.status == NetworkStatus.FAILED){
                 Snackbar.make(recycler, "Ops, something went wrong.", Snackbar.LENGTH_SHORT).show()
             }
         })
 
-        viewModel.initialLoad?.observe(this, Observer {
+        viewModel.initialLoad?.observe(viewLifecycleOwner, Observer {
             if(it.status == NetworkStatus.SUCCESS){
                 loadingLayout.visibility = View.GONE
                 errorLayout.visibility = View.GONE

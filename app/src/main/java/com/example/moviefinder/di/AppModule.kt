@@ -1,6 +1,7 @@
 package com.example.daggersample.di
 
 import android.app.Application
+import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -11,8 +12,9 @@ import com.example.moviefinder.BuildConfig
 import com.example.moviefinder.R
 import com.example.moviefinder.api.Api
 import com.example.moviefinder.api.NetworkStatus
-import com.example.moviefinder.repository.MoviesRepository
+import com.example.moviefinder.repository.movies.MoviesRepository
 import com.example.moviefinder.utils.Constants
+import com.example.moviefinder.utils.SharedPreferencesManager
 import com.example.moviefinder.utils.hasNetwork
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -34,6 +36,10 @@ class AppModule {
     @Module
     companion object {
 
+        @Singleton
+        @Provides
+        @JvmStatic
+        fun provideContext(application: Application) : Context = application.applicationContext
 
         @Singleton
         @Provides
@@ -42,14 +48,14 @@ class AppModule {
             return object : Interceptor{
                 override fun intercept(chain: Interceptor.Chain): Response {
                     var request = chain.request()
-                    var url = request.url()
+                    var url = request.url
                     if(url.queryParameter("api_key").isNullOrEmpty()){
                         val urlBuilder = url.newBuilder().addQueryParameter("api_key", Constants.API_KEY)
                         url = urlBuilder.build()
                     }
                     request = request.newBuilder().url(url).build()
                     val originalResponse = chain.proceed(request)
-                    if (originalResponse.code() == 401) {
+                    if (originalResponse.code == 401) {
                         NetworkEvent.publish(NetworkStatus.UNAUTHORIZED)
                     }
                     return originalResponse
@@ -167,6 +173,12 @@ class AppModule {
         }
 
 
+        @Singleton
+        @JvmStatic
+        @Provides
+        fun provideSharedPreferencesManager(application: Application) : SharedPreferencesManager {
+            return SharedPreferencesManager(application.applicationContext)
+        }
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.moviefinder.ui.tvshows
+package com.example.moviefinder.repository.tvshows
 
 import androidx.paging.DataSource
 import androidx.lifecycle.MutableLiveData
