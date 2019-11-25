@@ -1,8 +1,6 @@
 package com.example.daggersample.di
 
-
 import com.example.daggersample.di.main.MainModule
-import com.example.daggersample.di.main.MainViewModelsModule
 import com.example.daggersample.di.main.PerActivity
 import com.example.moviefinder.ui.MainActivity
 import dagger.Module
@@ -13,10 +11,9 @@ public abstract class ActivityBuildersModule {
 
     @PerActivity
     @ContributesAndroidInjector(
-        modules = arrayOf(MainViewModelsModule::class, MainModule::class, MainFragmentsBuildersModule::class)
+        modules = arrayOf(MainModule::class, MainFragmentsBuildersModule::class)
     )
     abstract fun contributeMainActivity(): MainActivity
-
 
 
     // Kotlin doesn't have static methods so we need to wrap in a companion object and annotate with @JvmStatic

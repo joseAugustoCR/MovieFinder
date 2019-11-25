@@ -3,51 +3,34 @@ package com.example.daggersample.di
 
 import com.example.daggersample.di.main.FeatureScope
 import com.example.daggersample.di.main.PerFragment
-import com.example.moviefinder.di.fragments.*
-import com.example.moviefinder.ui.movies.MoviesFragment
-import com.example.moviefinder.ui.moviedetails.MovieDetailsFragment
-import com.example.moviefinder.ui.search.SearchFragment
-import com.example.moviefinder.ui.tvshowdetails.TVShowDetailsFragment
-import com.example.moviefinder.ui.tvshows.TVShowsFragment
+import com.example.moviefinder.di.fragments.SplashModule
+import com.example.moviefinder.di.fragments.TimelineModule
+import com.example.moviefinder.ui.main.BottomNavFragment
+import com.example.moviefinder.ui.main.splash.SplashFragment
+import com.example.moviefinder.ui.main.timeline.TimelineFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 public abstract class MainFragmentsBuildersModule {
 
-    @FeatureScope
     @PerFragment
     @ContributesAndroidInjector(
-        modules = arrayOf(MoviesModule::class)
+        modules = arrayOf(SplashModule::class)
     )
-    abstract fun contributeDiscoverFragment(): MoviesFragment
-
-    @FeatureScope
-    @PerFragment
-    @ContributesAndroidInjector(
-        modules = arrayOf(MovieDetailsModule::class)
-    )
-    abstract fun contributeMovieDetailsFragment(): MovieDetailsFragment
+    abstract fun contributeSplashFragment(): SplashFragment
 
     @PerFragment
     @ContributesAndroidInjector(
-        modules = arrayOf(TVShowsModule::class)
     )
-    abstract fun contributeTVShowsFragment(): TVShowsFragment
-
-    @PerFragment
-    @ContributesAndroidInjector(
-        modules = arrayOf(SearchModule::class)
-    )
-    abstract fun contributeSearchFragment(): SearchFragment
-
+    abstract fun contributeBottomNavFragment(): BottomNavFragment
 
 
     @PerFragment
     @ContributesAndroidInjector(
-        modules = arrayOf(TVShowDetailsModule::class)
+       modules = arrayOf(TimelineModule::class)
     )
-    abstract fun contributeTVShowDetailFragment(): TVShowDetailsFragment
+    abstract fun contributeTimelineFragment(): TimelineFragment
 
 
 }

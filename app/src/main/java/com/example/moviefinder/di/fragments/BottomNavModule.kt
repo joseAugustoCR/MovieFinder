@@ -1,4 +1,4 @@
-package com.example.moviefinder.di.main
+package com.example.moviefinder.di.fragments
 
 import androidx.lifecycle.ViewModel
 import com.example.daggersample.di.ViewModelKey
@@ -8,6 +8,10 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-abstract class MainViewModelsModule {
+abstract class BottomNavModule {
 
+    @Module
+    companion object{
+
+    }
 }

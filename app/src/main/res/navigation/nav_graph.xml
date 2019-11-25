@@ -3,67 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/moviesFragment">
+    app:startDestination="@id/splashFragment">
+
 
     <fragment
-        android:id="@+id/moviesFragment"
-        android:name="com.example.moviefinder.ui.movies.MoviesFragment"
-        android:label="Movies"
-        tools:layout="@layout/movies_fragment" >
+        android:id="@+id/splashFragment"
+        android:name="com.example.moviefinder.ui.main.splash.SplashFragment"
+        android:label="splash_fragment"
+        tools:layout="@layout/splash_fragment" >
         <action
-            android:id="@+id/action_moviesFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
-        <action
-            android:id="@+id/action_moviesFragment_to_searchFragment"
-            app:destination="@id/searchFragment"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            />
+            android:id="@+id/action_splashFragment_to_bottomNavFragment"
+            app:destination="@id/bottomNavFragment" />
     </fragment>
     <fragment
-        android:id="@+id/movieDetailsFragment"
-        android:name="com.example.moviefinder.ui.moviedetails.MovieDetailsFragment"
-        android:label="movie_details_fragment"
-        tools:layout="@layout/movie_details_fragment" >
-        <argument
-            android:name="movie"
-            app:argType="com.example.moviefinder.api.Movie" />
-    </fragment>
-    <fragment
-        android:id="@+id/TVShowsFragment"
-        android:name="com.example.moviefinder.ui.tvshows.TVShowsFragment"
-        android:label="tvshows_fragment"
-        tools:layout="@layout/tvshows_fragment" >
-        <action
-            android:id="@+id/action_TVShowsFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
-            android:id="@+id/action_TVShowsFragment_to_TVShowDetailsFragment"
-            app:destination="@id/TVShowDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.moviefinder.ui.search.SearchFragment"
-        android:label="search_fragment"
-        tools:layout="@layout/search_fragment" >
-        <action
-            android:id="@+id/action_searchFragment_to_moviesFragment"
-            app:destination="@id/moviesFragment" />
-        <argument
-            android:name="query"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_searchFragment_to_TVShowsFragment"
-            app:destination="@id/TVShowsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/TVShowDetailsFragment"
-        android:name="com.example.moviefinder.ui.tvshowdetails.TVShowDetailsFragment"
-        android:label="TVShowDetailsFragment" >
-        <argument
-            android:name="tvshow"
-            app:argType="com.example.moviefinder.api.TVShow" />
-    </fragment>
+        android:id="@+id/bottomNavFragment"
+        android:name="com.example.moviefinder.ui.main.BottomNavFragment"
+        android:label="fragment_bottom_nav"
+        tools:layout="@layout/fragment_bottom_nav" />
 </navigation>
