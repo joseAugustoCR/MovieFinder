@@ -8,16 +8,15 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.moviefinder.ui.main.splash.SplashFragment"
+        android:name="com.example.app.ui.main.splash.SplashFragment"
         android:label="splash_fragment"
         tools:layout="@layout/splash_fragment" >
         <action
-            android:id="@+id/action_splashFragment_to_bottomNavFragment"
-            app:destination="@id/bottomNavFragment" />
+            android:id="@+id/action_splashFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
-        android:id="@+id/bottomNavFragment"
-        android:name="com.example.moviefinder.ui.main.BottomNavFragment"
-        android:label="fragment_bottom_nav"
-        tools:layout="@layout/fragment_bottom_nav" />
+        android:id="@+id/mainFragment"
+        android:name="com.example.app.ui.main.MainFragment"
+        android:label="MainFragment" />
 </navigation>
