@@ -13,6 +13,13 @@
         tools:layout="@layout/splash_fragment" >
         <action
             android:id="@+id/action_splashFragment_to_mainFragment"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashFragment"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
             app:destination="@id/mainFragment" />
     </fragment>
     <fragment

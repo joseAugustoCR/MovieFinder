@@ -1,11 +1,21 @@
 package com.example.app
 
+import aioria.com.br.kotlinbaseapp.utils.MyNotificationOpenedHandler
+import aioria.com.br.kotlinbaseapp.utils.MyNotificationReceivedHandler
 import android.content.Context
+import android.content.pm.PackageManager
+import android.util.Base64
 import androidx.multidex.MultiDex
+import com.crashlytics.android.Crashlytics
 import com.example.daggersample.di.DaggerAppComponent
+import com.github.ajalt.timberkt.d
+import com.onesignal.OneSignal
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import io.fabric.sdk.android.Fabric
 import timber.log.Timber
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 class MyApplication : DaggerApplication() {
     override fun applicationInjector(): AndroidInjector<MyApplication> {
@@ -22,5 +32,41 @@ class MyApplication : DaggerApplication() {
         if(BuildConfig.DEBUG){
             Timber.plant(Timber.DebugTree())
         }
+        printHashKey()
+        initCrashlytics()
+        initOneSignal()
+    }
+
+    fun initCrashlytics(){
+        Fabric.with(this, Crashlytics())
+    }
+
+    fun initOneSignal(){
+        OneSignal.startInit(this)
+            .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+            .unsubscribeWhenNotificationsAreDisabled(true)
+            .setNotificationOpenedHandler(MyNotificationOpenedHandler(applicationContext))
+            .setNotificationReceivedHandler(MyNotificationReceivedHandler(applicationContext))
+            .init()
+    }
+
+
+
+    fun printHashKey() {
+        try {
+            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+            for (signature in info.signatures) {
+                val md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val hashKey = String(Base64.encode(md.digest(), 0))
+                d{"hash" + "printHashKey() Hash Key: $hashKey"}
+            }
+        } catch (e: NoSuchAlgorithmException) {
+
+        } catch (e: Exception) {
+
+            e.printStackTrace()
+        }
+
     }
 }
