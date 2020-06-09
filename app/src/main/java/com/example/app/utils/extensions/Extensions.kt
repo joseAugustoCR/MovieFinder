@@ -50,6 +50,9 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Context.hasNetwork(): Boolean? {
     var isConnected: Boolean? = false // Initial Value
@@ -360,6 +363,45 @@ fun String.luhnTest():Boolean{
         }
     }
     return (s1 + s2) % 10 == 0
+}
+
+
+fun Double.toCurrency() : String{
+    val currencyFormat = NumberFormat.getCurrencyInstance()
+    return currencyFormat.format(this)
+}
+
+fun String.toDateStringFormat(originalFormat:String, newFormat:String) : String{
+    val originalformatter = SimpleDateFormat(originalFormat, Locale.getDefault())
+    val newFormatter = SimpleDateFormat(newFormat, Locale.getDefault())
+
+    try {
+        val date = originalformatter.parse(this)
+        val dateTime = newFormatter.format(date)
+        return dateTime
+
+    } catch (e : java.lang.Exception) {
+        e.printStackTrace();
+    }
+
+    return ""
+}
+
+
+
+fun String.toDate(originalFormat:String) : Date {
+    val originalformatter = SimpleDateFormat(originalFormat)
+    originalformatter.timeZone = TimeZone.getTimeZone("UTC")
+
+    try {
+        val date = originalformatter.parse(this)
+        return date ?: Date()
+
+    } catch (e : java.lang.Exception) {
+        e.printStackTrace();
+    }
+
+    return Date()
 }
 
 

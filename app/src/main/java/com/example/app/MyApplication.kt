@@ -7,8 +7,12 @@ import android.content.pm.PackageManager
 import android.util.Base64
 import androidx.multidex.MultiDex
 import com.crashlytics.android.Crashlytics
+import com.example.app.utils.ONESIGNAL_ID
+import com.example.app.utils.SharedPreferencesManager
 import com.example.daggersample.di.DaggerAppComponent
 import com.github.ajalt.timberkt.d
+import com.onesignal.OSSubscriptionObserver
+import com.onesignal.OSSubscriptionStateChanges
 import com.onesignal.OneSignal
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -16,8 +20,12 @@ import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import javax.inject.Inject
 
-class MyApplication : DaggerApplication() {
+class MyApplication : DaggerApplication(), OSSubscriptionObserver {
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesManager
+
     override fun applicationInjector(): AndroidInjector<MyApplication> {
         return DaggerAppComponent.builder().application(this).build()
     }
@@ -48,6 +56,9 @@ class MyApplication : DaggerApplication() {
             .setNotificationOpenedHandler(MyNotificationOpenedHandler(applicationContext))
             .setNotificationReceivedHandler(MyNotificationReceivedHandler(applicationContext))
             .init()
+
+        OneSignal.addSubscriptionObserver(this)
+
     }
 
 
@@ -68,5 +79,14 @@ class MyApplication : DaggerApplication() {
             e.printStackTrace()
         }
 
+    }
+
+    override fun onOSSubscriptionChanged(stateChanges: OSSubscriptionStateChanges?) {
+        val id = stateChanges?.to?.userId
+        val savedOnesignalID = sharedPreferences.getObject(ONESIGNAL_ID, String::class.java)
+        d{"onesignal id=" + id.toString()+""}
+        if(savedOnesignalID.toString().equals(id.toString()) == false){
+            sharedPreferences.putObject(ONESIGNAL_ID, id)
+        }
     }
 }

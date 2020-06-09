@@ -9,4 +9,5 @@
     <color name="grayDisabled">#868686</color>
     <color name="grayBg">#F0F0F0</color>
     <color name="grayPlaceholder">#DDDDDD</color>
+    <color name="errorColor">#bb0000</color>
 </resources>

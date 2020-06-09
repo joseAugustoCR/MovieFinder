@@ -1,7 +1,16 @@
 package com.example.app.base
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.TypefaceSpan
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
@@ -23,9 +32,36 @@ const val REQUEST_CODE_NOT_SET = -1
 const val NAVIGATION_RESULT_CANCELED = 0
 const val NAVIGATION_RESULT_OK = -1
 
+val REQUEST_LOGIN = 1
+val REQUEST_CODE_SELECT_PICTURE = 5
+val REQUEST_REGISTER = 8
+val REQUEST_TAKE_PICTURE = 10
+
+
+
 open class BaseFragment : DaggerFragment() {
-    val navController by lazy { Navigation.findNavController(view!!) }
+    private var rootView: View? = null
+    var hasInitializedRootView = false
+
+    val navController by lazy { Navigation.findNavController(requireView()) }
     @Inject  lateinit var sessionManager: SessionManager
+
+
+    fun getPersistentView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?, layout: Int): View? {
+        if (rootView == null) {
+//             Inflate the layout for this fragment
+            rootView = inflater?.inflate(layout,container,false)
+        } else {
+            // Do not inflate the layout again.
+            // The returned View of onCreateView will be added into the fragment.
+            // However it is not allowed to be added twice even if the parent is same.
+            // So we must remove rootView from the existing parent view group
+            // (it will be added back).
+            (rootView?.getParent() as? ViewGroup)?.removeView(rootView)
+        }
+
+        return rootView
+    }
 
 
     /* workaround  to achieve startActivityForResult behavior with navigation component
@@ -133,5 +169,42 @@ open class BaseFragment : DaggerFragment() {
                 .setCurrentScreen(requireActivity(), screenName, null)
         }
     }
+
+
+    fun applyFontToMenuItem(menuItem: MenuItem) {
+        try {
+            var customFontId = R.font.montserrat_medium
+            var menuTitle = menuItem.getTitle().toString();
+            var typeface = ResourcesCompat.getFont(requireActivity(), customFontId);
+            var spannableString = SpannableString(menuTitle);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                var typefaceSpan: TypefaceSpan?=null
+                if( typeface != null) {
+                    typefaceSpan = TypefaceSpan(typeface)
+                }else {
+                    typefaceSpan = TypefaceSpan("sans-serif");
+                }
+                spannableString.setSpan(typefaceSpan, 0, menuTitle?.length,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            } else {
+                var customTypefaceSpan:Typeface?=null
+                if(typeface != null){
+                    customTypefaceSpan = Typeface.createFromAsset(activity?.assets, "quicksand_bold.ttf")
+                }else{
+                    customTypefaceSpan = Typeface.defaultFromStyle(Typeface.NORMAL)
+                }
+                spannableString.setSpan(customTypefaceSpan, 0, menuTitle.length,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            }
+            menuItem.setTitle(spannableString);
+        } catch (e: Exception) {
+        }
+    }
+
+    override fun onDestroy() {
+        rootView = null
+        super.onDestroy()
+    }
+
 
 }

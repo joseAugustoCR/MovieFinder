@@ -17,6 +17,8 @@ val AUTHORIZATION = "auth"
 val LOGGED_USER = "logged_user"
 val PASSWORD = "password"
 val INTRO = "intro"
+val ONESIGNAL_ID = "onesignal_id"
+
 
 @Singleton
 class SharedPreferencesManager @Inject constructor(context: Context) {

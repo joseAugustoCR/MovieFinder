@@ -89,5 +89,5 @@ data class ProductionCountry(
     var name: String? = null
 )
 
-data class User(var name:String?=null)
+data class User(var name:String?=null, var password:String?=null)
 data class ErrorResponse(var id:Int?=null)

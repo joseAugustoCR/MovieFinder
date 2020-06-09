@@ -2,33 +2,24 @@ package com.example.app.api
 
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface Api {
 
+    //user
+    @GET("users/{id}")
+    fun getUser(@Path("id") id:String?): Flowable<User>
 
-    @GET("discover/movie")
-    fun discoverMovies(@Query("page") page:Int): Call<WrapperPagedApiResponse<Movie>>
+    @POST("users")
+    fun createUser(@Body user:User): Flowable<User>
 
-    @GET("discover/tv")
-    fun discoverTVShows(@Query("page") page:Int): Call<WrapperPagedApiResponse<TVShow>>
+    @POST("users/sign_in")
+    fun login(@Body user:User): Flowable<User>
 
-    @GET("search/movie")
-    fun searchMovies(@Query("page") page:Int, @Query("query") query:String): Call<WrapperPagedApiResponse<Movie>>
+    @PATCH("users")
+    fun editUser(@Body request: RequestBody) : Flowable<User>
 
-    @GET("search/movie")
-    fun searchTVShows(@Query("page") page:Int, @Query("query") query:String): Call<WrapperPagedApiResponse<TVShow>>
-
-    @GET("movie/{id}")
-    fun getMovieDetails(@Path("id") movieID:String) : Flowable<Movie>
-
-    @GET("discover/movie")
-    fun discoverMovies2(@Query("page") page:Int): Flowable<WrapperPagedApiResponse<Movie>>
-
-    @GET("movie/{id}")
-    fun getMovieDetails2(@Path("id") movieID:String) : Observable<Movie>
 
 }
