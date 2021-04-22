@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "331962336111",
+    "project_id": "dinelly-ce89f",
+    "storage_bucket": "dinelly-ce89f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331962336111:android:d3fb2e508ae399dbf0de9a",
+        "android_client_info": {
+          "package_name": "com.joseaugustocr.dinell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331962336111-fm7d3mdksa82ve644hrkk1g2i47ib3ng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ0oacB3gtqqF2oNszfGI3saMsysE741s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331962336111-fm7d3mdksa82ve644hrkk1g2i47ib3ng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

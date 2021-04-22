@@ -3,11 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/timelineFragment">
+    app:startDestination="@id/webviewFragment">
 
 
     <fragment
         android:id="@+id/timelineFragment"
         android:name="com.example.app.ui.main.timeline.TimelineFragment"
         android:label="TimelineFragment" />
+    <fragment
+        android:id="@+id/webviewFragment"
+        android:name="com.example.app.ui.main.webview.WebviewFragment"
+        android:label="fragment_webview"
+        tools:layout="@layout/fragment_webview" />
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.example.app.ui.main.contato.ContactFragment"
+        android:label="fragment_contact"
+        tools:layout="@layout/fragment_contact" />
 </navigation>

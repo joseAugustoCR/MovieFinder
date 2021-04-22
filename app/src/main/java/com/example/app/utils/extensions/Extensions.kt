@@ -11,6 +11,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
@@ -402,6 +403,15 @@ fun String.toDate(originalFormat:String) : Date {
     }
 
     return Date()
+}
+
+inline fun String.loadOnExternalBrowser(activity: Activity){
+    val uris = Uri.parse(this)
+    val intents = Intent(Intent.ACTION_VIEW, uris)
+    val b = Bundle()
+    b.putBoolean("new_window", true)
+    intents.putExtras(b)
+    activity.startActivity(intents)
 }
 
 

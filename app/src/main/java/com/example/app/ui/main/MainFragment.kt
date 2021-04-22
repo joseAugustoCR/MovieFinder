@@ -7,9 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
@@ -17,20 +14,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 
 import com.example.app.R
-import com.example.app.SessionManager
 import com.example.app.api.NetworkStatus
 import com.example.app.base.BaseFragment
-import com.example.app.base.NAVIGATION_RESULT_OK
-import com.example.app.ui.main.timeline.TimelineFragment
+import com.example.app.ui.main.webview.WebviewFragment
 import com.example.app.utils.extensions.hideKeyboard
-import com.example.app.utils.extensions.setupWithNavController
 import com.example.app.utils.navigation.NavigationResult
 import com.example.app.utils.navigation.NavigationResultListener
 import com.example.daggersample.networking.NetworkEvent
 import com.github.ajalt.timberkt.d
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_main.*
-import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
@@ -93,21 +86,21 @@ class MainFragment : BaseFragment(), NavigationResultListener {
         mainNavHostFragment = childFragmentManager.findFragmentById(R.id.mainNavHostFragment) as NavHostFragment
         mainNavController = mainNavHostFragment.navController
         //setup the bottom navigation
-        val navGraphsIds = listOf(R.id.timelineFragment)
         NavigationUI.setupWithNavController(bottomNavigationView, mainNavController)
 
         //this will automatically handle the toolbar
         val appBarConfiguration = AppBarConfiguration
             .Builder(
-                R.id.timelineFragment
+                R.id.webviewFragment,
+                R.id.contactFragment
             )
             .build()
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             if(isValidDestination(it.itemId) == false){
-                if(it.itemId == R.id.timelineFragment){
-                    val timelineFragment = mainNavHostFragment.childFragmentManager.fragments.get(0)
-                    if(timelineFragment != null && timelineFragment is TimelineFragment){
+                if(it.itemId == R.id.webviewFragment){
+                    val fragment = mainNavHostFragment.childFragmentManager.fragments.get(0)
+                    if(fragment != null && fragment is WebviewFragment){
 //                        (timelineFragment as TimelineFragment).scrollToTop()
                         return@setOnNavigationItemSelectedListener true
                     }
@@ -118,12 +111,16 @@ class MainFragment : BaseFragment(), NavigationResultListener {
 
 
             when(it.itemId){
-                R.id.timelineFragment->{
-                    if(mainNavController.popBackStack(R.id.timelineFragment, false)){
+                R.id.webviewFragment->{
+                    if(mainNavController.popBackStack(R.id.webviewFragment, false)){
 
                     }else {
-                        mainNavController.navigate(R.id.timelineFragment, null, navOptions)
+                        mainNavController.navigate(R.id.webviewFragment, null, navOptions)
                     }
+                }
+
+                R.id.contactFragment->{
+                    mainNavController.navigate(R.id.contactFragment, null, navOptions)
                 }
             }
 
@@ -134,7 +131,11 @@ class MainFragment : BaseFragment(), NavigationResultListener {
             requireActivity().hideKeyboard()
 
             when(destination.id){
-                R.id.timelineFragment ->{
+                R.id.webviewFragment ->{
+                    showBottomNavigation()
+                }
+
+                R.id.contactFragment ->{
                     showBottomNavigation()
                 }
 

@@ -6,8 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@drawable/new_bg_white</item>
         <item name="editTextStyle">@style/fontEditText</item>
+        <item name="android:textViewStyle">@style/fontTextView</item>
 
     </style>
 
@@ -38,6 +39,12 @@
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+
+    <style name="BottomNavigationTextAppearence" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/montserrat_bold</item>
+        <item name="android:textSize">12sp</item>
+
     </style>
 
     <!--    change the filled box color and the floating label color-->
@@ -102,11 +109,15 @@
 
 
     <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/montserrat_bold</item>
+
     </style>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/montserrat_bold</item>
+
     </style>
 
     <style name="CustomDatePickerDialog"

@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import com.example.app.R
 import com.example.app.base.BaseFragment
 import com.example.app.di.ViewModelProviderFactory
+import com.example.app.utils.extensions.px
+import kotlinx.android.synthetic.main.splash_fragment.*
 import javax.inject.Inject
 
 class SplashFragment : BaseFragment() {
@@ -33,10 +35,23 @@ class SplashFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        handler.postDelayed({
-            navController.navigate(SplashFragmentDirections.actionSplashFragmentToMainFragment())
+        try {
+            with(logo){
+                animate()
+                    .alpha(1f)
+                    .translationY(70.px().toFloat())
+                    .withEndAction{
+                        try {
+                            navController.navigate(SplashFragmentDirections.actionSplashFragmentToMainFragment())
 
-        }, 500)
+                        } catch (e: Exception) {
+                        }
+                    }
+                    .duration = 1800
+            }
+        } catch (e: Exception) {
+        }
+
     }
 
     override fun onStop() {

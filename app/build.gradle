@@ -1,35 +1,35 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
-apply plugin: 'io.fabric'
-
 buildscript {
     repositories {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.3'
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.9, 0.99.99]'
     }
 }
+
+plugins {
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+    // Other plugins here if pre-existing
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.example.moviefinder"
+        applicationId "com.joseaugustocr.dinell"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        manifestPlaceholders = [
-                onesignal_app_id               : 'fbebcf8f-503d-4444-a2a8-a2c8c6409f4se',
-                // Project number pulled from dashboard, local value is ignored.
-                onesignal_google_project_number: 'REMOTE'
-        ]
     }
     signingConfigs {
         release {
@@ -137,11 +137,12 @@ dependencies {
     implementation 'com.github.drawers:SpinnerDatePicker:2.0.1'
 
     //onesignal
-    implementation 'com.onesignal:OneSignal:3.12.6'
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+
 
 
     //crashlytics
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
 
     //permissions
     implementation 'com.github.florent37:runtime-permission-kotlin:1.0.1'
@@ -158,4 +159,4 @@ dependencies {
 
 
 }
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
