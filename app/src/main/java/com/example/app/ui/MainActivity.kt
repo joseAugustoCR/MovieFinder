@@ -7,6 +7,8 @@ import androidx.navigation.Navigation.findNavController
 import com.example.app.R
 import com.example.app.SessionManager
 import com.example.app.di.ViewModelProviderFactory
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -25,6 +27,8 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
 
+    fun getFirestore(){
+    }
 
 
 

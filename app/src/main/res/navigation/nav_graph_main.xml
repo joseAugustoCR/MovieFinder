@@ -17,7 +17,12 @@
         tools:layout="@layout/fragment_webview" />
     <fragment
         android:id="@+id/contactFragment"
-        android:name="com.example.app.ui.main.contato.ContactFragment"
+        android:name="com.example.app.ui.main.contact.ContactFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" />
+    <fragment
+        android:id="@+id/saleFragment"
+        android:name="com.example.app.ui.main.sale.SaleFragment"
+        android:label="sale_fragment"
+        tools:layout="@layout/sale_fragment" />
 </navigation>

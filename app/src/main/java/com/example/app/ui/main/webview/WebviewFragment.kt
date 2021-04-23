@@ -9,17 +9,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
+import android.webkit.*
 import androidx.fragment.app.Fragment
-import android.webkit.WebResourceRequest
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
 
 import com.example.app.R
 import com.example.app.base.*
 import com.example.app.di.ViewModelProviderFactory
+import com.example.app.utils.extensions.snack
 import com.example.app.utils.navigation.NavigationResult
 import com.example.app.utils.navigation.NavigationResultListener
 import com.github.ajalt.timberkt.d
@@ -40,6 +38,7 @@ class WebviewFragment : BaseFragment(), NavigationResultListener {
     var handler = Handler()
 
     var isLoaded:Boolean = false
+    val url = "https://menume.com.br/c?lacucinadinelly"
 
 
 
@@ -69,7 +68,7 @@ class WebviewFragment : BaseFragment(), NavigationResultListener {
 
 
     fun loadWebView(){
-            webview.loadUrl("https://menume.com.br/c?lacucinadinelly")
+            webview.loadUrl(url)
     }
 
     fun initObservers(){
@@ -153,10 +152,38 @@ class WebviewFragment : BaseFragment(), NavigationResultListener {
                 return false
             }
 
+            override fun onLoadResource(view: WebView?, url: String?) {
+                super.onLoadResource(view, url)
+                d{url.toString()}
+            }
+
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                super.onReceivedError(view, request, error)
+                val url = request?.url.toString()
+                if(loadingLL.visibility == View.VISIBLE && url.contains(url, true) == true){
+                    try{
+                        loadingLL.setVisibility(View.GONE)
+                        webview.visibility = View.GONE
+                        webview.snack("Ops, algo deu errado. Tente novamente.", R.color.errorColor, {})
+                    }catch (e:Exception){
+
+                    }
+                }
+            }
+
+
+
             override fun onPageFinished(view: WebView, url: String) {
                 try {
                     handler.postDelayed({
-                        loadingLL.setVisibility(View.GONE)
+                        try {
+                            loadingLL.setVisibility(View.GONE)
+                        } catch (e: Exception) {
+                        }
                     }, 1400)
                 } catch (e: Exception) {
                 }

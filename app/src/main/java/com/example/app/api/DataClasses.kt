@@ -21,6 +21,16 @@ data class Movie(
     var vote_count: Int? = null
 ) : Parcelable
 
+data class Sale(
+    var title: String?=null,
+    var desc:String?=null,
+    var image:String?=null,
+    var original_price:Float?=null,
+    var new_price:Float?=null,
+    var button_text:String?=null,
+    var button_action:String?=null
+)
+
 @Parcelize
 data class TVShow(
     var backdrop_path: String? = null,

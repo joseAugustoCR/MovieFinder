@@ -119,6 +119,10 @@ class MainFragment : BaseFragment(), NavigationResultListener {
                     }
                 }
 
+                R.id.saleFragment->{
+                    mainNavController.navigate(R.id.saleFragment, null, navOptions)
+                }
+
                 R.id.contactFragment->{
                     mainNavController.navigate(R.id.contactFragment, null, navOptions)
                 }
@@ -138,6 +142,11 @@ class MainFragment : BaseFragment(), NavigationResultListener {
                 R.id.contactFragment ->{
                     showBottomNavigation()
                 }
+
+                R.id.saleFragment ->{
+                    showBottomNavigation()
+                }
+
 
                 else ->{
                     hideBottomNavigation()

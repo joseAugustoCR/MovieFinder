@@ -65,6 +65,7 @@ kapt { correctErrorTypes = true }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     testImplementation 'junit:junit:4.12'
 
     //androidx
@@ -155,7 +156,8 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-analytics:17.4.2'
 
-
+    implementation platform('com.google.firebase:firebase-bom:26.8.0')
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
 
 }

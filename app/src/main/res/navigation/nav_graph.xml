@@ -21,6 +21,15 @@
             app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_welcomeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popUpToInclusive="true"
+            app:destination="@id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -45,5 +54,20 @@
             android:name="type"
             app:argType="integer"
             android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.app.ui.welcome.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_mainFragment"
+            app:popUpTo="@id/welcomeFragment"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popUpToInclusive="true"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>

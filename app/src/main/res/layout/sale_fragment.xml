@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".ui.main.sale.SaleFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/title"
+        android:layout_marginBottom="24dp"
+        android:id="@+id/img"
+        android:scaleType="fitCenter"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="8dp"
+        android:maxLines="2"
+        app:layout_constraintBottom_toTopOf="@id/desc"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="12sp"
+        android:id="@+id/title"
+        tools:text="Teste de descrição do produto"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/desc"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="24dp"
+        android:maxLines="5"
+        app:layout_constraintBottom_toTopOf="@id/originalPriceLayout"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="15sp"
+        android:textColor="@color/secondaryTextColor"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeMinTextSize="12sp"
+        android:ellipsize="end"
+        tools:text="Teste de descrição do produto"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/newPriceLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/originalPriceLayout"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        android:layout_marginBottom="2dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/textColor"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="De"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:id="@+id/originalPriceValue"
+            android:textColor="@color/textColor"
+            android:fontFamily="@font/montserrat_bold"
+            tools:text="R$39,90"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/actionBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/newPriceLayout"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/textColor"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Por"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newPriceValue"
+            android:textSize="26sp"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/montserrat_bold"
+            tools:text="R$32,90"
+            />
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="68dp"
+        app:cornerRadius="34dp"
+        android:backgroundTint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:minWidth="250dp"
+        android:id="@+id/actionBtn"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="16dp"
+        android:letterSpacing="0"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_bold"
+        tools:text="Comprar agora"
+        android:drawablePadding="8dp"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/loadingLL"
+        android:elevation="8dp"
+        android:background="@color/white"
+        >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loading"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="Carregando promoção..."
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

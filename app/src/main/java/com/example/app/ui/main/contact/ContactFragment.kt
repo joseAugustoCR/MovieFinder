@@ -1,4 +1,4 @@
-package com.example.app.ui.main.contato
+package com.example.app.ui.main.contact
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,10 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.app.R
-import com.example.app.utils.extensions.loadOnBrowser
 import com.example.app.utils.extensions.loadOnExternalBrowser
 import com.example.app.utils.extensions.snack
-import com.github.ajalt.timberkt.Timber
 import kotlinx.android.synthetic.main.fragment_contact.*
 import java.util.*
 
@@ -63,12 +61,32 @@ class ContactFragment : Fragment() {
             "https://instagram.com/la_cucina_di_nelly".loadOnExternalBrowser(requireActivity())
         }
 
+        ifoodBtn.setOnClickListener {
+            try {
+                "https://www.ifood.com.br/delivery/bento-goncalves-rs/la-cucina-di-nelly-centro/19b0af7a-01e9-4403-b3e9-1e0d171e2c76?UTM_Medium=share".loadOnExternalBrowser(requireActivity())
+            } catch (e: Exception) {
+            }
+        }
+
         whatsappBtn.setOnClickListener {
             openContact()
         }
 
         rateBtn.setOnClickListener {
             openRate()
+        }
+
+        shareBtn.setOnClickListener {
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.type="text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "" + "https://dinell.page.link/DiNellyApp");
+            try {
+                startActivity(Intent.createChooser(shareIntent,"Compartilhe o app"))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                shareBtn.snack("Nenhum aplicativo para compartilhar instalado", R.color.errorColor, {})
+            }
         }
     }
 

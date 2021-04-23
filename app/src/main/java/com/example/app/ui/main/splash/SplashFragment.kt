@@ -10,11 +10,14 @@ import android.view.ViewGroup
 import com.example.app.R
 import com.example.app.base.BaseFragment
 import com.example.app.di.ViewModelProviderFactory
+import com.example.app.utils.SharedPreferencesManager
+import com.example.app.utils.WELCOME
 import com.example.app.utils.extensions.px
 import kotlinx.android.synthetic.main.splash_fragment.*
 import javax.inject.Inject
 
 class SplashFragment : BaseFragment() {
+    @Inject lateinit var sharedPreferencesManager: SharedPreferencesManager
 
     @Inject lateinit var providerFactory: ViewModelProviderFactory
     lateinit var viewModel: SplashViewModel
@@ -42,7 +45,12 @@ class SplashFragment : BaseFragment() {
                     .translationY(70.px().toFloat())
                     .withEndAction{
                         try {
-                            navController.navigate(SplashFragmentDirections.actionSplashFragmentToMainFragment())
+                            if(sharedPreferencesManager.getObject(WELCOME, Boolean::class.java) != true) {
+                                safeNavigate(navController, SplashFragmentDirections.actionSplashFragmentToWelcomeFragment())
+
+                            }else{
+                                safeNavigate(navController, SplashFragmentDirections.actionSplashFragmentToMainFragment())
+                            }
 
                         } catch (e: Exception) {
                         }

@@ -12,16 +12,16 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
-import androidx.navigation.Navigator
+import androidx.navigation.*
 import com.example.app.R
 import com.example.app.SessionManager
 import com.example.app.utils.navigation.NavigationResult
 import com.example.app.utils.navigation.NavigationResultListener
 import com.github.ajalt.timberkt.d
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -40,12 +40,19 @@ val REQUEST_TAKE_PICTURE = 10
 
 
 open class BaseFragment : DaggerFragment() {
+
+    lateinit var db:FirebaseFirestore
     private var rootView: View? = null
     var hasInitializedRootView = false
 
     val navController by lazy { Navigation.findNavController(requireView()) }
     @Inject  lateinit var sessionManager: SessionManager
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        db = Firebase.firestore
+    }
 
     fun getPersistentView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?, layout: Int): View? {
         if (rootView == null) {
@@ -205,6 +212,14 @@ open class BaseFragment : DaggerFragment() {
         rootView = null
         super.onDestroy()
     }
+
+    fun safeNavigate(navController: NavController, destination: NavDirections) = with(navController) {
+        currentDestination?.getAction(destination.actionId)
+            ?.let {
+                navigate(destination)
+            }
+    }
+
 
 
 }

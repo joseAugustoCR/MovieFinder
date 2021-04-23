@@ -8,6 +8,12 @@
         />
 
     <item
+        android:id="@+id/saleFragment"
+        android:title="Promoções"
+        android:icon="@drawable/ic_baseline_local_offer_24"
+        />
+
+    <item
         android:id="@+id/contactFragment"
         android:title="Contato"
         android:icon="@drawable/ic_baseline_phone_24"

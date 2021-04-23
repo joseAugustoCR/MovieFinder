@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.welcome.WelcomeFragment">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_welcome"
+        />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:alpha="1"
+        android:id="@+id/logo"
+        android:layout_height="150dp"
+        android:src="@drawable/logo_dinelly" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="28sp"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/title"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="Bem-vindo"
+        android:fontFamily="@font/montserrat_bold"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:id="@+id/msg"
+        android:text="@string/welcome_msg"
+        android:fontFamily="@font/montserrat_medium"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="68dp"
+        android:minWidth="250dp"
+        app:cornerRadius="34dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/white"
+        android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
+        android:gravity="center"
+        android:id="@+id/startBtn"
+        android:paddingLeft="30dp"
+        android:paddingRight="16dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="19sp"
+        android:letterSpacing="0"
+        android:text="Começar agora"
+        android:layout_marginBottom="32dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

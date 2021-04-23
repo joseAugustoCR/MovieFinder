@@ -18,6 +18,7 @@ val LOGGED_USER = "logged_user"
 val PASSWORD = "password"
 val INTRO = "intro"
 val ONESIGNAL_ID = "onesignal_id"
+val WELCOME = "welcome"
 
 
 @Singleton
