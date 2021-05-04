@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MenuTextAppearence" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="textAllCaps">true</item>
+        <item name="fontFamily">@font/font_regular</item>
+        <item name="android:fontFamily">@font/font_regular</item>
+    </style>
+
+
+    <!--    Toolbar-->
+    <style name="CollapsedTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorToolbarTitle</item>
+        <item name="android:fontFamily">@font/font_medium</item>
+        <item name="fontFamily">@font/font_medium</item>
+        <item name="titleTextAppearance">@style/Toolbar.Title</item>
+    </style>
+
+    <style name="CollapsedTitleBlack" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorToolbarTitle</item>
+        <item name="android:fontFamily">@font/font_medium</item>
+        <item name="fontFamily">@font/font_medium</item>
+        <item name="titleTextAppearance">@style/Toolbar.Title</item>
+    </style>
+
+    <style name="ExpandedTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/colorToolbarTitle</item>
+        <item name="titleTextAppearance">@style/Toolbar.Title</item>
+        <item name="fontFamily">@font/font_medium</item>
+        <item name="android:fontFamily">@font/font_medium</item>
+    </style>
+
+    <style name="Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <!--Any text styling can be done here-->
+        <!--<item name="android:textStyle">normal</item>-->
+        <item name="android:fontFamily">@font/font_medium</item>
+        <item name="fontFamily">@font/font_medium</item>
+        <item name="android:textColor">@color/colorToolbarTitle</item>
+    </style>
+
+    <style name="MyMenu">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/colorToolbarTitle</item>
+        <item name="fontFamily">@font/font_medium</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay.BackShadow" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_shadow</item>-->
+    </style>
+
+</resources>

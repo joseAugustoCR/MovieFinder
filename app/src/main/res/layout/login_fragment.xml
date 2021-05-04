@@ -60,10 +60,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/logo"
             android:hint="E-mail"
-            app:hintTextColor="@color/white"
-            app:errorTextAppearance="@style/error_appearance"
-            style="@style/FilledBoxLayoutStyle"
-            android:theme="@style/TextInputLayoutAppearance"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="40dp"
@@ -78,27 +74,22 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:paddingLeft="12dp"
                 android:singleLine="true"
-                android:textColor="@color/white" />
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordInput"
             android:layout_width="match_parent"
-            app:errorTextAppearance="@style/error_appearance"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            app:passwordToggleTint="@color/white"
             app:layout_constraintTop_toBottomOf="@id/emailInput"
             app:layout_constraintBottom_toTopOf="@id/resultBtn"
             app:layout_constraintVertical_bias="0"
             android:hint="Senha"
-            android:theme="@style/TextInputLayoutAppearance"
-            style="@style/FilledBoxLayoutStyle"
             android:layout_below="@id/emailInput"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="15dp"
@@ -114,7 +105,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@color/white" />
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,7 +115,6 @@
             android:layout_height="wrap_content"
             android:text="Esqueceu sua senha?"
             android:padding="8dp"
-            android:textColor="@color/white"
             android:id="@+id/forgotPasswordBtn"
             app:layout_constraintTop_toBottomOf="@id/passwordInput"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -151,7 +141,6 @@
                 android:minHeight="64dp"
                 android:id="@+id/loginBtn"
                 android:letterSpacing="0"
-                app:backgroundTint="@color/white"
                 android:text="Entrar"
                 android:textColor="@color/colorPrimary"
                 app:rippleColor="@color/colorAccent"
@@ -168,7 +157,6 @@
                 app:backgroundTint="@color/colorAccent"
                 android:letterSpacing="0"
                 android:text="Entrar com Facebook"
-                android:textColor="@color/white"
                 android:fontFamily="@font/montserrat_medium"
                 android:id="@+id/customFbLoginBtn"
                 android:drawableLeft="@drawable/ic_tv"
@@ -184,7 +172,6 @@
             android:padding="15dp"
             android:fontFamily="@font/montserrat_medium"
             android:textSize="18sp"
-            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="16dp"
             android:id="@+id/registerBtn"

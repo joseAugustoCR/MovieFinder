@@ -6,120 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="editTextStyle">@style/fontEditText</item>
+
+
+        <item name="android:windowBackground">@color/colorPrimary</item>
+
         <item name="android:textViewStyle">@style/fontTextView</item>
-        <item name="android:fontFamily">@font/my_fonts</item>
+        <item name="android:fontFamily">@font/font_regular</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextAppearence</item>
 
-
+<!--        TextInput-->
+<!--        <item name="editTextStyle">@style/EditTextStyle</item>-->
+        <item name="textInputStyle">@style/InputTextStyle</item>
+        <item name="progressBarStyle">@style/ProgressBarStyle</item>
+        <item name="materialButtonStyle">@style/PrimaryButtonStyle</item>
     </style>
 
-    <style name="MenuTextAppearence" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">18sp</item>
-        <item name="textAllCaps">true</item>
-        <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:fontFamily">@font/montserrat_regular</item>
-
-    </style>
-
-
-    <!--    cursor color and hint color-->
-    <style name="TextInputLayoutAppearance" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textColorHint">@color/white</item>
-        <item name="colorAccent">@color/white</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlHighlight">@color/white</item>
-    </style>
-
-    <!--    change the filled box color and the floating label color-->
-    <style name="FilledBoxLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <!--        <item name="boxBackgroundColor">#33FFFFFF</item>-->
-        <item name="hintTextColor">@color/white</item>
-        <item name="boxStrokeColor">@color/box_stroke_color</item>
-        <item name="boxStrokeWidthFocused">2dp</item>
-        <item name="boxStrokeWidth">1dp</item>
-        <item name="android:textColorHint"> @color/white</item>
-    </style>
-
-    <!--    EditText white bg-->
-    <style name="TextInputLayoutAppearanceGreen" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textColorHint">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
-    </style>
-
-    <!--    change the filled box color and the floating label color-->
-    <style name="LayoutStyleGreen" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <!--        <item name="boxBackgroundColor">#33FFFFFF</item>-->
-        <item name="hintTextColor">@color/colorPrimary</item>
-        <item name="boxStrokeColor">@color/box_stroke_color_green</item>
-        <item name="boxStrokeWidthFocused">2dp</item>
-        <item name="boxStrokeWidth">1dp</item>
-        <item name="android:textColorHint"> @color/colorPrimary</item>
-    </style>
-    <!--    EditText white bg-->
-
-    <style name="HIntTextAppearence" parent="TextAppearance.AppCompat">
-        <item name="android:textColorHint">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="hintTextColor">@color/colorPrimary</item>
-
-    </style>
-
-
-    <!--    EditText white bg-->
-    <style name="TextInputLayoutAppearanceBlack" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textColorHint">@color/textColor</item>
-        <item name="colorAccent">@color/textColor</item>
-        <item name="colorControlNormal">@color/textColor</item>
-        <item name="colorControlActivated">@color/textColor</item>
-        <item name="colorControlHighlight">@color/textColor</item>
-    </style>
-
-    <!--    change the filled box color and the floating label color-->
-    <style name="LayoutStyleBlack" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <!--        <item name="boxBackgroundColor">#33FFFFFF</item>-->
-        <item name="hintTextColor">@color/textColor</item>
-        <item name="boxStrokeColor">@color/box_stroke_color_black</item>
-        <item name="boxStrokeWidthFocused">2dp</item>
-        <item name="boxStrokeWidth">1dp</item>
-        <item name="android:textColorHint"> @color/textColor</item>
-    </style>
-    <!--    EditText white bg-->
-
-
-    <!--    change edittext font and text size -->
-    <style name="fontEditText" parent="@android:style/Widget.EditText">
-        <item name="android:textCursorDrawable">@color/textColor</item>
-    </style>
-
-    <style name="fontTextView" parent="@android:style/Widget.TextView">
-        <item name="android:fontFamily">@font/my_fonts</item>
-        <item name="android:textSize">15sp</item>
-
-    </style>
-
-
-    <style name="error_appearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:fontFamily">@font/my_fonts</item>
-    </style>
-
-
-    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">9sp</item>
-    </style>
-
-    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">9sp</item>
-    </style>
 
     <style name="CustomDatePickerDialog"
         parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -137,60 +38,16 @@
         <item name="android:timePickerMode">spinner</item>
     </style>
 
-    <style name="SwitchStyle">
-        <!-- active thumb & track color (30% transparency) -->
-        <item name="thumbTint">@color/switch_thumb_color</item>
-        <item name="trackTint">@color/switch_color</item>
-    </style>
 
-
-    <!--    Toolbar-->
-    <style name="CollapsedTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:fontFamily">@font/montserrat_medium</item>
-        <item name="fontFamily">@font/montserrat_medium</item>
-        <item name="titleTextAppearance">@style/Toolbar.Title</item>
-    </style>
-
-    <style name="CollapsedTitleBlack" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/textColor</item>
-        <item name="android:fontFamily">@font/montserrat_medium</item>
-        <item name="fontFamily">@font/montserrat_medium</item>
-        <item name="titleTextAppearance">@style/Toolbar.Title</item>
-    </style>
-
-    <style name="ExpandedTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">#fff</item>
-        <item name="titleTextAppearance">@style/Toolbar.Title</item>
-        <item name="fontFamily">@font/montserrat_medium</item>
-        <item name="android:fontFamily">@font/montserrat_medium</item>
-    </style>
-
-    <style name="Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <!--Any text styling can be done here-->
-        <!--<item name="android:textStyle">normal</item>-->
-        <item name="android:fontFamily">@font/montserrat_medium</item>
-        <item name="fontFamily">@font/montserrat_medium</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="MyMenu">
-        <item name="android:textSize">11sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="fontFamily">@font/montserrat_medium</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay.BackShadow" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-<!--        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_shadow</item>-->
-    </style>
-
+<!--    Spinner date picker-->
     <style name="NumberPickerStyle">
         <item name="android:textSize">20sp</item>
         <item name="android:textColorPrimary">@color/colorAccent</item>
         <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/colorAccent</item>
+    </style>
+
+    <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">@color/colorProgressBar</item>
     </style>
 
 </resources>

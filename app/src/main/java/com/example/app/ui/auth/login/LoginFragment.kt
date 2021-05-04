@@ -1,42 +1,26 @@
 package com.example.app.ui.auth.login
 
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 
 import com.example.app.R
-import com.example.app.SessionManager
 import com.example.app.api.*
 import com.example.app.base.*
 import com.example.app.di.ViewModelProviderFactory
-import com.example.app.ui.MainActivity
 import com.example.app.ui.auth.AuthFragment
 import com.example.app.utils.*
 import com.example.app.utils.extensions.*
 import com.example.app.utils.navigation.NavigationResult
 import com.example.app.utils.navigation.NavigationResultListener
 import com.facebook.*
-import com.facebook.appevents.AppEventsConstants
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
 import com.github.ajalt.timberkt.d
-import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
-import com.onesignal.OneSignal
-import kotlinx.android.synthetic.main.loading_state.*
 import kotlinx.android.synthetic.main.login_fragment.*
-import org.json.JSONException
-import org.json.JSONObject
 
 
 import javax.inject.Inject
@@ -85,7 +69,7 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
 
             }else if(it.status == Resource.Status.ERROR){
                 loadingLayout.visibility = View.GONE
-                loginBtn.snack(getErrorMsg(it), R.color.errorColor, {})
+                loginBtn.snack(getErrorMsg(it), R.color.colorSnackError, {})
             }
         })
 

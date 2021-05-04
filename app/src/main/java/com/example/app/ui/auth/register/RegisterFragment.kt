@@ -7,7 +7,6 @@ import aioria.com.br.kotlinbaseapp.utils.forms.CpfMask
 import aioria.com.br.kotlinbaseapp.utils.forms.FormValidatorUtil
 import android.Manifest
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -23,23 +22,17 @@ import android.provider.MediaStore
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 
 import com.example.app.R
-import com.example.app.SessionManager
 import com.example.app.api.*
 import com.example.app.base.*
 import com.example.app.di.ViewModelProviderFactory
-import com.example.app.ui.MainActivity
 import com.example.app.utils.extensions.*
 import com.example.app.utils.navigation.NavigationResult
-import com.facebook.appevents.AppEventsConstants
 import com.github.ajalt.timberkt.d
 import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.google.android.material.textfield.TextInputEditText
@@ -163,7 +156,7 @@ class RegisterFragment : BaseFragment() {
             }else if(it.status == Resource.Status.ERROR){
                 loadingLayout.visibility = View.GONE
                 createForm.visibility = View.VISIBLE
-                createForm.snack(getErrorMsg(it), R.color.errorColor, {})
+                createForm.snack(getErrorMsg(it), R.color.colorSnackError, {})
             }
         })
 
@@ -263,7 +256,7 @@ class RegisterFragment : BaseFragment() {
         // if it's edit doesn't need to accept the terms
         if(termsCheck.isChecked == false && isValid && sessionManager.isLogged() == false){
             isValid = false
-            termsCheck.snack("Você precisa aceitar os termos", R.color.errorColor, {})
+            termsCheck.snack("Você precisa aceitar os termos", R.color.colorSnackError, {})
         }
 
         return isValid
@@ -465,13 +458,13 @@ class RegisterFragment : BaseFragment() {
             }else{
                 selectedImage.snack(
                     "Você precisa conceder as permissões para enviar uma imagem."
-                    , R.color.errorColor, {})
+                    , R.color.colorSnackError, {})
             }
 
         }.onDeclined {
             selectedImage.snack(
                 "Você precisa conceder as permissões para enviar uma imagem."
-                , R.color.errorColor, {})
+                , R.color.colorSnackError, {})
         }
     }
 
@@ -481,7 +474,7 @@ class RegisterFragment : BaseFragment() {
             if(it.isAccepted == false){
                 selectedImage.snack(
                     "Você precisa conceder as permissões para enviar uma imagem."
-                    , R.color.errorColor, {})
+                    , R.color.colorSnackError, {})
                 return@askPermission
             }
             val intent = Intent()
@@ -495,7 +488,7 @@ class RegisterFragment : BaseFragment() {
         }.onDeclined {
             selectedImage.snack(
                 "Você precisa conceder as permissões para enviar uma imagem."
-                , R.color.errorColor, {})
+                , R.color.colorSnackError, {})
         }
 
     }
@@ -574,7 +567,7 @@ class RegisterFragment : BaseFragment() {
             if (uri == null) return
             val realPath = FileUtils.getRealPath(requireActivity(), uri)
             if(realPath == null){
-                cardSelectedImage.snack("Não é possível utilizar esta imagem.", R.color.errorColor, {})
+                cardSelectedImage.snack("Não é possível utilizar esta imagem.", R.color.colorSnackError, {})
                 return;
             }
             var file:File? = null
@@ -584,7 +577,7 @@ class RegisterFragment : BaseFragment() {
                 if(inputStream != null){
                     copyStreamToFile(inputStream = inputStream, outputFile = file)
                 }else{
-                    cardSelectedImage.snack("Não é possível utilizar esta imagem.", R.color.errorColor, {})
+                    cardSelectedImage.snack("Não é possível utilizar esta imagem.", R.color.colorSnackError, {})
                     return;
                 }
 
