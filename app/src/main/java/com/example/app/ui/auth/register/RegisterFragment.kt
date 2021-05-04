@@ -658,7 +658,7 @@ class RegisterFragment : BaseFragment() {
 
             var exif: ExifInterface? = null
             try {
-                exif = ExifInterface(mCurrentPhotoPath)
+                exif = ExifInterface(mCurrentPhotoPath.toString())
 
                 val orientation = exif!!.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
 

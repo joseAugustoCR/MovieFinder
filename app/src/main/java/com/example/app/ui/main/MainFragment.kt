@@ -38,10 +38,6 @@ import javax.inject.Inject
 val LOGIN_REGULAR = 0
 class MainFragment : BaseFragment(), NavigationResultListener {
     val navOptions = NavOptions.Builder()
-        .setEnterAnim(R.anim.fragment_fade_enter)
-        .setExitAnim(R.anim.fragment_fade_exit)
-        .setPopEnterAnim(R.anim.fragment_fade_enter)
-        .setPopExitAnim(R.anim.fragment_fade_exit)
         .build()
 
     override fun onNavigationResult(result: NavigationResult) {

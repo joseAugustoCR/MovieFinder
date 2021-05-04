@@ -264,8 +264,8 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
         loginBtn.setOnClickListener {
             requireActivity().hideKeyboard()
             if(validade()){
-                val status = OneSignal.getPermissionSubscriptionState()
-                var oneSignalUserId = if(sharedPreferences.getObject(ONESIGNAL_ID, String::class.java).isNullOrEmpty()) status?.subscriptionStatus?.userId else sharedPreferences.getObject(ONESIGNAL_ID, String::class.java)
+//                val status = OneSignal.getPermissionSubscriptionState()
+//                var oneSignalUserId = if(sharedPreferences.getObject(ONESIGNAL_ID, String::class.java).isNullOrEmpty()) status?.subscriptionStatus?.userId else sharedPreferences.getObject(ONESIGNAL_ID, String::class.java)
 
 //                val request = UserRequest(user = User(password = password.text.toString(), email = emailEdt.text.toString(),
 //                    appVersion = BuildConfig.VERSION_CODE,

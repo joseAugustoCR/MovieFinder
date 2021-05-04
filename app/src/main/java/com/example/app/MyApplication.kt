@@ -1,12 +1,9 @@
 package com.example.app
 
-import aioria.com.br.kotlinbaseapp.utils.MyNotificationOpenedHandler
-import aioria.com.br.kotlinbaseapp.utils.MyNotificationReceivedHandler
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Base64
 import androidx.multidex.MultiDex
-import com.crashlytics.android.Crashlytics
 import com.example.app.utils.ONESIGNAL_ID
 import com.example.app.utils.SharedPreferencesManager
 import com.example.daggersample.di.DaggerAppComponent
@@ -16,7 +13,6 @@ import com.onesignal.OSSubscriptionStateChanges
 import com.onesignal.OneSignal
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
-import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -46,18 +42,10 @@ class MyApplication : DaggerApplication(), OSSubscriptionObserver {
     }
 
     fun initCrashlytics(){
-        Fabric.with(this, Crashlytics())
     }
 
     fun initOneSignal(){
-        OneSignal.startInit(this)
-            .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-            .unsubscribeWhenNotificationsAreDisabled(true)
-            .setNotificationOpenedHandler(MyNotificationOpenedHandler(applicationContext))
-            .setNotificationReceivedHandler(MyNotificationReceivedHandler(applicationContext))
-            .init()
 
-        OneSignal.addSubscriptionObserver(this)
 
     }
 
