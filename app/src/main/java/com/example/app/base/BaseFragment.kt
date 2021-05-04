@@ -12,10 +12,7 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
-import androidx.navigation.Navigator
+import androidx.navigation.*
 import com.example.app.R
 import com.example.app.SessionManager
 import com.example.app.utils.navigation.NavigationResult
@@ -37,123 +34,37 @@ val REQUEST_CODE_SELECT_PICTURE = 5
 val REQUEST_REGISTER = 8
 val REQUEST_TAKE_PICTURE = 10
 
+const val NAVIGATION_RESULT_KEY = "navigation_result"
 
 
-open class BaseFragment : DaggerFragment() {
-    private var rootView: View? = null
-    var hasInitializedRootView = false
+
+open class BaseFragment : DaggerFragment(), NavigationResultListener {
 
     val navController by lazy { Navigation.findNavController(requireView()) }
     @Inject  lateinit var sessionManager: SessionManager
-
-
-    fun getPersistentView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?, layout: Int): View? {
-        if (rootView == null) {
-//             Inflate the layout for this fragment
-            rootView = inflater?.inflate(layout,container,false)
-        } else {
-            // Do not inflate the layout again.
-            // The returned View of onCreateView will be added into the fragment.
-            // However it is not allowed to be added twice even if the parent is same.
-            // So we must remove rootView from the existing parent view group
-            // (it will be added back).
-            (rootView?.getParent() as? ViewGroup)?.removeView(rootView)
-        }
-
-        return rootView
-    }
-
-
-    /* workaround  to achieve startActivityForResult behavior with navigation component
-    isMainHost = set true to force navigation related with the most external navHos, otherwise will use the first upper navHost in the hierarchy
-    */
-    private val requestCode: Int
-        get() = arguments?.getInt(ARGUMENT_NAVIGATION_REQUEST_CODE, REQUEST_CODE_NOT_SET)
-            ?: REQUEST_CODE_NOT_SET
-
-    private fun navigateBackWithResult(
-        @IdRes destination: Int, result: NavigationResult,
-        isMainHost: Boolean = false
-    ): Boolean {
-        var childFragmentManager: FragmentManager? = null
-        var mNavController = navController
-        if (isMainHost) {
-            mNavController = Navigation.findNavController(requireActivity(), R.id.navHostFragment)
-            childFragmentManager =
-                requireActivity().supportFragmentManager.findFragmentById(R.id.navHostFragment)
-                    ?.childFragmentManager
-        } else {
-            childFragmentManager = parentFragment?.childFragmentManager
-        }
-        var backStackListener: FragmentManager.OnBackStackChangedListener by Delegates.notNull()
-        backStackListener = FragmentManager.OnBackStackChangedListener {
-            (childFragmentManager?.fragments?.get(0) as? NavigationResultListener)?.onNavigationResult(
-                result
-            )
-            childFragmentManager?.removeOnBackStackChangedListener(backStackListener)
-        }
-        childFragmentManager?.addOnBackStackChangedListener(backStackListener)
-        val backStackPopped = if (destination == DESTINATION_NOT_SET) {
-            mNavController.popBackStack()
-        } else {
-            mNavController.popBackStack(destination, true)
-        }
-        if (!backStackPopped) {
-            childFragmentManager?.removeOnBackStackChangedListener(backStackListener)
-        }
-        return backStackPopped
-    }
-
-    protected fun navigateBackWithResult(
-        resultCode: Int,
-        data: Bundle? = null,
-        isMainHost: Boolean = false,
-        rCode: Int = requestCode
-    ): Boolean =
-        navigateBackWithResult(
-            DESTINATION_NOT_SET,
-            NavigationResult(rCode, resultCode, data),
-            isMainHost
-        )
-
-    protected fun navigateBackWithResult(
-        @IdRes destination: Int, resultCode: Int,
-        data: Bundle? = null,
-        isMainHost: Boolean = false
-    ): Boolean =
-        navigateBackWithResult(
-            destination,
-            NavigationResult(requestCode, resultCode, data),
-            isMainHost
-        )
-
-
-    private fun navigateForResult(
-        @IdRes resId: Int, requestCode: Int, args: Bundle? = null, navOptions: NavOptions? = null,
-        navigatorExtras: Navigator.Extras? = null
-    ) {
-        val argsWithRequestCode = (args ?: Bundle()).apply {
-            putInt(ARGUMENT_NAVIGATION_REQUEST_CODE, requestCode)
-        }
-        navController.navigate(resId, argsWithRequestCode, navOptions, navigatorExtras)
-    }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setAnalytics()
     }
 
-    protected fun navigateForResult(
-        requestCode: Int, navDirections: NavDirections, navOptions: NavOptions? = null
-    ) {
-        navigateForResult(
-            resId = navDirections.actionId,
-            requestCode = requestCode,
-            args = navDirections.arguments,
-            navOptions = navOptions
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<NavigationResult?>(
+            NAVIGATION_RESULT_KEY)?.observe(
+            viewLifecycleOwner){
+            it ->
+            if(it != null){
+                onNavigationResult(it)
+            }
+        }
+
     }
+
+    fun setNavigationResult(result: NavigationResult){
+        navController.previousBackStackEntry?.savedStateHandle?.set(NAVIGATION_RESULT_KEY, result)
+    }
+
 
 
     fun setAnalytics() {
@@ -202,9 +113,18 @@ open class BaseFragment : DaggerFragment() {
     }
 
     override fun onDestroy() {
-        rootView = null
         super.onDestroy()
     }
 
+    override fun onNavigationResult(result: NavigationResult) {
+
+    }
+
+    fun safeNavigate(navController: NavController, destination: NavDirections) = with(navController) {
+        currentDestination?.getAction(destination.actionId)
+            ?.let {
+                navigate(destination)
+            }
+    }
 
 }

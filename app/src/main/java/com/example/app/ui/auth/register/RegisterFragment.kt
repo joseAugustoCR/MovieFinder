@@ -38,6 +38,7 @@ import com.example.app.base.*
 import com.example.app.di.ViewModelProviderFactory
 import com.example.app.ui.MainActivity
 import com.example.app.utils.extensions.*
+import com.example.app.utils.navigation.NavigationResult
 import com.facebook.appevents.AppEventsConstants
 import com.github.ajalt.timberkt.d
 import com.github.florent37.runtimepermission.kotlin.askPermission
@@ -82,6 +83,7 @@ class RegisterFragment : BaseFragment() {
     var mNewPhotoPath:String?=null
     var birthdayCalendar:Calendar? = null
     val statesArray = arrayOf("AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO")
+
 
 
     override fun onCreateView(
@@ -150,7 +152,8 @@ class RegisterFragment : BaseFragment() {
             if(it.status == Resource.Status.SUCCESS) {
                 sessionManager.login(it.data)
                 d{it.data.toString()}
-                navigateBackWithResult(NAVIGATION_RESULT_OK, rCode = REQUEST_REGISTER)
+//                navigateBackWithResult(NAVIGATION_RESULT_OK, rCode = REQUEST_REGISTER)
+                navController.popBackStack()
 
             }else if(it.status == Resource.Status.LOADING) {
                 loadingLayout.visibility = View.VISIBLE
@@ -275,6 +278,14 @@ class RegisterFragment : BaseFragment() {
         registerBtn.setOnClickListener {
             requireActivity().hideKeyboard()
             if(validate()){
+                setNavigationResult(
+                    NavigationResult(
+                        REQUEST_REGISTER,
+                        NAVIGATION_RESULT_OK,
+                        bundleOf("isRegistered" to true)
+                    )
+                )
+                navController.popBackStack()
                 val dateFormatter =  SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
 //                val request = RegisterRequest(

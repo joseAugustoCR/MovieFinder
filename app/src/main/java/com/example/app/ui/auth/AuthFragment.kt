@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.app.R
 import com.example.app.base.BaseFragment
 import com.example.app.base.REQUEST_LOGIN
+import com.example.app.utils.navigation.NavigationResult
 
 /**
  * A simple [Fragment] subclass.
@@ -27,5 +28,12 @@ class AuthFragment : BaseFragment() {
     }
 
 
+    fun setAuthNavigationResult(result:NavigationResult){
+        setNavigationResult(result)
+    }
+
+    fun finishAuth(){
+        navController.popBackStack()
+    }
 
 }

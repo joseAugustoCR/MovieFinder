@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import com.example.app.R
 import com.example.app.base.BaseFragment
 import com.example.app.di.ViewModelProviderFactory
+import com.example.app.ui.auth.AuthFragment
+import com.example.app.ui.main.MainFragment
+import kotlinx.android.synthetic.main.timeline_fragment.*
 import javax.inject.Inject
 
 class TimelineFragment : BaseFragment() {
@@ -25,7 +28,14 @@ class TimelineFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, providerFactory).get(TimelineViewModel::class.java)
-
+        button.setOnClickListener {
+            getMainFragment().goToLogin(0)
+        }
     }
+
+    private fun getMainFragment(): MainFragment {
+        return parentFragment?.parentFragment as MainFragment
+    }
+
 
 }

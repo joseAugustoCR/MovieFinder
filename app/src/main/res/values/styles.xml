@@ -8,6 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="editTextStyle">@style/fontEditText</item>
+        <item name="android:textViewStyle">@style/fontTextView</item>
+        <item name="android:fontFamily">@font/my_fonts</item>
+        <item name="android:actionMenuTextAppearance">@style/MenuTextAppearence</item>
+
+
+    </style>
+
+    <style name="MenuTextAppearence" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="textAllCaps">true</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
 
     </style>
 

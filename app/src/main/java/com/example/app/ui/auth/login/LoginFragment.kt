@@ -43,8 +43,8 @@ import javax.inject.Inject
 
 class LoginFragment : BaseFragment(), NavigationResultListener {
     override fun onNavigationResult(result: NavigationResult) {
+        d{result.toString()}
         if(result.requestCode == REQUEST_REGISTER && result.resultCode == NAVIGATION_RESULT_OK){
-            navigateBackWithResult(NAVIGATION_RESULT_OK, isMainHost = true, data = bundleOf("type" to getAuthFragment().args.type), rCode = REQUEST_LOGIN)
         }
     }
 
@@ -52,11 +52,6 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
     private lateinit var viewModel: LoginViewModel
     @Inject lateinit var sharedPreferences: SharedPreferencesManager
     val callbackManager = CallbackManager.Factory.create()
-    var basicPermission = listOf("email", "public_profile")
-    var profileTracker:ProfileTracker?=null
-    var fbAccessToken:String?=null
-    var inflatedView:View? = null
-    var alreadyHandledFB:Boolean = false
 
 
 
@@ -64,21 +59,9 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if(inflatedView  == null) {
-            inflatedView = inflater.inflate(R.layout.login_fragment, container, false)
-        }else{
-            val parent = inflatedView?.parent
-            if(parent != null){
-                (parent as ViewGroup).removeView(inflatedView)
-            }
-        }
-        return inflatedView
+        return inflater.inflate(R.layout.login_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,109 +69,6 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
         setupLoadingLayout()
         setListeners()
         setObservers()
-        initFacebookLogin()
-    }
-
-    fun initFacebookLogin(){
-        LoginManager.getInstance().logOut()
-        fbLoginBtn.setFragment(this)
-        fbLoginBtn.setPermissions(basicPermission)
-        fbLoginBtn.registerCallback(callbackManager, object :FacebookCallback<LoginResult>{
-            override fun onSuccess(result: LoginResult?) {
-                result?.accessToken
-
-                if(Profile.getCurrentProfile() == null){
-                    profileTracker = object  :ProfileTracker(){
-                        override fun onCurrentProfileChanged(
-                            oldProfile: Profile?,
-                            currentProfile: Profile?
-                        ) {
-                            profileTracker?.stopTracking()
-                            Profile.setCurrentProfile(currentProfile)
-                            fbAccessToken = result?.accessToken?.token
-                            alreadyHandledFB = false
-//                            viewModel.loginFacebook(FacebookLoginRequest(token = result?.accessToken?.token))
-                        }
-                    }
-                }else{
-                    Profile.getCurrentProfile()
-                    fbAccessToken = result?.accessToken?.token
-                    alreadyHandledFB = false
-//                    viewModel.loginFacebook(FacebookLoginRequest(token = result?.accessToken?.token))
-                }
-
-
-            }
-
-            override fun onCancel() {
-                loadingLayout.visibility = View.GONE
-            }
-
-            override fun onError(error: FacebookException?) {
-                LoginManager.getInstance().logOut()
-                loadingLayout.visibility = View.GONE
-                loginBtn.snack("Ocorreu um problema ao entrar com o Facebook", R.color.errorColor, {})
-            }
-
-        })
-    }
-
-    private fun fetchUserInfo() {
-        val accessToken = AccessToken.getCurrentAccessToken()
-        if (accessToken != null)
-        {
-            val request = GraphRequest.newMeRequest(
-            accessToken
-            ) { me, response ->
-                if (Profile.getCurrentProfile() != null) {
-                    Log.i("FACEBOOK NAME: ", Profile.getCurrentProfile().name)
-                    getFacebookEmail()
-
-                } else {
-                    fetchUserInfo()
-                }
-            }
-            val parameters = Bundle()
-            GraphRequest.executeBatchAsync(request)
-        }
-        else
-        {
-
-        }
-    }
-
-    fun goToRegisterWithFB(fbEmail:String?=null){
-        val name = Profile.getCurrentProfile()?.name
-        val image = Profile.getCurrentProfile()?.getProfilePictureUri(400,400)
-        val uid = Profile.getCurrentProfile().id
-
-//        val facebookData = FacebookData(name = name, image = image.toString(), email = fbEmail, uid = uid)
-//        navigateForResult(REQUEST_REGISTER, LoginFragmentDirections.actionLoginFragmentToRegisterFragment(facebookData))
-
-    }
-
-
-     fun getFacebookEmail() {
-        val request = GraphRequest.newMeRequest(
-        AccessToken.getCurrentAccessToken()
-        ) { jsonObject, response ->
-            try {
-                if (jsonObject != null) {
-                    val emailFB = jsonObject!!.getString("email")
-                    goToRegisterWithFB(fbEmail = emailFB)
-                }else{
-                    goToRegisterWithFB(fbEmail = "")
-                }
-                Log.d("FACEBOOK", "email!")
-            } catch (e: JSONException) {
-                e.printStackTrace()
-                goToRegisterWithFB(fbEmail = "")
-            }
-        }
-                 val parameters = Bundle()
-        parameters.putString("fields", "email")
-                 request.parameters = parameters
-        request.executeAsync()
     }
 
     fun setObservers(){
@@ -197,8 +77,8 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
             if(it.status == Resource.Status.SUCCESS) {
                 d{it.data.toString()}
                 sessionManager.login(it.data)
-                navigateBackWithResult(NAVIGATION_RESULT_OK, isMainHost = true, data = bundleOf("type" to getAuthFragment().args.type
-                 ), rCode = REQUEST_LOGIN)
+//                navigateBackWithResult(NAVIGATION_RESULT_OK, isMainHost = true, data = bundleOf("type" to getAuthFragment().args.type
+//                 ), rCode = REQUEST_LOGIN)
 
             }else if(it.status == Resource.Status.LOADING) {
                 loadingLayout.visibility = View.VISIBLE
@@ -256,7 +136,8 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
 
     fun setListeners(){
         registerBtn.setOnClickListener {
-            navigateForResult(REQUEST_REGISTER, LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+            safeNavigate(navController, LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+//            navigateForResult(REQUEST_REGISTER, LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
         }
 
         emailEdt.afterTextChanged(emailInput){}
@@ -264,6 +145,10 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
         loginBtn.setOnClickListener {
             requireActivity().hideKeyboard()
             if(validade()){
+                getAuthFragment().setAuthNavigationResult(
+                    NavigationResult(REQUEST_LOGIN, NAVIGATION_RESULT_OK, bundleOf("isLogged" to true))
+                )
+                getAuthFragment().finishAuth()
 //                val status = OneSignal.getPermissionSubscriptionState()
 //                var oneSignalUserId = if(sharedPreferences.getObject(ONESIGNAL_ID, String::class.java).isNullOrEmpty()) status?.subscriptionStatus?.userId else sharedPreferences.getObject(ONESIGNAL_ID, String::class.java)
 
@@ -280,7 +165,6 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
         }
 
         customFbLoginBtn.setOnClickListener {
-            fbLoginBtn.performClick()
         }
 
         forgotPasswordBtn.setOnClickListener {
@@ -289,7 +173,8 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
         }
 
         backBtn.setOnClickListener {
-            navigateBackWithResult(NAVIGATION_RESULT_CANCELED, isMainHost = true, data = bundleOf("type" to getAuthFragment().args.type))
+            navController.navigateUp()
+//            navigateBackWithResult(NAVIGATION_RESULT_CANCELED, isMainHost = true, data = bundleOf("type" to getAuthFragment().args.type))
         }
     }
 

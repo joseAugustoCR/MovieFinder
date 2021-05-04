@@ -41,6 +41,7 @@ class MainFragment : BaseFragment(), NavigationResultListener {
         .build()
 
     override fun onNavigationResult(result: NavigationResult) {
+        d{result.toString()}
     }
 
     lateinit var mainNavHostFragment: NavHostFragment
@@ -150,7 +151,7 @@ class MainFragment : BaseFragment(), NavigationResultListener {
 
 
     fun goToLogin(type:Int){
-//        navigateForResult(REQUEST_LOGIN, MainFragmentDirections.actionMainFragmentToAuthFragment(type, campaign = campaign))
+        safeNavigate(navController, MainFragmentDirections.actionMainFragmentToAuthFragment())
     }
 
     fun goToTimeline(){
