@@ -63,5 +63,16 @@ class SessionManager @Inject constructor(var sharedPreferences: SharedPreference
         return cachedUser.value?.status == AuthResource.AuthStatus.AUTHENTICATED
     }
 
+    fun getUser(): User?{
+        return getAuthUser().value?.data
+    }
+
+    fun isSubscriber():Boolean{
+        return cachedUser.value?.data?.subscribed == true
+    }
+    fun getUserID():Int?{
+        return cachedUser.value?.data?.id
+    }
+
 
 }

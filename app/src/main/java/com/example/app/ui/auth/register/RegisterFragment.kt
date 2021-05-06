@@ -585,7 +585,7 @@ class RegisterFragment : BaseFragment() {
                 file = File(realPath)
             }
             mCurrentPhotoPath = file?.getAbsolutePath()
-            selectedImage.load(mCurrentPhotoPath.toString(), true, true, placeholder = false)
+            selectedImage.load(mCurrentPhotoPath.toString(), placeholder = R.drawable.ic_star)
             emptyImageLayout.visibility = View.GONE
             cardSelectedImage.visibility = View.VISIBLE
             editImageBtn.visibility = View.VISIBLE
@@ -595,7 +595,7 @@ class RegisterFragment : BaseFragment() {
             return
 
         }else if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_TAKE_PICTURE){
-            selectedImage.load(mCurrentPhotoPath.toString(), true, true, placeholder = false)
+            selectedImage.load(mCurrentPhotoPath.toString(), placeholder = R.drawable.ic_star)
             emptyImageLayout.visibility = View.GONE
             cardSelectedImage.visibility = View.VISIBLE
             editImageBtn.visibility = View.VISIBLE

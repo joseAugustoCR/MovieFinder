@@ -3,11 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/timelineFragment">
+    app:startDestination="@id/homeFragment">
 
 
     <fragment
-        android:id="@+id/timelineFragment"
-        android:name="com.example.app.ui.main.timeline.TimelineFragment"
-        android:label="TimelineFragment" />
+        android:id="@+id/homeFragment"
+        android:name="com.example.app.ui.main.home.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" />
+    <fragment
+        android:id="@+id/communityFragment"
+        android:name="com.example.app.ui.main.community.CommunityFragment"
+        android:label="community_fragment"
+        tools:layout="@layout/community_fragment" />
 </navigation>

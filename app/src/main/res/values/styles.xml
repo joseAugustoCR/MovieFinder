@@ -10,7 +10,7 @@
 
         <item name="android:windowBackground">@color/colorPrimary</item>
 
-        <item name="android:textViewStyle">@style/fontTextView</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
         <item name="android:fontFamily">@font/font_regular</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextAppearence</item>
 
@@ -19,6 +19,9 @@
         <item name="textInputStyle">@style/InputTextStyle</item>
         <item name="progressBarStyle">@style/ProgressBarStyle</item>
         <item name="materialButtonStyle">@style/PrimaryButtonStyle</item>
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
+
     </style>
 
 
@@ -48,6 +51,21 @@
 
     <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:indeterminateTint">@color/colorProgressBar</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Positive</item>
+    </style>
+
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/colorButtonTextDialog</item>
+        <item name="android:textColor">@color/colorButtonTextDialog</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
 </resources>

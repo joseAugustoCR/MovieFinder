@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="fontTextView" parent="@android:style/Widget.TextView">
+    <style name="TextViewStyle" parent="@android:style/Widget.TextView">
         <item name="android:fontFamily">@font/font_regular</item>
         <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
     </style>
 
+
+    <style name="HomeCategoryTitleStyle" parent="@android:style/Widget.TextView">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="HomeCategorySubtitleStyle" parent="@android:style/Widget.TextView">
+        <item name="android:fontFamily">@font/font_regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
 
 
 </resources>

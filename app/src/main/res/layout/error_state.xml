@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorScreenBackground"
     android:layout_gravity="center"
     android:gravity="center"
+    android:elevation="1dp"
+    android:id="@+id/errorMain"
     android:layout_height="match_parent">
+
+
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/errorImg"
+        android:src="@drawable/ic_star"
         android:layout_gravity="center"
         />
 
@@ -16,8 +22,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textColor="@color/colorTextPrimary"
-        android:text="Ops, something went wrong!"
+        android:layout_marginRight="24dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="24dp"
+        android:textColor="@color/colorStateScreenText"
+        android:gravity="center_horizontal"
+        android:text="Ocorreu um problema"
+        android:fontFamily="@font/font_bold"
+        android:textSize="26sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorStateScreenText"
+        android:text="Tente novamente ou volte mais tarde."
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/font_regular"
+        android:textSize="14sp"
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tentar novamente"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tryAgainBtn"
+        android:gravity="bottom"
         />
 
 </LinearLayout>

@@ -47,21 +47,22 @@ class ApiModule {
                     val request = chain.request().newBuilder()
                     d{"unauth interceptor"}
                     //if user is logged, put the authorization header
-                    val auth = sharedPreferencesManager.getObject(AUTHORIZATION, String::class.java)
+                    val auth = sharedPreferencesManager.getObject(AUTHORIZATION, String::class.java) ?: Constants.TEST_AUTHENTICATION
                     if(auth.isNullOrEmpty() == false){
                         d{"auth " + auth}
                         request.addHeader("Authorization", auth)
                     }
                     // put the api key
-                    val requestWithApiKey = request
-                        .addHeader("Customer-Api-Key", Constants.API_KEY)
+                    var requestWithApiKey = request
+                        .addHeader("os", "android")
+                        .addHeader("app-version", BuildConfig.VERSION_CODE .toString())
                         .build()
+
 
 
                     val originalResponse = chain.proceed(requestWithApiKey)
                     //check if it's not login or register
-                    if(!requestWithApiKey.url.toString().contains("users/sign_in") || !requestWithApiKey.url.toString().contains("users/facebook_sign_in") ||
-                        !requestWithApiKey.url.toString().equals(Constants.BASE_URL + "users") ){
+                    if(requestWithApiKey.url.toString().equals(Constants.BASE_URL + "users") == false){
                         d{"request not login related " + originalResponse.code}
                         if (originalResponse.code == 401) {
                             NetworkEvent.publish(NetworkStatus.UNAUTHORIZED)
@@ -149,7 +150,8 @@ class ApiModule {
                     chain.proceed(request)
                 }
                 .addInterceptor(unauthorizedInterceptor)
-                .addInterceptor (loginInterceptor)
+//                .addInterceptor (loginInterceptor)
+                .addInterceptor (interceptor)
                 .connectTimeout(Constants.TIMEOUT, TimeUnit.SECONDS).readTimeout(Constants.TIMEOUT, TimeUnit.SECONDS).writeTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
                 .build()
 

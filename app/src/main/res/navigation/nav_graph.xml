@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.app.ui.main.splash.SplashFragment"
+        android:name="com.example.app.ui.splash.SplashFragment"
         android:label="splash_fragment"
         tools:layout="@layout/splash_fragment" >
         <action

@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.*
 import com.example.app.R
 import com.example.app.SessionManager
+import com.example.app.utils.SharedPreferencesManager
 import com.example.app.utils.navigation.NavigationResult
 import com.example.app.utils.navigation.NavigationResultListener
 import com.github.ajalt.timberkt.d
@@ -42,6 +43,9 @@ open class BaseFragment : DaggerFragment(), NavigationResultListener {
 
     val navController by lazy { Navigation.findNavController(requireView()) }
     @Inject  lateinit var sessionManager: SessionManager
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesManager
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -60,6 +64,8 @@ open class BaseFragment : DaggerFragment(), NavigationResultListener {
         }
 
     }
+
+
 
     fun setNavigationResult(result: NavigationResult){
         navController.previousBackStackEntry?.savedStateHandle?.set(NAVIGATION_RESULT_KEY, result)

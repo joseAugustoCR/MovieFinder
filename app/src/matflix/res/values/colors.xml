@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    Default-->
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#F44336</color>
+    <color name="colorAccent">#FFEB3B</color>
+
+
+    <color name="colorDisabled">#868686</color>
+    <color name="colorScreenBackground">#F0F0F0</color>
+    <color name="colorPlaceholder">#DDDDDD</color>
+
+    <!--    Toolbar-->
+    <color name="colorToolbarTitle">#FFFFFF</color>
+    <color name="colorCollapsingAppBarHome">#4CAF50</color>
+
+
+    <!--    ProgressBar-->
+    <color name="colorProgressBar">#3F51B5</color>
+
+
+    <!--    TextView-->
+    <color name="colorTextPrimary">#474747</color>
+    <color name="colorTextSecondary">#707070</color>
+
+    <!--    Snack-->
+    <color name="colorSnackError">#bb00cc</color>
+    <color name="colorSnackMessage">#bb00cc</color>
+
+    <!--    TextInput-->
+    <color name="colorInputText">#E91E63</color>
+    <color name="colorInputHint">#FF5722</color>
+    <color name="colorInputFloatingLabel">#3F51B5</color>
+    <color name="colorInputBox">#4FCC43</color>
+    <color name="colorInputBoxStrokeSelected">#4FCC43</color>
+    <color name="colorInputBoxStroke">#474747</color>
+    <color name="colorInputErrorText">#FFC107</color>
+
+    <!--    Buttons-->
+    <color name="colorTextButton">#CDDC39</color>
+    <color name="colorPrimaryButtonBg">#E91E63</color>
+    <color name="colorPrimaryButtonText">#FFFFFF</color>
+    <color name="colorSecondaryButtonBg">#03A9F4</color>
+    <color name="colorSecondaryButtonText">#FFFFFF</color>
+
+    <!--    BottomNavigationView-->
+    <color name="colorBottonNavigationTextSelected">#CDDC39</color>
+    <color name="colorBottonNavigationText">#72736A</color>
+    <color name="colorBottonNavigationIcon">#72736A</color>
+    <color name="colorBottonNavigationIconSelected">#CDDC39</color>
+    <color name="colorBottomNavigationBackground">#009688</color>
+
+
+
+
+</resources>

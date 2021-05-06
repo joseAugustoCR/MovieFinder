@@ -34,7 +34,6 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
 
     @Inject lateinit var providerFactory: ViewModelProviderFactory
     private lateinit var viewModel: LoginViewModel
-    @Inject lateinit var sharedPreferences: SharedPreferencesManager
     val callbackManager = CallbackManager.Factory.create()
 
 

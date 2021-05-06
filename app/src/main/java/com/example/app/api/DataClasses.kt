@@ -4,90 +4,81 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Movie(
-    var adult: Boolean? = null,
-    var backdrop_path: String? = null,
-    var genre_ids: List<Int?>? = null,
-    var id: Int? = null,
-    var original_language: String? = null,
-    var original_title: String? = null,
-    var overview: String? = null,
-    var popularity: Double? = null,
-    var poster_path: String? = null,
-    var release_date: String? = null,
-    var title: String? = null,
-    var video: Boolean? = null,
-    var vote_average: Double? = null,
-    var vote_count: Int? = null
+data class User(
+    var id:Int?=null,
+    var name:String?=null,
+    var image:String?=null,
+    var verified:Boolean?=null,
+    var subscribed:Boolean?=null,
+    var password:String?=null
 ) : Parcelable
+
+
+data class PostsViewRequest(
+    var posts:ArrayList<Int>?= ArrayList()
+)
+
+
+data class ErrorResponse(var id:Int?=null)
+
+
+data class Product(
+    var id:Int?=null,
+    var name:String?=null,
+)
+
+data class Category(
+    var id:Int?=null,
+    var title:String?=null,
+    var subtitle:String?=null,
+    var items:ArrayList<Product>?=null
+)
+
 
 @Parcelize
-data class TVShow(
-    var backdrop_path: String? = null,
-    var first_air_date: String? = null,
-    var genre_ids: List<Int?>? = null,
-    var id: Int? = null,
-    var name: String? = null,
-    var origin_country: List<String?>? = null,
-    var original_language: String? = null,
-    var original_name: String? = null,
-    var overview: String? = null,
-    var popularity: Double? = null,
-    var poster_path: String? = null,
-    var vote_average: Double? = null,
-    var vote_count: Int? = null
+data class Post(
+    var id:Int?=null,
+    var appuser_id:Int?=null,
+    var desc: String?=null,
+    var type:String?=null,
+    var image: String?=null,
+    var file: String?=null,
+    var id_youtube:String?=null,
+    var url_share:String?=null,
+    var hash:String?=null,
+    var views_count:Int?=null,
+    var likes_count:Int?=null,
+    var shares_count:Int?=null,
+    var comments_count:Int?=null,
+    var call_to_action_title:String?=null,
+    var call_to_action_link:String?=null,
+    var ago:String?=null,
+    var created_at:String?=null,
+    var comments: ArrayList<PostComment?>?=null,
+    var last_comment: PostComment?=null,
+    var appuser: User?=null,
+    var has_view:Boolean?=null,
+    var has_like:Boolean?=null,
+    var subscribe:Boolean?=null,
+    var has_comment:Boolean?=null
+): Parcelable{
+    companion object{
+        val TYPE_TEXT = "text"
+        val TYPE_IMAGE = "image"
+        val TYPE_YOUTUBE = "youtube"
+        val TYPE_FILE = "file"
+        val TYPE_LIVE = "live"
+        val TYPE_LOADING = "loading"
+    }
+}
+
+
+@Parcelize
+data class PostComment(
+    var id: Int?=null,
+    var appuser: User?=null,
+    var comment: String?=null,
+    var ago: String?=null,
+    var comment_reply_id:Int?=null,
+    var reply:ArrayList<PostComment>?=null
 ) : Parcelable
-
-data class MovieDetails(
-    var adult: Boolean? = null,
-    var backdrop_path: String? = null,
-    var belongs_to_collection: Any? = null,
-    var budget: Int? = null,
-    var genres: List<Genre?>? = null,
-    var homepage: String? = null,
-    var id: Int? = null,
-    var imdb_id: String? = null,
-    var original_language: String? = null,
-    var original_title: String? = null,
-    var overview: String? = null,
-    var popularity: Double? = null,
-    var poster_path: String? = null,
-    var production_companies: List<ProductionCompany?>? = null,
-    var production_countries: List<ProductionCountry?>? = null,
-    var release_date: String? = null,
-    var revenue: Int? = null,
-    var runtime: Int? = null,
-    var status: String? = null,
-    var tagline: String? = null,
-    var title: String? = null,
-    var video: Boolean? = null,
-    var vote_average: Double? = null,
-    var vote_count: Int? = null
-)
-
-data class WrapperPagedApiResponse<T>(
-    var results: List<T>?=null,
-    var total_pages: Int?=null,
-    var total_results: Int?=null,
-    var page: Int?=null
-)
-
-data class Genre(
-    var id: Int? = null,
-    var name: String? = null
-)
-
-data class ProductionCompany(
-    var id: Int? = null,
-    var logo_path: String? = null,
-    var name: String? = null,
-    var origin_country: String? = null
-)
-
-data class ProductionCountry(
-    var iso_3166_1: String? = null,
-    var name: String? = null
-)
-
-data class User(var name:String?=null, var password:String?=null)
-data class ErrorResponse(var id:Int?=null)

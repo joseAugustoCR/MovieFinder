@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorStateScreenBg"
     android:layout_gravity="center"
+    android:elevation="5dp"
+    android:id="@+id/loadingMain"
     android:gravity="center"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:background="@color/colorScreenBackground"
+        android:id="@+id/loadingBg"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
         android:layout_gravity="center"
-        />
+        >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="Carregando..."
-        />
 
-</LinearLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:id="@+id/loadingProgressBar"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/colorTextLoadingLayout"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Carregando..."
+            android:fontFamily="@font/font_regular"
+            android:id="@+id/loadingMsg"
+            />
+    </LinearLayout>
+
+</FrameLayout>

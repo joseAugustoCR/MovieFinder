@@ -11,6 +11,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
@@ -19,12 +20,14 @@ import android.text.style.ImageSpan
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
@@ -139,80 +142,56 @@ fun ImageView.loadColor(
         .into(this)
 }
 
-@SuppressLint("CheckResult")
 fun ImageView.load(
     url: String,
-    crop: Boolean = false,
-    fade:Boolean = false,
-    loadOnlyFromCache:Boolean = false,
-    blur:Boolean = false,
-    round: Boolean = false,
-    placeholder: Boolean = true,
-    sizeMultiplier:Float = 0.2f,
-    onLoadingFinished: () ->Unit={}
-
-) {
-    if(context.isAvailable() == false) return
-
-    val listener = object : RequestListener<Drawable> {
-        override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, isFirstResource: Boolean): Boolean {
-            onLoadingFinished()
-            return false
-        }
-
-        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-            onLoadingFinished()
-            return false
-        }
-    }
-
-
+    scaleType: ImageView.ScaleType?=null,
+    @DrawableRes placeholder: Int?=null,
+    isRoundImage:Boolean = false
+){
     Glide
         .with(context)
         .load(url)
-        .onlyRetrieveFromCache(loadOnlyFromCache)
-        .listener(listener)
-        .thumbnail(sizeMultiplier)
+        .thumbnail(0.2f)
         .let {
-            if(crop){
-                it.transform(CenterCrop())
-            }else{
-                it.transform(FitCenter())
-            }
-            if(placeholder){
-//                if(round){
-//                    it.placeholder(R.drawable.ic_avatar)
-//                    it.error(R.drawable.ic_avatar)
-//                }else {
-//                    it.placeholder(R.drawable.img_placeholder)
-//                    it.error(R.drawable.img_placeholder)
-//
-//                }
+            when(scaleType){
+                ImageView.ScaleType.CENTER_CROP -> it.transform(CenterCrop())
+                ImageView.ScaleType.FIT_CENTER -> it.transform(FitCenter())
+                else -> it.transform(CenterCrop())
             }
 
-            if(blur){
-                var multi  = MultiTransformation(CenterCrop(), BlurTransformation(20,2))
+            if(placeholder != null){
+                it.placeholder(placeholder)
+            }
+
+            if(isRoundImage){
+                val multi  = MultiTransformation(CenterCrop(), CircleCrop())
                 it.transform(multi)
             }
-
-            if(round){
-                var multi  = MultiTransformation(CenterCrop(), CircleCrop())
-                it.transform(multi)
-            }
-
-            it
         }
-        .let{
-            if(fade){
-                it.transition(DrawableTransitionOptions.withCrossFade(300))
-            }else{
-                it.dontTransform()
-            }
-            it
-        }
-        .into(this)
 }
 
+fun ImageView.loadDrawable(
+    @DrawableRes drawable: Int?=null,
+    scaleType: ImageView.ScaleType?=null,
+    isRoundImage:Boolean = false
+){
+    Glide
+        .with(context)
+        .load(drawable)
+        .let {
+            when(scaleType){
+                ImageView.ScaleType.CENTER_CROP -> it.transform(CenterCrop())
+                ImageView.ScaleType.FIT_CENTER -> it.transform(FitCenter())
+                else -> it.transform(CenterCrop())
+            }
+
+
+            if(isRoundImage){
+                val multi  = MultiTransformation(CenterCrop(), CircleCrop())
+                it.transform(multi)
+            }
+        }
+}
 
 fun Context?.isAvailable(): Boolean {
     if (this == null) {
@@ -403,6 +382,18 @@ fun String.toDate(originalFormat:String) : Date {
 
     return Date()
 }
+
+
+inline fun String.loadOnExternalBrowser(activity: Activity){
+    val uris = Uri.parse(this)
+    val intents = Intent(Intent.ACTION_VIEW, uris)
+    val b = Bundle()
+    b.putBoolean("new_window", true)
+    intents.putExtras(b)
+    activity.startActivity(intents)
+}
+
+
 
 
 

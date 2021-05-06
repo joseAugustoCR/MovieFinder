@@ -12,6 +12,7 @@
 
 <!--    Toolbar-->
     <color name="colorToolbarTitle">#FFFFFF</color>
+    <color name="colorCollapsingAppBarHome">#4CAF50</color>
 
 
 <!--    ProgressBar-->
@@ -49,6 +50,22 @@
     <color name="colorBottonNavigationIconSelected">#CDDC39</color>
     <color name="colorBottomNavigationBackground">#009688</color>
 
+    <!--    Community-->
+    <color name="colorPostCardBg">#CDDC39</color>
+    <color name="colorPostTitle">#ff00ff</color>
+    <color name="colorPostSubtitle">#ffffff</color>
+    <color name="colorPostDescription">#ffffff</color>
+    <color name="colorPostNumbers">#fff</color>
+    <color name="colorLastComment">#fff</color>
 
+
+<!--    States-->
+    <color name="colorTextLoadingLayout">#fff</color>
+    <color name="colorStateScreenBg">#fff</color>
+    <color name="colorStateScreenText">#fff</color>
+
+
+<!--    Dialogs-->
+    <color name="colorButtonTextDialog">#fff</color>
 
 </resources>

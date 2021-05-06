@@ -26,7 +26,7 @@ apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.example.moviefinder"
+        applicationId "br.com.entrega_digital"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -56,6 +56,7 @@ android {
         }
     }
 
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -63,6 +64,35 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        demo {
+            dimension "version"
+            applicationIdSuffix ".demo"
+            versionNameSuffix "-demo"
+        }
+        matflix {
+            dimension "version"
+            applicationIdSuffix ".matflix"
+            versionNameSuffix "-matflix"
+        }
+    }
+
+//    sourceSets {
+//
+//        demo {
+//            java {
+//                srcDirs = ['src/demo/java']
+//            }
+//        }
+//        matflix {
+//            java {
+//                srcDirs = ['src/matflix/java']
+//            }
+//        }
+//    }
+
 }
 
 kapt { correctErrorTypes = true }
@@ -126,7 +156,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
@@ -160,8 +190,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
     implementation 'com.google.firebase:firebase-config-ktx:20.0.4'
 
-
-
+    implementation('com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5')
 
 }
 //apply plugin: 'com.google.gms.google-services'
