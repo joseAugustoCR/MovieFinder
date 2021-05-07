@@ -2,26 +2,31 @@ package com.example.app.ui.main.home
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.example.app.R
-import com.example.app.api.Category
-import com.example.app.api.Product
+import com.example.app.api.*
 import com.example.app.base.BaseFragment
 import com.example.app.di.InjectingSavedStateViewModelFactory
 import com.example.app.ui.main.MainFragment
+import com.example.app.utils.extensions.snack
 import com.example.app.utils.views.ScrollStateHolder
 import com.example.app.utils.views.enforceSingleScrollDirection
 import com.github.ajalt.timberkt.d
+import kotlinx.android.synthetic.main.collapsing_appbar_home.*
+import kotlinx.android.synthetic.main.error_state.*
 import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.home_fragment.emptyLayout
+import kotlinx.android.synthetic.main.home_fragment.errorLayout
+import kotlinx.android.synthetic.main.home_fragment.loadingLayout
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), ProductsAdapter.Interaction {
+
     @Inject
     lateinit var savedStateFactory: InjectingSavedStateViewModelFactory
-
     lateinit var categoriesAdapter: CategoriesAdapter
 
     companion object {
@@ -44,26 +49,70 @@ class HomeFragment : BaseFragment() {
         viewModel = ViewModelProvider(this, savedStateFactory.create(this))[HomeViewModel::class.java]
         scrollStateHolder = ScrollStateHolder(viewModel.recyclerStateBundle)
         setListeners()
+        setObservers()
         setRecycler()
+        getHome()
+    }
+
+
+    fun getHome(){
+        viewModel.getHome()
     }
 
     fun setRecycler(){
-        categoriesAdapter = CategoriesAdapter(scrollStates = viewModel.scrollStates, scrollStateHolder = scrollStateHolder)
+        categoriesAdapter = CategoriesAdapter(scrollStates = viewModel.scrollStates, scrollStateHolder = scrollStateHolder, interaction = this)
         homeRecyclerView.enforceSingleScrollDirection()
         homeRecyclerView.adapter = categoriesAdapter
-        categoriesAdapter.submitList(setFakeData())
     }
 
     fun setListeners(){
         fab.setOnClickListener {
-            getMainFragment().goToLogin(0)
+            getMainFragment().goToCast()
         }
+
+        homeLogo.setOnClickListener {
+            homeLogo.snack("teste", R.color.colorSnackError, {})
+        }
+
+        tryAgainBtn.setOnClickListener {
+            getHome()
+        }
+    }
+
+    fun setData(data: Home?){
+        categoriesAdapter.submitList(data?.productsByCategory)
+
+    }
+
+    fun setObservers(){
+        viewModel.observeHome().observe(viewLifecycleOwner, Observer {
+            if (it.status == Resource.Status.SUCCESS) {
+                loadingLayout.visibility = View.GONE
+                errorLayout.visibility = View.GONE
+                setData(it.data)
+
+            } else if (it.status == Resource.Status.LOADING) {
+                loadingLayout.visibility = View.VISIBLE
+                errorLayout.visibility = View.GONE
+                emptyLayout.visibility = View.GONE
+
+            } else if (it.status == Resource.Status.ERROR) {
+                loadingLayout.visibility = View.GONE
+                errorLayout.visibility = View.VISIBLE
+                emptyLayout.visibility = View.GONE
+            }
+        })
+
+        sessionManager.getAuthUser().observe(viewLifecycleOwner, Observer {
+            d{"user observe " + it.data.toString()}
+//            getHome()
+        })
     }
 
 
     override fun onPause() {
         super.onPause()
-        viewModel.scrollStates = categoriesAdapter.scrollStates
+//        viewModel.scrollStates = categoriesAdapter.scrollStates
         scrollStateHolder?.onSaveInstanceState(viewModel.recyclerStateBundle)
 
 
@@ -78,23 +127,23 @@ class HomeFragment : BaseFragment() {
                 items = arrayListOf(
                     Product(
                         id = 1,
-                        name = "Produto 2"
+                        product_name = "Produto 2"
                     ),
                     Product(
                         id = 3,
-                        name = "Produto 3"
+                        product_name = "Produto 3"
                     ),
                     Product(
                         id = 4,
-                        name = "Produto 4"
+                        product_name = "Produto 4"
                     ),
                     Product(
                         id = 5,
-                        name = "Produto 5"
+                        product_name = "Produto 5"
                     ),
                     Product(
                         id = 6,
-                        name = "Produto 6"
+                        product_name = "Produto 6"
                     ),
                 )
             ),
@@ -105,35 +154,35 @@ class HomeFragment : BaseFragment() {
                 items = arrayListOf(
                     Product(
                         id = 1,
-                        name = "Produto 1"
+                        product_name = "Produto 1"
                     ),
                     Product(
                         id = 2,
-                        name = "Produto 2"
+                        product_name = "Produto 2"
                     ),
                     Product(
                         id = 3,
-                        name = "Produto 3"
+                        product_name = "Produto 3"
                     ),
                     Product(
                         id = 4,
-                        name = "Produto 4"
+                        product_name = "Produto 4"
                     ),
                     Product(
                         id = 5,
-                        name = "Produto 5"
+                        product_name = "Produto 5"
                     ),
                     Product(
                         id = 6,
-                        name = "Produto 6"
+                        product_name = "Produto 6"
                     ),
                     Product(
                         id = 7,
-                        name = "Produto 7"
+                        product_name = "Produto 7"
                     ),
                     Product(
                         id = 8,
-                        name = "Produto 8"
+                        product_name = "Produto 8"
                     ),
                 )
             ),
@@ -144,35 +193,35 @@ class HomeFragment : BaseFragment() {
                 items = arrayListOf(
                     Product(
                         id = 1,
-                        name = "Produto 1"
+                        product_name = "Produto 1"
                     ),
                     Product(
                         id = 2,
-                        name = "Produto 2"
+                        product_name = "Produto 2"
                     ),
                     Product(
                         id = 3,
-                        name = "Produto 3"
+                        product_name = "Produto 3"
                     ),
                     Product(
                         id = 4,
-                        name = "Produto 4"
+                        product_name = "Produto 4"
                     ),
                     Product(
                         id = 5,
-                        name = "Produto 5"
+                        product_name = "Produto 5"
                     ),
                     Product(
                         id = 6,
-                        name = "Produto 6"
+                        product_name = "Produto 6"
                     ),
                     Product(
                         id = 7,
-                        name = "Produto 7"
+                        product_name = "Produto 7"
                     ),
                     Product(
                         id = 8,
-                        name = "Produto 8"
+                        product_name = "Produto 8"
                     ),
                 )
             ),
@@ -183,35 +232,35 @@ class HomeFragment : BaseFragment() {
                 items = arrayListOf(
                     Product(
                         id = 1,
-                        name = "Produto 1"
+                        product_name = "Produto 1"
                     ),
                     Product(
                         id = 2,
-                        name = "Produto 2"
+                        product_name = "Produto 2"
                     ),
                     Product(
                         id = 3,
-                        name = "Produto 3"
+                        product_name = "Produto 3"
                     ),
                     Product(
                         id = 4,
-                        name = "Produto 4"
+                        product_name = "Produto 4"
                     ),
                     Product(
                         id = 5,
-                        name = "Produto 5"
+                        product_name = "Produto 5"
                     ),
                     Product(
                         id = 6,
-                        name = "Produto 6"
+                        product_name = "Produto 6"
                     ),
                     Product(
                         id = 7,
-                        name = "Produto 7"
+                        product_name = "Produto 7"
                     ),
                     Product(
                         id = 8,
-                        name = "Produto 8"
+                        product_name = "Produto 8"
                     ),
                 )
             ),
@@ -222,35 +271,35 @@ class HomeFragment : BaseFragment() {
                 items = arrayListOf(
                     Product(
                         id = 1,
-                        name = "Produto 1"
+                        product_name = "Produto 1"
                     ),
                     Product(
                         id = 2,
-                        name = "Produto 2"
+                        product_name = "Produto 2"
                     ),
                     Product(
                         id = 3,
-                        name = "Produto 3"
+                        product_name = "Produto 3"
                     ),
                     Product(
                         id = 4,
-                        name = "Produto 4"
+                        product_name = "Produto 4"
                     ),
                     Product(
                         id = 5,
-                        name = "Produto 5"
+                        product_name = "Produto 5"
                     ),
                     Product(
                         id = 6,
-                        name = "Produto 6"
+                        product_name = "Produto 6"
                     ),
                     Product(
                         id = 7,
-                        name = "Produto 7"
+                        product_name = "Produto 7"
                     ),
                     Product(
                         id = 8,
-                        name = "Produto 8"
+                        product_name = "Produto 8"
                     ),
                 )
             ),
@@ -264,9 +313,13 @@ class HomeFragment : BaseFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         d{"save instance"}
-        scrollStateHolder?.onSaveInstanceState(outState)
-        viewModel.recyclerStateBundle = outState
+//        scrollStateHolder?.onSaveInstanceState(outState)
+//        viewModel.recyclerStateBundle = outState
 
+    }
+
+    override fun onItemSelected(position: Int, item: Product) {
+        safeNavigate(navController, HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(item))
     }
 
 }

@@ -28,6 +28,8 @@
         android:layout_height="wrap_content"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+        app:itemTextAppearanceInactive="@style/BottomNavigationView"
         app:itemTextColor="@drawable/bottom_nav_text_selector"
         app:itemIconTint="@drawable/bottom_nav_icon_selector"
         />

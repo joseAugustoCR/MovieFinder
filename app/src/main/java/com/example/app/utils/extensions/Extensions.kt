@@ -6,12 +6,19 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.drawable.Drawable
+import android.media.ExifInterface
+import android.media.ThumbnailUtils
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
@@ -24,6 +31,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
@@ -42,6 +50,9 @@ import com.example.app.api.Resource
 import com.example.app.utils.CustomTabHelper
 import com.example.app.R
 import com.example.app.api.ErrorResponse
+import com.example.app.base.REQUEST_TAKE_PICTURE
+import com.example.app.utils.Constants
+import com.example.app.utils.GlideApp
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -53,6 +64,10 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -103,9 +118,12 @@ fun <T>Throwable.getError() : Resource<T>{
                 val responseBody: ResponseBody =
                     (this as HttpException).response()?.errorBody() as ResponseBody
                 val jsonObject = JSONObject(responseBody.string())
-                val errorJson = jsonObject.getJSONObject("errors").toString()
-                val errorResponse =  Gson().fromJson(errorJson, ErrorResponse::class.java)
-                return Resource.error(errorResponse, statusCode)
+                if(jsonObject.has("msg")) {
+                    val errorMsg =  jsonObject.getString("msg")
+                    return Resource.error(ErrorResponse(errorMsg = errorMsg), statusCode)
+                }else{
+                    return Resource.error(null, statusCode)
+                }
             }else{
                 return Resource.error(null, statusCode)
             }
@@ -142,6 +160,7 @@ fun ImageView.loadColor(
         .into(this)
 }
 
+@SuppressLint("CheckResult")
 fun ImageView.load(
     url: String,
     scaleType: ImageView.ScaleType?=null,
@@ -167,9 +186,12 @@ fun ImageView.load(
                 val multi  = MultiTransformation(CenterCrop(), CircleCrop())
                 it.transform(multi)
             }
+            it
         }
+        .into(this)
 }
 
+@SuppressLint("CheckResult")
 fun ImageView.loadDrawable(
     @DrawableRes drawable: Int?=null,
     scaleType: ImageView.ScaleType?=null,
@@ -190,7 +212,35 @@ fun ImageView.loadDrawable(
                 val multi  = MultiTransformation(CenterCrop(), CircleCrop())
                 it.transform(multi)
             }
+            it
         }
+        .into(this)
+}
+
+@SuppressLint("CheckResult")
+fun ImageView.loadFile(
+    file: File?=null,
+    scaleType: ImageView.ScaleType?=null,
+    isRoundImage:Boolean = false
+){
+    Glide
+        .with(context)
+        .load(file)
+        .let {
+            when(scaleType){
+                ImageView.ScaleType.CENTER_CROP -> it.transform(CenterCrop())
+                ImageView.ScaleType.FIT_CENTER -> it.transform(FitCenter())
+                else -> it.transform(CenterCrop())
+            }
+
+
+            if(isRoundImage){
+                val multi  = MultiTransformation(CenterCrop(), CircleCrop())
+                it.transform(multi)
+            }
+            it
+        }
+        .into(this)
 }
 
 fun Context?.isAvailable(): Boolean {
@@ -392,6 +442,108 @@ inline fun String.loadOnExternalBrowser(activity: Activity){
     intents.putExtras(b)
     activity.startActivity(intents)
 }
+
+fun Context?.createTempImageFile(): File? {
+    if(this == null){
+        return  null
+    }
+    // Create an image file name
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+    val imageFileName = "JPEG_" + timeStamp + "_"
+
+    val image = File.createTempFile(
+        imageFileName, /* prefix */
+        ".jpg", /* suffix */
+        this.cacheDir      /* directory */
+    )
+
+    return image
+}
+
+
+fun File.copyStreamToFile(inputStream: InputStream) {
+    inputStream.use { input ->
+        val outputStream = FileOutputStream(this)
+        outputStream.use { output ->
+            val buffer = ByteArray(4 * 1024) // buffer size
+            while (true) {
+                val byteCount = input.read(buffer)
+                if (byteCount < 0) break
+                output.write(buffer, 0, byteCount)
+            }
+            output.flush()
+        }
+    }
+}
+
+
+fun File.resizeImage(context: Context, maxWidth:Int = Constants.DEFAULT_IMG_MAX_WIDTH) : File? {
+    val options = BitmapFactory.Options()
+    options.inJustDecodeBounds = true
+    BitmapFactory.decodeFile(this.getAbsolutePath(), options)
+    val imageHeight = options.outHeight
+    val imageWidth = options.outWidth
+    val scale = maxWidth.toFloat()/imageWidth.toFloat()
+
+    val resizedFile = context.createTempImageFile()
+
+    if (this.exists()) {
+
+        val o = BitmapFactory.Options()
+        var out: Bitmap? = null
+        try {
+            out = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(this.getAbsolutePath(), o), (imageWidth*scale).toInt(), (imageHeight*scale).toInt(), ThumbnailUtils.OPTIONS_RECYCLE_INPUT)
+        } catch (e: OutOfMemoryError) {
+            System.gc()
+            o.inSampleSize = 2
+            out = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(this.getAbsolutePath(), o), (imageWidth*scale).toInt(), (imageHeight*scale).toInt(), ThumbnailUtils.OPTIONS_RECYCLE_INPUT)
+        }
+
+        val matrix = Matrix()
+
+        var exif: ExifInterface? = null
+        try {
+            exif = ExifInterface(this.absolutePath)
+
+            val orientation = exif!!.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+
+            when (orientation) {
+                ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+                ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+                ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+                else -> {
+                }
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        out = Bitmap.createBitmap(out!!, 0, 0, out.width, out.height,
+            matrix, true)
+
+
+        val fOut: FileOutputStream
+        try {
+            fOut = FileOutputStream(resizedFile)
+            out!!.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
+            fOut.flush()
+            fOut.close()
+            out.recycle()
+        } catch (e: Exception) {
+            if (out != null && !out.isRecycled) {
+                out.recycle()
+                out = null
+            }
+        }
+
+    }
+
+    return resizedFile
+}
+
+
+
 
 
 

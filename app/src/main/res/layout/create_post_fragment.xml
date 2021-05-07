@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.community.create_post.CreatePostFragment">
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_height="match_parent">
+
+            </ImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/navBar"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:padding="8dp"
+                    android:id="@+id/backBtn"
+                    android:src="@drawable/ic_arrow_back"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.4"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/font_extra_bold"
+                    android:textAllCaps="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="17sp"
+                    android:id="@+id/screenTitle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Nova publicação"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constrainedHeight="true"
+                app:cardBackgroundColor="@color/colorPostCardBg"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toTopOf="@id/publishBtn"
+                app:layout_constraintVertical_bias="0"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="50dp"
+                app:layout_constraintTop_toBottomOf="@id/navBar"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/userAvatar"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginLeft="16dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        />
+
+
+
+                    <TextView
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        tools:text="Notificação teste"
+                        android:id="@+id/userName"
+                        android:layout_width="wrap_content"
+                        app:layout_constrainedWidth="true"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/userAvatar"
+                        android:paddingBottom="0dp"
+                        android:layout_marginRight="16dp"
+                        app:layout_goneMarginRight="16dp"
+                        android:fontFamily="@font/font_extra_bold"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginLeft="16dp"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintLeft_toRightOf="@id/userAvatar"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="16dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        app:layout_constraintTop_toBottomOf="@id/userName"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/userName"
+                        android:id="@+id/subtitleLayout"
+                        >
+                        <TextView
+                            android:textColor="@color/colorPostSubtitle"
+                            android:textSize="14sp"
+                            android:text="Há 0s"
+                            android:id="@+id/timeAgo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:fontFamily="@font/font_regular"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/viewIcon"
+                            android:layout_marginLeft="8dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_star"
+                            />
+                        <TextView
+                            android:textColor="@color/colorPostSubtitle"
+                            android:textSize="14sp"
+                            android:text="0"
+                            android:id="@+id/viewsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="8dp"
+                            android:fontFamily="@font/font_regular"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            />
+
+
+                    </LinearLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:id="@+id/mediaLayout"
+                        app:layout_constraintTop_toBottomOf="@id/subtitleLayout"
+                        >
+
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:visibility="visible"
+                            android:layout_height="0dp"
+                            android:background="@color/colorPrimary"
+                            app:layout_constraintDimensionRatio="1:1"
+                            android:id="@+id/postImage"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:background="@color/colorPrimary"
+                            android:gravity="center"
+                            android:id="@+id/emptyLayout"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:orientation="vertical"
+                            android:layout_height="0dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_star"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ADICIONAR IMAGEM"
+                                android:layout_marginTop="20dp"
+                                android:textColor="@color/colorAccent"
+                                android:fontFamily="@font/font_regular"
+                                />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:background="@color/colorPrimary"
+                            android:gravity="center"
+                            android:id="@+id/loadingUpload"
+                            android:visibility="gone"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:orientation="vertical"
+                            android:layout_height="0dp">
+
+                            <ProgressBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                />
+                        </LinearLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintTop_toBottomOf="@id/mediaLayout"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:id="@+id/descInput"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Escreva uma legenda"
+                        android:layout_marginTop="26dp"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+
+                            android:id="@+id/descEdt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/colorAccent"
+                            android:drawablePadding="8dp"
+                            android:fontFamily="@font/font_regular"
+                            android:imeOptions="actionNext"
+                            android:lineSpacingExtra="3dp"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:paddingLeft="12dp"
+                            android:textColor="@color/white" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                app:backgroundTint="@color/button_state"
+                android:textColor="@color/white"
+                app:cornerRadius="30dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="16sp"
+                android:text="Publicar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:letterSpacing="0"
+                android:layout_marginBottom="24dp"
+                android:minWidth="200dp"
+                android:fontFamily="@font/font_extra_bold"
+                android:id="@+id/publishBtn"
+                />
+
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:elevation="10dp"
+                android:visibility="gone"
+                android:id="@+id/loadingLayout">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    />
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

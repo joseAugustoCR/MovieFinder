@@ -64,6 +64,68 @@ class CommunityRepository @Inject constructor(private val api: Api, private val 
         return data
     }
 
+    fun getPostDetail(id:Int) : LiveData<Resource<Post>> {
+        val data = MediatorLiveData<Resource<Post>>()
+        data.value = Resource.loading()
+
+        val source = api.postDetail(id.toString())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
+
+    fun createPost(request:Post) : LiveData<Resource<Post>> {
+        val data = MediatorLiveData<Resource<Post>>()
+        data.value = Resource.loading()
+
+        val source = api.createPost(request)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
+
+    fun postComment(request:PostComment) : LiveData<Resource<PostComment>> {
+        val data = MediatorLiveData<Resource<PostComment>>()
+        data.value = Resource.loading()
+
+        val source = api.comment(id = request.id.toString(), request = request)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
 
     fun like(id:Int) : LiveData<Resource<Post>> {
         val data = MediatorLiveData<Resource<Post>>()
@@ -91,6 +153,27 @@ class CommunityRepository @Inject constructor(private val api: Api, private val 
         data.value = Resource.loading()
 
         val source = api.viewPost(id.toString())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
+
+    fun viewPosts(request: PostsViewRequest) : LiveData<Resource<String>> {
+        val data = MediatorLiveData<Resource<String>>()
+        data.value = Resource.loading()
+
+        val source = api.viewPosts(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {

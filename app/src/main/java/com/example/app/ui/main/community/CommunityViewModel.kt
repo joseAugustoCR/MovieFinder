@@ -13,6 +13,18 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 
 class CommunityViewModel @AssistedInject constructor(private val communityRepository: CommunityRepository, @Assisted private val savedStateHandle: SavedStateHandle): ViewModel() {
+    var posts:ArrayList<Post?> = arrayListOf()
+    set(value) {
+        field = value
+        savedStateHandle.set(STATE_KEY_POSTS, value)
+    }
+
+    val STATE_KEY_POSTS = "state.posts"
+
+    init {
+        posts = savedStateHandle.get<ArrayList<Post?>>(STATE_KEY_POSTS) ?: arrayListOf()
+    }
+
 
     @AssistedInject.Factory
     interface Factory : AssistedSavedStateViewModelFactory<CommunityViewModel> {

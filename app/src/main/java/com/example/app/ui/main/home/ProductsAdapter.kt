@@ -4,6 +4,8 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.app.R
 import com.example.app.api.Product
 import com.example.app.ui.MainActivity
+import com.example.app.utils.extensions.load
+import com.example.app.utils.extensions.px
+import kotlinx.android.synthetic.main.view_product.view.*
 import kotlin.math.roundToInt
 
 class ProductsAdapter(private val interaction: Interaction? = null) :
@@ -60,10 +65,13 @@ class ProductsAdapter(private val interaction: Interaction? = null) :
             }
             val displayMetrics = DisplayMetrics()
             itemView.context.display?.getMetrics(displayMetrics)
-            var width = displayMetrics.widthPixels
-            var itemWidth = width/5f
-            updateLayoutParams {
+            var screenWidth = displayMetrics.widthPixels - 32.px()
+            var itemWidth = screenWidth/ ResourcesCompat.getFloat(itemView.context.resources, R.dimen.columnsPerScreenHomeCard)
+            itemView.card.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 width = itemWidth.roundToInt()
+            }
+            card.post {
+                img.load(item.thumb.toString())
             }
 
         }

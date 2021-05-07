@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
+import com.bumptech.glide.Glide
 import com.example.app.R
 import com.example.app.SessionManager
 import com.example.app.api.Post
@@ -19,7 +20,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstan
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import kotlinx.android.synthetic.demo.view_community_post.view.*
+import kotlinx.android.synthetic.main.view_community_post.view.*
 import org.jetbrains.anko.startActivity
 
 
@@ -267,7 +268,7 @@ var sessionManager: SessionManager) :
                     }
                     itemView.youtubePlayerView.visibility = View.GONE
                     itemView.postImage.post {
-                        itemView.postImage.load(item.image.toString(), scaleType = ImageView.ScaleType.FIT_CENTER, placeholder = R.drawable.ic_star)
+                        itemView.postImage.load(item.image.toString(), scaleType = ImageView.ScaleType.FIT_CENTER, placeholder = R.drawable.ic_movie)
                     }
                     itemView.mediaLayout.visibility = View.VISIBLE
 

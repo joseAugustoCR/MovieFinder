@@ -1,4 +1,4 @@
-package com.example.app.di.fragments
+package com.example.app.di.fragments.auth
 
 import androidx.lifecycle.ViewModel
 import com.example.app.ui.auth.login.LoginViewModel

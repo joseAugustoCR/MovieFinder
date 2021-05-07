@@ -3,11 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.splash.SplashFragment">
+    >
 
-    <TextView
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Splash" />
+        android:scaleType="centerCrop"
+        android:id="@+id/bgImg"
+        android:alpha="1"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        android:id="@+id/logo"
+        android:src="@drawable/ic_star"
+        android:alpha="0"
+        />
 
 </FrameLayout>

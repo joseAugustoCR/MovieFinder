@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Handler
 import android.provider.SyncStateContract
 import android.view.LayoutInflater
 import android.view.View
@@ -18,25 +19,36 @@ import com.example.app.api.Post
 import com.example.app.api.PostsViewRequest
 import com.example.app.api.Resource
 import com.example.app.base.BaseFragment
+import com.example.app.base.NAVIGATION_RESULT_OK
+import com.example.app.base.REQUEST_CREATE_POST
+import com.example.app.base.REQUEST_POST_DETAIL
 import com.example.app.di.InjectingSavedStateViewModelFactory
+import com.example.app.ui.main.LOGIN_REGULAR
+import com.example.app.ui.main.MainFragment
 import com.example.app.utils.Constants.Companion.PAGINATION_SIZE
 import com.example.app.utils.VIEWED_POSTS
 import com.example.app.utils.extensions.loadOnExternalBrowser
 import com.example.app.utils.extensions.snack
+import com.example.app.utils.navigation.NavigationResult
+import com.example.app.utils.navigation.NavigationResultListener
 import com.github.ajalt.timberkt.d
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.collapsing_appbar_regular.*
 import kotlinx.android.synthetic.main.community_fragment.*
+import kotlinx.android.synthetic.main.error_state.*
 import javax.inject.Inject
 
-class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction {
-
+class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction, NavigationResultListener {
     @Inject
     lateinit var savedStateFactory: InjectingSavedStateViewModelFactory
+
     var scrollListener: RecyclerView.OnScrollListener? = null
     var canLoadMore:Boolean = true
+    val handlerRefresh = Handler()
 
     companion object {
+        val KEY_POST = "post"
+        val KEY_TYPE = "type"
         fun newInstance() = CommunityFragment()
     }
     lateinit var adapter: CommunityAdapter
@@ -49,6 +61,31 @@ class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction {
         return inflater.inflate(R.layout.community_fragment, container, false)
     }
 
+    override fun onNavigationResult(result: NavigationResult) {
+        val resultCode = result.resultCode
+        val requestCode = result.requestCode
+        val data = result.data
+
+        if(resultCode == NAVIGATION_RESULT_OK && requestCode == REQUEST_POST_DETAIL){
+            val post = data?.getParcelable<Post?>("post")
+            val type = data?.getString("type")
+            if(post != null){
+                if(type.equals("delete")){
+                    adapter.deleteItem(post)
+                    recycler.snack("Publicação removida", R.color.colorAccent, {})
+                }else{
+                    adapter.updateItem(post, true)
+                }
+            }
+        }
+
+        if(resultCode == NAVIGATION_RESULT_OK && requestCode == REQUEST_CREATE_POST) {
+            loadingLayout.visibility = View.VISIBLE
+            handlerRefresh.postDelayed({
+                refresh()
+            }, 1000)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,7 +96,11 @@ class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction {
         adapter = CommunityAdapter(this, lifecycle, sessionManager = sessionManager)
         setRecycler()
         setObservers()
-        viewModel.getPosts(0)
+        if(viewModel.posts.isNullOrEmpty() == false){
+            adapter.addItems(viewModel.posts)
+        }else{
+            viewModel.getPosts(0)
+        }
     }
 
     override fun onResume() {
@@ -73,6 +114,7 @@ class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction {
         if (scrollListener != null) {
             recycler.removeOnScrollListener(scrollListener!!)
         }
+        handlerRefresh.removeCallbacksAndMessages(null)
         super.onStop()
     }
 
@@ -118,6 +160,16 @@ class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction {
         swipe.setOnRefreshListener {
             refresh()
         }
+
+        tryAgainBtn.setOnClickListener {
+            refresh()
+        }
+
+
+        createPost.setOnClickListener {
+//            safeNavigate(navController, CommunityFragmentDirections.actionCommunityFragmentToCreatePostFragment())
+            getMainFragment()?.goToLogin(LOGIN_REGULAR)
+        }
     }
 
     fun setRecycler(){
@@ -137,6 +189,8 @@ class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction {
         emptyLayout.visibility = View.GONE
         d{"adding data"}
         adapter.addItems(posts)
+        viewModel.posts = adapter.list
+        createPost.extend()
     }
 
     fun setObservers(){
@@ -205,10 +259,12 @@ class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction {
         })
         viewModel.observeShareCount().observe(viewLifecycleOwner, Observer {
         })
+        viewModel.observeReport().observe(viewLifecycleOwner, Observer {
+        })
     }
 
     override fun onItemSelected(position: Int, item: Post, isComment: Boolean) {
-
+        safeNavigate(navController, CommunityFragmentDirections.actionCommunityFragmentToPostDetailFragment(item))
     }
 
     override fun like(position: Int, item: Post) {
@@ -303,6 +359,10 @@ class CommunityFragment : BaseFragment(), CommunityAdapter.Interaction {
 
     override fun onBuy(position: Int, item: Post) {
         TODO("Not yet implemented")
+    }
+
+    private fun getMainFragment(): MainFragment? {
+        return parentFragment?.parentFragment as? MainFragment?
     }
 
 

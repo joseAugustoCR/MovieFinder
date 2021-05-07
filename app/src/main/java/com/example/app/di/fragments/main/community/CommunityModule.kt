@@ -1,4 +1,4 @@
-package com.example.app.di.fragments
+package com.example.app.di.fragments.main.community
 
 import androidx.lifecycle.ViewModel
 import com.example.app.di.AssistedSavedStateViewModelFactory

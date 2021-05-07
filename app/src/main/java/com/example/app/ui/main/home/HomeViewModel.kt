@@ -3,14 +3,17 @@ package com.example.app.ui.main.home
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.core.os.bundleOf
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.example.app.api.Home
+import com.example.app.api.Notification
+import com.example.app.api.Resource
 import com.example.app.di.AssistedSavedStateViewModelFactory
+import com.example.app.repository.ProductsRepository
 import com.example.app.repository.UserRepository
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
-class HomeViewModel @AssistedInject constructor(private val userRepository: UserRepository, @Assisted private val savedStateHandle: SavedStateHandle): ViewModel() {
+class HomeViewModel @AssistedInject constructor(private val productsRepository: ProductsRepository, @Assisted private val savedStateHandle: SavedStateHandle): ViewModel() {
     var scrollStates: MutableMap<Int, Parcelable?> = mutableMapOf()
     set(value) {
         field = value
@@ -34,6 +37,21 @@ class HomeViewModel @AssistedInject constructor(private val userRepository: User
     init {
         scrollStates = savedStateHandle.get(STATE_KEY_SCROLL_STATES) ?: mutableMapOf()
         recyclerStateBundle = savedStateHandle.get(STATE_KEY_SCROLL_STATE_BUNDLE) ?: bundleOf()
+    }
+
+
+    // Home
+    private val requestHome = MutableLiveData<Boolean>()
+    private var responseHome : LiveData<Resource<Home>> = Transformations.switchMap(requestHome){
+        productsRepository.getHome()
+    }
+
+    fun getHome(){
+        requestHome.value = if(requestHome.value != true) false else true
+    }
+
+    fun observeHome() : LiveData<Resource<Home>> {
+        return responseHome
     }
 
 }

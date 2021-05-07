@@ -4,29 +4,22 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorCollapsingAppBarHome"
     android:id="@+id/appBar"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    >
 
 
 <com.google.android.material.appbar.CollapsingToolbarLayout
     android:layout_width="match_parent"
     android:layout_height="98dp"
-    app:expandedTitleMarginStart="20dp"
     app:titleEnabled="true"
     app:title=""
     app:layout_scrollFlags="scroll|snap|enterAlways|exitUntilCollapsed"
-    app:expandedTitleTextAppearance="@style/ExpandedTitle"
-    app:collapsedTitleTextAppearance="@style/CollapsedTitle"
-    app:expandedTitleMarginBottom="22dp"
     android:id="@+id/collapsingToolbar"
     >
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:popupTheme="@style/MyMenu"
-        app:titleTextAppearance="@style/CollapsedTitle"
         app:layout_collapseMode="pin"
         app:title=""
         android:id="@+id/toolbar"

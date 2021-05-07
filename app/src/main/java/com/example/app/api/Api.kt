@@ -12,66 +12,80 @@ import retrofit2.http.*
 
 interface Api {
 
-    //user
-    @GET("users/{id}")
-    fun getUser(@Path("id") id:String?): Flowable<User>
+    // USER
+    @GET("app/user")
+    fun getUser() : Flowable<User>
 
-    @POST("users")
-    fun createUser(@Body user:User): Flowable<User>
+    @POST("app/user")
+    fun createUser(@Body request: RegisterRequest): Flowable<User>
 
-    @POST("users/sign_in")
-    fun login(@Body user:User): Flowable<User>
+    @POST("app/login")
+    fun login(@Body user:LoginRequest): Flowable<User>
 
-    @PATCH("users")
-    fun editUser(@Body request: RequestBody) : Flowable<User>
+    @GET("app/home")
+    fun getConfigs() : Flowable<Configs>
+
+    @GET
+    fun getTerms(@Url url:String?) : Flowable<Response<ResponseBody>>
+
+    @POST("app/user/terms")
+    fun acceptTerms() : Flowable<AcceptTermsResponse>
+
+
+    // CAST
+    @POST("cast/connect")
+    fun connect (@Query("key") key:String, @Query("uid") uid:String?=null ) : Flowable<TVConnectionResponse>
+
+
+    // HOME
+    @GET("app/timeline")
+    fun getHome() : Flowable<Home>
+
+    @GET("app/timeline/auth")
+    fun getHomeAuth() : Flowable<Home>
 
 
 
+    // NOTIFICATIONS
+    @GET("app/notifications")
+    fun getNotifications() : Flowable<ArrayList<Notification>>
 
-    // POSTS
+
+
+    // COMMUNITY
     @GET("app/posts/timeline")
     fun getCommunityPosts(
                     @Query("limit") limit:String?= Constants.PAGINATION_SIZE.toString(),
                     @Query("offset") offset:String?=null
     ) : Flowable<ArrayList<Post?>>
 
-    @Headers("Accept: application/json")
     @POST("app/posts/{id}/view")
     fun viewPost(@Path("id") id:String): Flowable<String>
 
-//    @Headers("Accept: application/json")
-//    @POST("app/viewposts")
-//    fun viewPosts(@Header("Authorization") auth: String?, @Body request:PostsViewRequest): Single<String>
+    @POST("app/viewposts")
+    fun viewPosts(@Body request:PostsViewRequest): Flowable<String>
 
-    @Headers("Accept: application/json")
     @POST("app/posts/{id}/like")
     fun likePost(@Path("id") id:String): Flowable<Post>
 
-    @Headers("Accept: application/json")
     @POST("app/posts/{id}/sharecount")
     fun shareCount(@Path("id") id:String): Flowable<Response<ResponseBody>>
 
-    @Headers("Accept: application/json")
     @POST("app/posts/{id}/report")
     fun reportPost(@Path("id") id:String): Flowable<Post>
 
-    @Headers("Accept: application/json")
     @DELETE("app/posts/{id}")
     fun deletePost(@Path("id") id:String): Flowable<Post>
 
-    @Headers("Accept: application/json")
     @DELETE("app/posts/{id}/like")
     fun unlikePost(@Path("id") id:String): Flowable<Any>
 
-    @Headers("Accept: application/json")
     @GET("app/posts/{id}")
     fun postDetail(@Path("id") id:String): Flowable<Post>
 
-    @Headers("Accept: application/json")
     @POST("app/posts/{id}/comment")
     fun comment(@Path("id") id:String, @Body request:PostComment): Flowable<PostComment>
 
-    @Headers("Accept: application/json")
     @POST("app/posts")
     fun createPost(@Body request:Post): Flowable<Post>
 

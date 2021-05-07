@@ -7,7 +7,6 @@
 
 
     <color name="colorDisabled">#868686</color>
-    <color name="colorScreenBackground">#F0F0F0</color>
     <color name="colorPlaceholder">#DDDDDD</color>
 
 <!--    Toolbar-->
@@ -25,7 +24,9 @@
 
 <!--    Snack-->
     <color name="colorSnackError">#bb00cc</color>
+    <color name="colorSnackSuccess">#4CAF50</color>
     <color name="colorSnackMessage">#bb00cc</color>
+
 
 <!--    TextInput-->
     <color name="colorInputText">#E91E63</color>
@@ -40,8 +41,11 @@
     <color name="colorTextButton">#CDDC39</color>
     <color name="colorPrimaryButtonBg">#E91E63</color>
     <color name="colorPrimaryButtonText">#FFFFFF</color>
+    <color name="colorPrimaryButtonDisabled">#A5A5A5</color>
     <color name="colorSecondaryButtonBg">#03A9F4</color>
     <color name="colorSecondaryButtonText">#FFFFFF</color>
+    <color name="colorFABExtendedText">#FFFFFF</color>
+    <color name="colorFABExtendedBg">#03A9F4</color>
 
 <!--    BottomNavigationView-->
     <color name="colorBottonNavigationTextSelected">#CDDC39</color>
@@ -57,6 +61,16 @@
     <color name="colorPostDescription">#ffffff</color>
     <color name="colorPostNumbers">#fff</color>
     <color name="colorLastComment">#fff</color>
+    <color name="colorPostExclusive">#ccc</color>
+    <color name="colorInputCommentsBg">#fff</color>
+    <color name="colorCommentParentMsg">#fff</color>
+    <color name="colorCommentParentName">#fff</color>
+    <color name="colorCommentAnswerBtn">#fff</color>
+    <color name="colorCommentTimeAgo">#fff</color>
+    <color name="colorCommentChildMsg">#fff</color>
+    <color name="colorCommentChildName">#fff</color>
+    <color name="colorInputNewComment">#fff</color>
+    <color name="colorPostImgBg">#fff</color>
 
 
 <!--    States-->
@@ -67,5 +81,38 @@
 
 <!--    Dialogs-->
     <color name="colorButtonTextDialog">#fff</color>
+    <color name="colorLovelyChoiceTitleText">#CDDC39</color>
+    <color name="colorLovelyChoiceTop">#CDDC39</color>
+    <color name="colorDialogBg">#ffffff</color>
+    <color name="colorDialogText">#009688</color>
+
+
+<!--    Notifications-->
+    <color name="colorNotificationMsg">#fff</color>
+    <color name="colorNotificationTitle">#fff</color>
+    <color name="colorNotificationDisabled">#fff</color>
+
+
+<!--    Screens Bg-->
+    <color name="colorHomeBg">#fff</color>
+    <color name="colorLoginBg">#fff</color>
+    <color name="colorRegisterBg">#fff</color>
+    <color name="colorTermsBg">#fff</color>
+    <color name="colorCastTVBg">#fff</color>
+    <color name="colorScreenBackground">#F0F0F0</color>
+
+
+<!--    Home-->
+    <color name="colorHomeCategoryTitle">#000000</color>
+    <color name="colorHomeCategorySubitle">#000000</color>
+
+<!--    Terms-->
+    <color name="colorTermsTitle">#000000</color>
+    <color name="colorTermsText">#fff</color>
+
+<!--    CastTV-->
+    <color name="colorCastTvTitle">#fff</color>
+    <color name="colorCastTvSubtitle">#fff</color>
+
 
 </resources>

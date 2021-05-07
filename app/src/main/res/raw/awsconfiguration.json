@@ -1,0 +1,21 @@
+{
+    "UserAgent": "MobileHub/1.0",
+    "Version": "1.0",
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "us-east-1:401e85c0-0eca-45e9-8881-188f3bf668ef",
+                "Region": "us-east-1"
+            }
+        }
+    },
+    "IdentityManager" : {
+      "Default" : { }
+    },
+    "S3TransferUtility": {
+        "Default": {
+            "Bucket": "rqx",
+            "Region": "sa-east-1"
+        }
+    }
+}

@@ -2,6 +2,7 @@ package com.example.daggersample.di
 
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import com.example.daggersample.networking.NetworkEvent
 import com.example.app.utils.*
 import com.example.app.utils.extensions.hasNetwork
@@ -47,15 +48,17 @@ class ApiModule {
                     val request = chain.request().newBuilder()
                     d{"unauth interceptor"}
                     //if user is logged, put the authorization header
-                    val auth = sharedPreferencesManager.getObject(AUTHORIZATION, String::class.java) ?: Constants.TEST_AUTHENTICATION
+                    val auth = sessionManager.getUserAuthorization()
                     if(auth.isNullOrEmpty() == false){
                         d{"auth " + auth}
                         request.addHeader("Authorization", auth)
                     }
                     // put the api key
                     var requestWithApiKey = request
-                        .addHeader("os", "android")
-                        .addHeader("app-version", BuildConfig.VERSION_CODE .toString())
+                        .addHeader("os", "Android")
+                        .addHeader("appVersion", BuildConfig.VERSION_CODE .toString())
+                        .addHeader("osVersion", Build.VERSION.RELEASE .toString())
+                        .addHeader("Accept", "application/json")
                         .build()
 
 
@@ -74,37 +77,36 @@ class ApiModule {
             }
         }
 
+//        @Singleton
+//        @Provides
+//        @JvmStatic
+//        @Named("loginInterceptor")
+//        fun provideLoginInterceptor(application:Application, sharedPreferencesManager: SharedPreferencesManager) : Interceptor {
+//            return object : Interceptor{
+//                override fun intercept(chain: Interceptor.Chain): Response {
+//                    d{"login interceptor"}
+//                    var request = chain.request()
+//                    val originalResponse = chain.proceed(request)
+//
+//                    if(request.url.toString().contains("users/sign_in") || request.url.toString().contains("users/facebook_sign_in")
+//                        || (request.url.toString().equals(Constants.BASE_URL + "users") && request.method.equals("POST") )){
+//                        if(originalResponse.code == 200){
+//                            val header = originalResponse.header("Authorization", null)
+//                            if(header != null){
+//                                d{"Auth register = $header"}
+//                                sharedPreferencesManager.putObject(AUTHORIZATION, header)
+//                            }
+//                        }
+//                    }
+//                    return originalResponse
+//                }
+//            }
+//        }
+
         @Singleton
         @Provides
         @JvmStatic
-        @Named("loginInterceptor")
-        fun provideLoginInterceptor(application:Application, sharedPreferencesManager: SharedPreferencesManager) : Interceptor {
-            return object : Interceptor{
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    d{"login interceptor"}
-                    var request = chain.request()
-                    val originalResponse = chain.proceed(request)
-
-                    if(request.url.toString().contains("users/sign_in") || request.url.toString().contains("users/facebook_sign_in")
-                        || (request.url.toString().equals(Constants.BASE_URL + "users") && request.method.equals("POST") )){
-                        if(originalResponse.code == 200){
-                            val header = originalResponse.header("Authorization", null)
-                            if(header != null){
-                                d{"Auth register = $header"}
-                                sharedPreferencesManager.putObject(AUTHORIZATION, header)
-                            }
-                        }
-                    }
-                    return originalResponse
-                }
-            }
-        }
-
-        @Singleton
-        @Provides
-        @JvmStatic
-        fun provideHttpClient(application: Application, @Named("unauthorizedInterceptor") unauthorizedInterceptor: Interceptor,
-                              @Named("loginInterceptor") loginInterceptor:Interceptor
+        fun provideHttpClient(application: Application, @Named("unauthorizedInterceptor") unauthorizedInterceptor: Interceptor
         ) : OkHttpClient{
             var RETROFIT_LOG_LEVEL = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             val interceptor = HttpLoggingInterceptor()

@@ -6,13 +6,12 @@
     <color name="colorAccent">#FFEB3B</color>
 
 
-    <color name="colorDisabled">#868686</color>
-    <color name="colorScreenBackground">#F0F0F0</color>
-    <color name="colorPlaceholder">#DDDDDD</color>
+
 
     <!--    Toolbar-->
     <color name="colorToolbarTitle">#FFFFFF</color>
     <color name="colorCollapsingAppBarHome">#4CAF50</color>
+    <color name="colorCollapsingAppBarRegular">#4CAF50</color>
 
 
     <!--    ProgressBar-->
@@ -49,6 +48,8 @@
     <color name="colorBottonNavigationIcon">#72736A</color>
     <color name="colorBottonNavigationIconSelected">#CDDC39</color>
     <color name="colorBottomNavigationBackground">#009688</color>
+
+
 
 
 

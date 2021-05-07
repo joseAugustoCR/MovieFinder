@@ -1,7 +1,9 @@
-package com.example.app.di.fragments
+package com.example.app.di.fragments.main.community
 
 import androidx.lifecycle.ViewModel
 import com.example.app.di.AssistedSavedStateViewModelFactory
+import com.example.app.ui.main.community.CommunityViewModel
+import com.example.app.ui.main.community.post_detail.PostDetailViewModel
 import com.example.app.ui.main.home.HomeViewModel
 import com.example.daggersample.di.ViewModelKey
 import com.example.app.ui.main.timeline.TimelineViewModel
@@ -10,7 +12,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-abstract class HomeModule {
+abstract class PostDetailModule {
 //    @Binds
 //    @IntoMap
 //    @ViewModelKey(CreateAccountWizardViewModel::class)
@@ -19,8 +21,8 @@ abstract class HomeModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    abstract fun bindVMFactory(f: HomeViewModel.Factory): AssistedSavedStateViewModelFactory<out ViewModel>
+    @ViewModelKey(PostDetailViewModel::class)
+    abstract fun bindVMFactory(f: PostDetailViewModel.Factory): AssistedSavedStateViewModelFactory<out ViewModel>
 
     @Module
     companion object{

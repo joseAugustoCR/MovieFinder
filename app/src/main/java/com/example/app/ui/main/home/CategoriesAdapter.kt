@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.example.app.R
 import com.example.app.api.Category
+import com.example.app.api.ProductsByCategory
 import com.example.app.utils.views.ScrollStateHolder
 import com.github.ajalt.timberkt.d
 import kotlinx.android.synthetic.main.view_category.view.*
 
-class CategoriesAdapter(private val interaction: Interaction? = null, var scrollStates: MutableMap<Int, Parcelable?> = mutableMapOf(),
+class CategoriesAdapter(private val interaction: ProductsAdapter.Interaction? = null, var scrollStates: MutableMap<Int, Parcelable?> = mutableMapOf(),
 var scrollStateHolder: ScrollStateHolder?) :
-    ListAdapter<Category, RecyclerView.ViewHolder>(DiffCallback()) {
+    ListAdapter<ProductsByCategory, RecyclerView.ViewHolder>(DiffCallback()) {
 
     private val viewPool = RecyclerView.RecycledViewPool()
 //    var scrollXState : IntArray? = IntArray(0)
@@ -24,13 +25,13 @@ var scrollStateHolder: ScrollStateHolder?) :
         d{"init"}
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Category>() {
+    class DiffCallback : DiffUtil.ItemCallback<ProductsByCategory>() {
 
-        override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+        override fun areItemsTheSame(oldItem: ProductsByCategory, newItem: ProductsByCategory): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+        override fun areContentsTheSame(oldItem: ProductsByCategory, newItem: ProductsByCategory): Boolean {
             return oldItem == newItem
         }
     }
@@ -66,7 +67,7 @@ var scrollStateHolder: ScrollStateHolder?) :
     inner class CategoriesViewHolder
     constructor(
         itemView: View,
-        private val interaction: Interaction?
+        private val interaction: ProductsAdapter.Interaction?
     ) : RecyclerView.ViewHolder(itemView), ScrollStateHolder.ScrollStateKeyProvider {
 
         fun onCreate(){
@@ -76,29 +77,27 @@ var scrollStateHolder: ScrollStateHolder?) :
             scrollStateHolder?.saveScrollState(recyclerView = itemView.recyclerItems, this)
         }
 
-        fun bind(item: Category) = with(itemView) {
-            itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item)
-            }
-            title.text = item.title
-            subtitle.text = item.subtitle
+        fun bind(item: ProductsByCategory) = with(itemView) {
+
+            title.text = item.name
+            subtitle.text = item.short_desc
             val childLayoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
             childLayoutManager.initialPrefetchItemCount = 4
-            var productsAdapter = ProductsAdapter()
+            var productsAdapter = ProductsAdapter(interaction)
             itemView.recyclerItems.apply {
                 layoutManager = childLayoutManager
                 setHasFixedSize(true)
                 adapter = productsAdapter
             }
             scrollStateHolder?.setupRecyclerView(itemView.recyclerItems, this@CategoriesViewHolder)
-            productsAdapter.submitList(item.items)
+            productsAdapter.submitList(item.products)
             scrollStateHolder?.restoreScrollState(itemView.recyclerItems, this@CategoriesViewHolder)
 //            restoreHorizontalScroll(item)
 
         }
 
 
-        fun restoreHorizontalScroll(item:Category){
+        fun restoreHorizontalScroll(item:ProductsByCategory){
             val key = item.id
             val state = scrollStates[key]
             if(state != null){
@@ -116,7 +115,7 @@ var scrollStateHolder: ScrollStateHolder?) :
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: Category)
+        fun onItemSelected(position: Int, item: ProductsByCategory)
     }
 
 

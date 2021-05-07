@@ -13,10 +13,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.*
 import retrofit2.Response
 import java.io.File
 import javax.inject.Inject
@@ -26,11 +23,95 @@ import javax.inject.Singleton
 class UserRepository @Inject constructor(private val api: Api, private val sharedPreferencesManager: SharedPreferencesManager){
 
 
-    fun getUser(id:String) : LiveData<Resource<User>> {
+    fun getUser() : LiveData<Resource<User>> {
         val data = MediatorLiveData<Resource<User>>()
         data.value = Resource.loading()
 
-        val source = api.getUser(id)
+        val source = api.getUser()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
+
+    fun connectTV(key:String, uid:String) : LiveData<Resource<TVConnectionResponse>> {
+        val data = MediatorLiveData<Resource<TVConnectionResponse>>()
+        data.value = Resource.loading()
+
+        val source = api.connect(key, uid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
+
+    fun getTerms(url:String) : LiveData<Resource<Response<ResponseBody>>> {
+        val data = MediatorLiveData<Resource<Response<ResponseBody>>>()
+        data.value = Resource.loading()
+
+        val source = api.getTerms(url)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
+
+    fun acceptTerms() : LiveData<Resource<AcceptTermsResponse>> {
+        val data = MediatorLiveData<Resource<AcceptTermsResponse>>()
+        data.value = Resource.loading()
+
+        val source = api.acceptTerms()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
+
+    fun getConfigs() : LiveData<Resource<Configs>> {
+        val data = MediatorLiveData<Resource<Configs>>()
+        data.value = Resource.loading()
+
+        val source = api.getConfigs()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
@@ -48,8 +129,28 @@ class UserRepository @Inject constructor(private val api: Api, private val share
     }
 
 
+    fun getNotifications() : LiveData<Resource<ArrayList<Notification>>> {
+        val data = MediatorLiveData<Resource<ArrayList<Notification>>>()
+        data.value = Resource.loading()
 
-    fun createUser(request:User) : LiveData<Resource<User>> {
+        val source = api.getNotifications()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                Resource.success(it)
+            }
+            .onErrorReturn {  it.getError() }
+            .toLiveData()
+
+        data.addSource(source, {
+            data.value = it
+            data.removeSource(source)
+        })
+        d{"data value ${data.value.toString()}"}
+        return data
+    }
+
+    fun createUser(request:RegisterRequest) : LiveData<Resource<User>> {
         val data = MediatorLiveData<Resource<User>>()
         data.value = Resource.loading()
 
@@ -69,7 +170,7 @@ class UserRepository @Inject constructor(private val api: Api, private val share
     }
 
 
-    fun login(request:User) : LiveData<Resource<User>> {
+    fun login(request:LoginRequest) : LiveData<Resource<User>> {
         val data = MediatorLiveData<Resource<User>>()
         data.value = Resource.loading()
 

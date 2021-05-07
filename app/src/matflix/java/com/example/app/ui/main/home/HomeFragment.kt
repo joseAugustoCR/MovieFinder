@@ -56,15 +56,15 @@ class HomeFragment : BaseFragment() {
 
     fun setListeners(){
         fab.setOnClickListener {
-            getMainFragment().goToLogin(0)
+            getMainFragment()?.goToLogin(0)
         }
     }
 
 
     override fun onPause() {
         super.onPause()
-        viewModel.scrollStates = categoriesAdapter.scrollStates
-        scrollStateHolder?.onSaveInstanceState(viewModel.recyclerStateBundle)
+//        viewModel.scrollStates = categoriesAdapter.scrollStates
+//        scrollStateHolder?.onSaveInstanceState(viewModel.recyclerStateBundle)
 
 
     }
@@ -257,15 +257,15 @@ class HomeFragment : BaseFragment() {
         )
     }
 
-    private fun getMainFragment(): MainFragment {
-        return parentFragment?.parentFragment as MainFragment
+    private fun getMainFragment(): MainFragment? {
+        return parentFragment?.parentFragment as? MainFragment?
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         d{"save instance"}
-        scrollStateHolder?.onSaveInstanceState(outState)
-        viewModel.recyclerStateBundle = outState
+//        scrollStateHolder?.onSaveInstanceState(outState)
+//        viewModel.recyclerStateBundle = outState
 
     }
 

@@ -13,6 +13,7 @@ import com.example.app.R
 import com.example.app.api.*
 import com.example.app.base.*
 import com.example.app.di.ViewModelProviderFactory
+import com.example.app.ui.MainActivity
 import com.example.app.ui.auth.AuthFragment
 import com.example.app.utils.*
 import com.example.app.utils.extensions.*
@@ -21,6 +22,12 @@ import com.example.app.utils.navigation.NavigationResultListener
 import com.facebook.*
 import com.github.ajalt.timberkt.d
 import kotlinx.android.synthetic.main.login_fragment.*
+import kotlinx.android.synthetic.main.login_fragment.backBtn
+import kotlinx.android.synthetic.main.login_fragment.emailEdt
+import kotlinx.android.synthetic.main.login_fragment.emailInput
+import kotlinx.android.synthetic.main.login_fragment.loadingLayout
+import kotlinx.android.synthetic.main.login_fragment.passwordInput
+import kotlinx.android.synthetic.main.login_fragment.registerBtn
 
 
 import javax.inject.Inject
@@ -49,9 +56,16 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, providerFactory).get(LoginViewModel::class.java)
+        setLayout()
         setupLoadingLayout()
         setListeners()
         setObservers()
+    }
+
+    fun setLayout(){
+        registerBtn.visibility = if(Constants.REGISTER_ENABLED == true)  View.VISIBLE else View.GONE
+        backBtn.visibility = if(getAuthFragment()?.hasBackstack() == true) View.VISIBLE else View.GONE
+
     }
 
     fun setObservers(){
@@ -60,8 +74,11 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
             if(it.status == Resource.Status.SUCCESS) {
                 d{it.data.toString()}
                 sessionManager.login(it.data)
-//                navigateBackWithResult(NAVIGATION_RESULT_OK, isMainHost = true, data = bundleOf("type" to getAuthFragment().args.type
-//                 ), rCode = REQUEST_LOGIN)
+                (requireActivity() as MainActivity).getUser()
+                getAuthFragment()?.setAuthNavigationResult(
+                    NavigationResult(REQUEST_LOGIN, NAVIGATION_RESULT_OK, bundleOf("isLogged" to true))
+                )
+                getAuthFragment()?.finishAuth()
 
             }else if(it.status == Resource.Status.LOADING) {
                 loadingLayout.visibility = View.VISIBLE
@@ -71,34 +88,6 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
                 loginBtn.snack(getErrorMsg(it), R.color.colorSnackError, {})
             }
         })
-
-//        viewModel.observeFacebookLogin().observe(viewLifecycleOwner, Observer {
-//            if(alreadyHandledFB) return@Observer
-//            if(it.status == Resource.Status.SUCCESS) {
-//                d{it.data.toString()}
-//                sessionManager.login(it.data)
-//                navigateBackWithResult(NAVIGATION_RESULT_OK, isMainHost = true, data = bundleOf("type" to getAuthFragment().args.type), rCode = REQUEST_LOGIN)
-//
-//
-//            }else if(it.status == Resource.Status.LOADING) {
-//                loadingLayout.visibility = View.VISIBLE
-//
-//            }else if(it.status == Resource.Status.ERROR){
-//                loadingLayout.visibility = View.GONE
-//                if(it.statusCode == 401){
-//                    if(Profile.getCurrentProfile() != null) {
-//                        alreadyHandledFB = true
-//                        getFacebookEmail()
-//                    }else{
-//                        registerBtn.snack("Não foi possível cadastrar com o Facebook", R.color.errorColor, {})
-//                    }
-//                    return@Observer
-//                }else{
-//                    LoginManager.getInstance().logOut()
-//                }
-//                loginBtn.snack(getErrorMsg(it), R.color.errorColor, {})
-//            }
-//        })
     }
 
     fun getErrorMsg(data:Resource<User>) : String{
@@ -128,27 +117,13 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
         loginBtn.setOnClickListener {
             requireActivity().hideKeyboard()
             if(validade()){
-                getAuthFragment().setAuthNavigationResult(
-                    NavigationResult(REQUEST_LOGIN, NAVIGATION_RESULT_OK, bundleOf("isLogged" to true))
-                )
-                getAuthFragment().finishAuth()
-//                val status = OneSignal.getPermissionSubscriptionState()
-//                var oneSignalUserId = if(sharedPreferences.getObject(ONESIGNAL_ID, String::class.java).isNullOrEmpty()) status?.subscriptionStatus?.userId else sharedPreferences.getObject(ONESIGNAL_ID, String::class.java)
-
-//                val request = UserRequest(user = User(password = password.text.toString(), email = emailEdt.text.toString(),
-//                    appVersion = BuildConfig.VERSION_CODE,
-//                    osVersion = Build.VERSION.RELEASE,
-//                    deviceId = Settings.Secure.getString(requireContext()?.getContentResolver(),
-//                        Settings.Secure.ANDROID_ID),
-//                    onesignalId = oneSignalUserId
-//                ))
-//                d{ Gson().toJson(request) }
-//                viewModel.login(request)
+                viewModel.login(LoginRequest(
+                    email = emailEdt.text.toString(),
+                    password = password.text.toString()
+                ))
             }
         }
 
-        customFbLoginBtn.setOnClickListener {
-        }
 
         forgotPasswordBtn.setOnClickListener {
             val url = "https://www.vakinha.com.br/users/password/new"
@@ -156,8 +131,7 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
         }
 
         backBtn.setOnClickListener {
-            navController.navigateUp()
-//            navigateBackWithResult(NAVIGATION_RESULT_CANCELED, isMainHost = true, data = bundleOf("type" to getAuthFragment().args.type))
+            getAuthFragment()?.finishAuth()
         }
     }
 
@@ -179,14 +153,9 @@ class LoginFragment : BaseFragment(), NavigationResultListener {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-        super.onActivityResult(requestCode, resultCode, data)
-        d{"login fragment result"}
-    }
 
-    private fun getAuthFragment():AuthFragment{
-        return parentFragment?.parentFragment as AuthFragment
+    private fun getAuthFragment():AuthFragment?{
+        return parentFragment?.parentFragment as? AuthFragment?
     }
 
 

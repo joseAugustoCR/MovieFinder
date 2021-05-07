@@ -19,6 +19,9 @@ val PASSWORD = "password"
 val INTRO = "intro"
 val ONESIGNAL_ID = "onesignal_id"
 val VIEWED_POSTS = "viewed_posts"
+val TERMS_ACCEPTED = "terms_accepted"
+val CONFIGS = "configs"
+val CAST_KEY = "cast_key"
 
 
 @Singleton

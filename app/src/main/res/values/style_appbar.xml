@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppBarRegularStyle" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:background">@color/colorCollapsingAppBarRegular</item>
+        <item name="colorControlNormal">@color/colorToolbarTitle</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">?colorControlNormal</item>
+
+
+    </style>
+
+    <style name="ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextAppearance">@style/CollapsedTitle</item>
+        <item name="expandedTitleTextAppearance">@style/ExpandedTitle</item>
+        <item name="collapsedTitleTextAppearance">@style/CollapsedTitle</item>
+        <item name="popupTheme">@style/MyMenu</item>
+        <item name="colorControlNormal">@color/colorToolbarTitle</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">?colorControlNormal</item>
+
+
+    </style>
+
+    <style name="CollapsingToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextAppearance">@style/CollapsedTitle</item>
+        <item name="expandedTitleTextAppearance">@style/ExpandedTitle</item>
+        <item name="collapsedTitleTextAppearance">@style/CollapsedTitle</item>
+        <item name="expandedTitleMarginBottom">22dp</item>
+        <item name="expandedTitleMarginStart">20dp</item>
+        <item name="colorControlNormal">@color/colorToolbarTitle</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">?colorControlNormal</item>
+
+
+    </style>
 
     <style name="MenuTextAppearence" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
@@ -14,23 +45,29 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/colorToolbarTitle</item>
         <item name="android:fontFamily">@font/font_medium</item>
+        <item name="titleTextColor">@color/colorToolbarTitle</item>
         <item name="fontFamily">@font/font_medium</item>
         <item name="titleTextAppearance">@style/Toolbar.Title</item>
+
     </style>
 
-    <style name="CollapsedTitleBlack" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/colorToolbarTitle</item>
-        <item name="android:fontFamily">@font/font_medium</item>
-        <item name="fontFamily">@font/font_medium</item>
-        <item name="titleTextAppearance">@style/Toolbar.Title</item>
-    </style>
+<!--    <style name="CollapsedTitleBlack" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">-->
+<!--        <item name="android:textSize">20sp</item>-->
+<!--        <item name="android:textColor">@color/colorToolbarTitle</item>-->
+<!--        <item name="android:fontFamily">@font/font_medium</item>-->
+<!--        <item name="fontFamily">@font/font_medium</item>-->
+<!--        <item name="titleTextColor">@color/colorToolbarTitle</item>-->
+
+<!--        <item name="titleTextAppearance">@style/Toolbar.Title</item>-->
+<!--    </style>-->
 
     <style name="ExpandedTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/colorToolbarTitle</item>
         <item name="titleTextAppearance">@style/Toolbar.Title</item>
         <item name="fontFamily">@font/font_medium</item>
+        <item name="titleTextColor">@color/colorToolbarTitle</item>
+
         <item name="android:fontFamily">@font/font_medium</item>
     </style>
 
@@ -40,16 +77,21 @@
         <item name="android:fontFamily">@font/font_medium</item>
         <item name="fontFamily">@font/font_medium</item>
         <item name="android:textColor">@color/colorToolbarTitle</item>
+        <item name="titleTextColor">@color/colorToolbarTitle</item>
+
     </style>
 
     <style name="MyMenu">
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/colorToolbarTitle</item>
-        <item name="fontFamily">@font/font_medium</item>
+        <item name="fontFamily">@font/font_regular</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay.BackShadow" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!--        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_shadow</item>-->
-    </style>
+
+
+
+<!--    <style name="AppTheme.AppBarOverlay.BackShadow" parent="ThemeOverlay.AppCompat.Dark.ActionBar">-->
+<!--        &lt;!&ndash;        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_shadow</item>&ndash;&gt;-->
+<!--    </style>-->
 
 </resources>

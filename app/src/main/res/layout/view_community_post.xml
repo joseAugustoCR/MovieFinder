@@ -132,8 +132,8 @@
                 android:id="@+id/postImage"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:background="@color/colorPostImgBg"
                 android:visibility="gone"
-                android:background="@color/colorPrimary"
                 app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintTop_toTopOf="parent" />
 

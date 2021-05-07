@@ -36,4 +36,8 @@ class AuthFragment : BaseFragment() {
         navController.popBackStack()
     }
 
+    fun hasBackstack() : Boolean{
+        return navController.previousBackStackEntry != null
+    }
+
 }

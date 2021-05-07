@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="radiusPostCard">10dp</dimen>
+    <dimen name="radiusCardHomeProduct">5dp</dimen>
+    <dimen name="elevationCardHomeProduct">2dp</dimen>
+    <item name="columnsPerScreenHomeCard" format="float" type="dimen">1.7</item>
+    <dimen name="heightHomeCover">400dp</dimen>
 </resources>

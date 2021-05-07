@@ -10,10 +10,63 @@
         android:id="@+id/homeFragment"
         android:name="com.example.app.ui.main.home.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/communityFragment"
         android:name="com.example.app.ui.main.community.CommunityFragment"
         android:label="community_fragment"
-        tools:layout="@layout/community_fragment" />
+        tools:layout="@layout/community_fragment" >
+        <action
+            android:id="@+id/action_communityFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/action_communityFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="com.example.app.ui.main.community.post_detail.PostDetailFragment"
+        android:label="post_detail_fragment"
+        tools:layout="@layout/post_detail_fragment" >
+        <argument
+            android:name="post"
+            app:argType="com.example.app.api.Post" />
+        <argument
+            android:name="comment_id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.example.app.ui.main.community.create_post.CreatePostFragment"
+        android:label="create_post_fragment"
+        tools:layout="@layout/create_post_fragment" >
+        <argument
+            android:name="uri"
+            app:argType="android.net.Uri"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.app.ui.main.notifications.NotificationsFragment"
+        android:label="notifications_fragment"
+        tools:layout="@layout/notifications_fragment" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.app.ui.main.product_detail.ProductDetailFragment"
+        android:label="product_detail_fragment"
+        tools:layout="@layout/product_detail_fragment" >
+        <argument
+            android:name="product"
+            app:argType="com.example.app.api.Product" />
+    </fragment>
 </navigation>

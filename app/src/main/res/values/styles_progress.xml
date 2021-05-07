@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">@color/colorProgressBar</item>
+    </style>
+
+    <style name="ProgressBarLoginStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">@color/colorProgressBar</item>
+    </style>
+
+    <style name="ProgressBarRegisterStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">@color/colorProgressBar</item>
+    </style>
+
+    <style name="ProgressBarTermsStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">@color/colorProgressBar</item>
+    </style>
+
+    <style name="ProgressBarCastTVStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">@color/colorProgressBar</item>
+    </style>
+</resources>

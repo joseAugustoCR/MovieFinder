@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.*
 import com.example.app.R
 import com.example.app.SessionManager
+import com.example.app.di.InjectingSavedStateViewModelFactory
 import com.example.app.utils.SharedPreferencesManager
 import com.example.app.utils.navigation.NavigationResult
 import com.example.app.utils.navigation.NavigationResultListener
@@ -31,9 +32,11 @@ const val NAVIGATION_RESULT_CANCELED = 0
 const val NAVIGATION_RESULT_OK = -1
 
 val REQUEST_LOGIN = 1
-val REQUEST_CODE_SELECT_PICTURE = 5
+val REQUEST_SELECT_PICTURE = 5
 val REQUEST_REGISTER = 8
 val REQUEST_TAKE_PICTURE = 10
+val REQUEST_POST_DETAIL = 11
+val REQUEST_CREATE_POST = 12
 
 const val NAVIGATION_RESULT_KEY = "navigation_result"
 

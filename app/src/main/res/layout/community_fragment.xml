@@ -23,7 +23,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:id="@+id/recycler"
-            android:paddingTop="16dp"
+            android:paddingTop="32dp"
             android:clipToPadding="false"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -63,6 +63,19 @@
         android:id="@+id/emptyLayout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        />
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Criar post"
+        android:id="@+id/createPost"
+        app:icon="@drawable/ic_add_attachment"
+        style="@style/ExtendedFABIconStyle"
+        android:layout_marginRight="16dp"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_anchor="@id/appBar"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

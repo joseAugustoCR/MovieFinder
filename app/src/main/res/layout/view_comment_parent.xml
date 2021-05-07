@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/lastCommentLayout">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:id="@+id/commentUserAvatar"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/font_extra_bold"
+        android:gravity="center_vertical"
+        app:layout_constrainedWidth="true"
+        android:paddingBottom="0dp"
+        android:text="Aluna"
+        android:textColor="@color/colorCommentParentName"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@id/commentUserAvatar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/commentUserAvatar" />
+
+    <TextView
+            android:textColor="@color/colorCommentParentMsg"
+            android:textSize="14sp"
+            android:text="Professora! Eu amo tuas aulas. Te acho foda pra caralho :)"
+            android:id="@+id/comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/userName"
+            android:paddingBottom="0dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="16dp"
+            app:layout_goneMarginRight="16dp"
+            android:fontFamily="@font/font_regular"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@id/commentUserAvatar"
+            />
+
+    <TextView
+        android:textColor="@color/colorCommentTimeAgo"
+        android:textSize="14sp"
+        android:text="Há 10min"
+        android:id="@+id/timeAgo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/comment"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_goneMarginRight="16dp"
+        android:fontFamily="@font/font_regular"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@id/commentUserAvatar"
+        />
+
+    <TextView
+        android:textColor="@color/colorCommentAnswerBtn"
+        android:textSize="14sp"
+        android:text="Responder"
+        android:id="@+id/replyBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/comment"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:fontFamily="@font/font_regular"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/timeAgo"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/repliesLayout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="60dp"
+        app:layout_constraintTop_toBottomOf="@id/replyBtn"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

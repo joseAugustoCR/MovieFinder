@@ -7,17 +7,16 @@
         <item name="android:textColor">@color/colorTextPrimary</item>
     </style>
 
-
     <style name="HomeCategoryTitleStyle" parent="@android:style/Widget.TextView">
         <item name="android:fontFamily">@font/font_regular</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textColor">@color/colorHomeCategoryTitle</item>
     </style>
 
     <style name="HomeCategorySubtitleStyle" parent="@android:style/Widget.TextView">
         <item name="android:fontFamily">@font/font_regular</item>
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textColor">@color/colorHomeCategorySubitle</item>
     </style>
 
 

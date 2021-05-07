@@ -16,6 +16,7 @@ import com.example.app.R
 import com.example.app.api.NetworkStatus
 import com.example.app.base.BaseFragment
 import com.example.app.ui.main.home.HomeFragment
+import com.example.app.utils.Constants
 import com.example.app.utils.extensions.hideKeyboard
 import com.example.app.utils.navigation.NavigationResult
 import com.example.app.utils.navigation.NavigationResultListener
@@ -60,9 +61,11 @@ class MainFragment : BaseFragment(), NavigationResultListener {
         NetworkEvent.register(viewLifecycleOwner, Consumer {
 
             if(it == NetworkStatus.UNAUTHORIZED){
-
-
                 if(sessionManager.isLogged()){
+                    sessionManager.logout()
+                    if(Constants.LOGIN_REQUIRED){
+                        goToLogin(LOGIN_REGULAR)
+                    }
                 }
             }
         })
@@ -116,6 +119,14 @@ class MainFragment : BaseFragment(), NavigationResultListener {
                     mainNavController.navigate(R.id.communityFragment, null, navOptions)
                 }
 
+                R.id.notificationsFragment->{
+//                    if(sessionManager.isLogged() == false){
+//                        goToLogin(LOGIN_REGULAR)
+//                        return@setOnNavigationItemSelectedListener false
+//                    }
+                    mainNavController.navigate(R.id.notificationsFragment, null, navOptions)
+                }
+
             }
 
             return@setOnNavigationItemSelectedListener true
@@ -130,6 +141,10 @@ class MainFragment : BaseFragment(), NavigationResultListener {
                 }
 
                 R.id.communityFragment ->{
+                    showBottomNavigation()
+                }
+
+                R.id.notificationsFragment ->{
                     showBottomNavigation()
                 }
 
@@ -152,7 +167,13 @@ class MainFragment : BaseFragment(), NavigationResultListener {
         safeNavigate(navController, MainFragmentDirections.actionMainFragmentToAuthFragment())
     }
 
+    fun goToTerms(){
+        safeNavigate(navController, MainFragmentDirections.actionMainFragmentToTermsFragment())
+    }
 
+    fun goToCast(){
+        safeNavigate(navController, MainFragmentDirections.actionMainFragmentToCastTVFragment())
+    }
 
     fun hideBottomNavigation(){
         with(bottomNavigationView){
